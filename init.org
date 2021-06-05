@@ -249,3 +249,10 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
 ;(desktop-save-mode 1)			;guardar escritorio
 ;(find-file "~/notes.org")	                ;abrir archivo al iniciar
 #+END_SRC
+* Backups
+#+BEGIN_SRC elisp
+(add-to-list 'backup-directory-alist
+             (cons "." "~/.emacs.d/backups/"))
+(customize-set-variable
+ 'tramp-backup-directory-alist backup-directory-alist)
+#+END_SRC

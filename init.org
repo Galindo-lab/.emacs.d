@@ -250,6 +250,7 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
 ;(find-file "~/notes.org")	                ;abrir archivo al iniciar
 #+END_SRC
 * Backups
+extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html][www.gnu.org]].
 #+BEGIN_SRC elisp
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))

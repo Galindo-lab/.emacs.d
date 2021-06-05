@@ -7,8 +7,8 @@
   ;; Tema
   ;; TODO: crear una funcion para automatizar esto
   ;(load-theme 'wombat)
-;  (load-file "~/.emacs.d/aaaaa/sea.el")
-  (load-file "./themes/sea.el")
+  (load-file "~/.emacs.d/themes/sea.el")
+;  (load-file "./themes/sea.el")
 
   ;; otros
   (setq inhibit-startup-message t)  ;Pantalla de inicio de emacs 
@@ -54,27 +54,29 @@
 
 (setq use-package-always-ensure t)
 
-;(add-to-list 'load-path "~/.emacs.d/aaaaa/")
-(add-to-list 'load-path "./themes/")
+;(add-to-list 'load-path "~/.emacs.d/a/")
+;(add-to-list 'load-path "./themes/")
 
-(ivy-mode 1)			;Activar ivy en todos los buffers
 (use-package ivy
+  :ensure t
   :diminish
-  :bind (
-  :map ivy-minibuffer-map
-    ("TAB" . ivy-alt-done)
-    ("C-l" . ivy-alt-done)
-    ("C-j" . ivy-next-line)
-    ("C-k" . ivy-previous-line)
-  :map ivy-switch-buffer-map
-    ("C-k" . ivy-previous-line)
-    ("C-l" . ivy-done)
-    ("C-d" . ivy-switch-buffer-kill)
-  :map ivy-reverse-i-search-map
-    ("C-k" . ivy-previous-line)
-    ("C-d" . ivy-reverse-i-search-kill)
+  ;; :bind (
+  ;; :map ivy-minibuffer-map
+  ;;   ("TAB" . ivy-alt-done)
+  ;;   ("C-l" . ivy-alt-done)
+  ;;   ("C-j" . ivy-next-line)
+  ;;   ("C-k" . ivy-previous-line)
+  ;; :map ivy-switch-buffer-map
+  ;;   ("C-k" . ivy-previous-line)
+  ;;   ("C-l" . ivy-done)
+  ;;   ("C-d" . ivy-switch-buffer-kill)
+  ;; :map ivy-reverse-i-search-map
+  ;;   ("C-k" . ivy-previous-line)
+  ;;   ("C-d" . ivy-reverse-i-search-kill)
+  ;; )
+  :config
+  (ivy-mode 1)			;Activar ivy en todos los buffers
   )
-  :config)
 
 (add-hook 'neo-after-create-hook
   (lambda (&rest _) 
@@ -111,11 +113,12 @@
 
 (add-hook 'org-mode-hook
   (lambda ()
-    (setq org-startup-indented t)
     (setq org-support-shift-select t)
     (setq org-content 2)
     (setq org-format-latex-options
       (plist-put org-format-latex-options :scale 1.5)) ;latex-preview size
+
+    (org-indent-mode t)
 
     (define-key org-mode-map (kbd "<C-return>") ;preview latex
       'org-preview-latex-fragment))
@@ -158,3 +161,15 @@
 
 ;(desktop-save-mode 1)			;guardar escritorio
 ;(find-file "~/notes.org")	                ;abrir archivo al iniciar
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (magit rainbow-mode neotree ivy use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

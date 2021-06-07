@@ -17,7 +17,8 @@ Configuracion de los componentes esteticos del editor.
 #+BEGIN_SRC elisp
   ;; Tipografia 
   (set-face-attribute 'default nil
-    :font "Source Code Pro" 	;nombre de la tipografia
+   ; :font "Source Code Pro" 	;nombre de la tipografia
+    :font "Fira Code"
     :height 98			;tamaño
   ) 	
 

@@ -6,10 +6,17 @@
 #+LANGUAGE: es
 #+PROPERTY: header-args :tangle init.el
 
-TODO:
-- añadir una funcion para estionar los temas.
-- crear una seccion para los keybind.
-- ordenar la seccion "Otros".
+* Mi init.el 
+** lun 07 jun 2021 21:14:39
+Este es mi primer config de emacs, anteriormente ya habia hecho una pero era cuando notenia tanto conocimiento sobre este editor y todo lo que es capaz de hacer, depues de usar doom emacs por algunos meses pude apreder todo lo que es capaz de hacer he decidido volver a intentarlo, este es el resultado.
+
+TODO: Crear una pantalla de inicio.
+TODO: Crear un tema para el editor, el tema actual es solo una modificacion de [[https://github.com/owainlewis/emacs-color-themes][Graham]].
+NOTE: Quizá crear una modeline?.
+TODO: Instalacion de Autocompletado.
+TODO: Instalar un engine de Snippets.
+TODO: Instalar más modos de programación.
+
 
 * Backups
 Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html][www.gnu.org]].
@@ -22,7 +29,7 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 #+END_SRC
  
 
-* Package Sources
+* Fuente de paquetes
 #+BEGIN_SRC elisp
   ;; Fuetes
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -44,7 +51,7 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 #+END_SRC
 
 
-* Package Configuration
+* Configuración de paquetes
 #+BEGIN_SRC elisp
   ;; Mantiene una lista con los archivos abiertos recientemente es necesario que este activado.
   (require 'recentf)
@@ -83,8 +90,28 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
             (lambda (&rest _) 
               (display-line-numbers-mode -1)
                 (visual-line-mode -1)))
+
+  ;; highlight todo
+  (use-package hl-todo
+       :custom-face
+       (hl-todo ((t (:inherit hl-todo :italic t))))
+       :hook ((prog-mode . hl-todo-mode)
+              (yaml-mode . hl-todo-mode)
+              (org-mode . hl-todo-mode))
+       :config
+        (hl-todo-mode 1))
+
 #+END_SRC
 
+
+* Documentación de los paqutes
++ [[https://github.com/tarsius/hl-todo][h1-todo]], resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
++ [[https://github.com/bbatsov/crux][crux]], Añade un montón de funciones extra a emacs.
++ [[https://github.com/magit/magit][magit]], Cliente de GIT en emacs. 
++ [[https://github.com/emacsmirror/rainbow-mode][rainbow-mode]], muestra los colores hex en el buffer (aparentemente no hay mucha documentación de este paquete).
++ [[https://github.com/jaypei/emacs-neotree][neotree]], muestra los folders en la sidebar.
++ [[https://github.com/abo-abo/swiper][ivy]], frontend de auto completado en emacs.
++ [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]], los mejores color themes para emacs.
 
 * ORG mode
 Este modo lo uso tanto que pense que deberia tener su propia seccion.
@@ -130,7 +157,7 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
   ;; Mode line
   (setq column-number-mode t)          ;numero de columna 
   (line-number-mode t)                 ;numero de fila
-  (display-time-mode 1)                ;mostrar la hora
+  (display-time-mode -1)		 ;mostrar la hora
   (display-battery-mode -1)            ;mostrar batteria
 
   ;; Frame
@@ -150,7 +177,7 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
 
 * Global Keybinds
 #+BEGIN_SRC elisp
-  ;; 
+  ;; incluidas
   (global-set-key (kbd "C-x t") 'eshell)                                    
   (global-set-key (kbd "C-x j") 'neotree-toggle)                            
   (global-set-key (kbd "C-x <") 'ido-switch-buffer)                         
@@ -167,22 +194,21 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
 
 
 * Funciones
-
 ** [Disabled] Cerrar todos los buffer no activos
-Extraido de la [[https://www.emacswiki.org/emacs/KillingBuffers#toc2][wiki de emacs]].
-#+BEGIN_SRC elisp :exports none
-(defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+Extraido de la [[https://www.emacswiki.org/emacs/KillingBuffers#toc2][wiki de emacs]]. Este paquete es reduntante con crux.
+#+BEGIN_SRC elisp
+  ;; (defun kill-other-buffers ()
+  ;;   "Kill all other buffers."
+  ;;   (interactive)
+  ;;   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 #+END_SRC
 
 
 ** [Disabled] Insertar la fecha del sistema
-extraido de la [[https://www.emacswiki.org/emacs/InsertingTodaysDate][wiki de emacs]].
-#+BEGIN_SRC elisp :exports none
-(defun insert-current-date () (interactive)
-  (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
+extraido de la [[https://www.emacswiki.org/emacs/InsertingTodaysDate][wiki de emacs]]. Este paquete es reduntante con crux.
+#+BEGIN_SRC elisp
+  ;; (defun insert-current-date () (interactive)
+  ;;   (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
 #+END_SRC
 
 

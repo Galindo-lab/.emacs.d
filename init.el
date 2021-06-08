@@ -60,6 +60,23 @@
             (display-line-numbers-mode -1)
               (visual-line-mode -1)))
 
+;; highlight todo
+(use-package hl-todo
+     :custom-face
+     (hl-todo ((t (:inherit hl-todo :italic t))))
+     :hook ((prog-mode . hl-todo-mode)
+            (yaml-mode . hl-todo-mode)
+            (org-mode . hl-todo-mode))
+     :config
+      (hl-todo-mode 1))
+
+;; (setq hl-todo-keyword-faces
+;;     '(("TODO"   . "#FF0000")
+;;       ("FIXME"  . "#FF0000")
+;;       ("DEBUG"  . "#A020F0")
+;;       ("GOTCHA" . "#FF4500")
+;;       ("STUB"   . "#1E90FF")))
+
 (use-package org
   :bind
   (:map org-mode-map
@@ -96,7 +113,7 @@
 ;; Mode line
 (setq column-number-mode t)          ;numero de columna 
 (line-number-mode t)                 ;numero de fila
-(display-time-mode 1)                ;mostrar la hora
+(display-time-mode -1)		 ;mostrar la hora
 (display-battery-mode -1)            ;mostrar batteria
 
 ;; Frame
@@ -122,13 +139,13 @@
 (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
 (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
 
-(defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+;; (defun kill-other-buffers ()
+;;   "Kill all other buffers."
+;;   (interactive)
+;;   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
-(defun insert-current-date () (interactive)
-  (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
+;; (defun insert-current-date () (interactive)
+;;   (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
 
 (defun toggle-80-editting-columns ()
   "Set the right window margin so the edittable space is only 80 columns."

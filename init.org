@@ -11,51 +11,43 @@ TODO:
 - crear una seccion para los keybind.
 - ordenar la seccion "Otros".
    
-* Interfaz (GUI)
-Configuracion de los componentes esteticos del editor.
-** Editor
+* Apariencia
 #+BEGIN_SRC elisp
   ;; Tipografia 
   (set-face-attribute 'default nil
-   ; :font "Source Code Pro" 	;nombre de la tipografia
-    :font "Fira Code"
-    :height 98			;tamaño
-  ) 	
+                      :font "Fira Code"
+                      :height 98 )
 
-  ;; Tema
-  ;; TODO: crear una funcion para automatizar esto
-  ;(load-theme 'wombat)
-  (load-file "~/.emacs.d/themes/sea.el")
-;  (load-file "./themes/sea.el")
+  (add-to-list 'load-path "~/.emacs.d/")
+  ;;(load-theme 'wombat)
+  ;;(load-file "~/.emacs.d/themes/sea.el")
 
-  ;; otros
-  (setq inhibit-startup-message t)  ;Pantalla de inicio de emacs 
-  (global-display-line-numbers-mode t)	;numeros de linea
-  (scroll-bar-mode -1)		;scroll bars visibles
-  (tool-bar-mode -1)		;barra de herramientas visisles
-  (menu-bar-mode -1)		;menu de herramientas visible
-  (set-fringe-mode 10)		;espacio entre el frame y el buffer
-  ;(set-face-background 'fringe "#ff0000")
-  (global-visual-line-mode 1)	;separar lineas 
-  (setq-default cursor-type 'bar)
+  (setq inhibit-startup-message t)             ;Pantalla de inicio de emacs 
+  (global-display-line-numbers-mode t)         ;numeros de linea
+  (scroll-bar-mode -1)                         ;scroll bars visibles
+  (tool-bar-mode -1)		               ;barra de herramientas visisles
+  (menu-bar-mode -1)		               ;menu de herramientas visible
+  (set-fringe-mode 10)                         ;espacio entre el frame y el buffer
+  ;;(set-face-background 'fringe "#ff0000")    ;color del fringe
+  (global-visual-line-mode 1)	               ;separar lineas 
+  (setq-default cursor-type 'bar)	       ;tipo del cursor
+
+  ;; Modebar
+  (setq column-number-mode t)	               ;numero de columna 
+  (line-number-mode t)                         ;numero de fila
+  (display-time-mode 1)                        ;mostrar la hora
+  (display-battery-mode -1)	               ;mostrar batteria
+
+  ;;(set-frame-parameter (selected-frame) 'undecorated t) ;frame visible
+  ;;(set-frame-parameter (selected-frame) 'alpha '(95 95)) ;fondo trasparente
+  ;;(add-to-list 'default-frame-alist '(alpha 85 85)) ;transparencia del borde
+
+  ;; (custom-set-faces
+  ;;  '(neo-root-dir-face ((t (:foreground "#8D8D84"))))
+  ;;  '(neo-dir-link-face ((t (:foreground "#0000FF"))))
+  ;;  '(neo-file-link-face ((t (:foreground "#BA36A5")))))
 #+END_SRC
 
-** barra inferior (modeline)
-*** Default
-#+BEGIN_SRC elisp
-  (setq column-number-mode t)	;numero de columna 
-  (line-number-mode t)		;numero de fila
-  (display-time-mode 1)		;mostrar la hora
-  (display-battery-mode -1)	        ;mostrar batteria
-#+END_SRC
-
-** Frame (Window)
-#+BEGIN_SRC elisp
-  ;(set-frame-parameter (selected-frame) 'undecorated t) ;frame visible
-  (set-frame-parameter (selected-frame) 'alpha '(95 95)) ;fondo trasparente
-  ;(add-to-list 'default-frame-alist '(alpha 85 85)) ;transparencia del borde
-
-#+END_SRC
 
 * Global keybinds
 aqui se encuentra todos los keybinds *Globales* independientemente de los paquetes que usen, los keybinds para un modo espesifico.
@@ -258,3 +250,5 @@ extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 (customize-set-variable
  'tramp-backup-directory-alist backup-directory-alist)
 #+END_SRC
+
+\[x+1\]

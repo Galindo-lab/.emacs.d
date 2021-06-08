@@ -1,11 +1,15 @@
-;; Tipografia 
+;; Tipografia
 (set-face-attribute 'default nil
 		    :font "Fira Code"
 		    :height 98 )
 
+;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+;(load-theme 'sea-love t)
 
 ;;(load-theme 'wombat)
+;;(load-theme sea)
 (load-file "~/.emacs.d/themes/sea.el")
+;; (load-theme 'soft-charcoal t)
 
 ;; (custom-set-faces
 ;;  '(neo-root-dir-face ((t (:foreground "#8D8D84"))))
@@ -22,6 +26,7 @@
 (set-fringe-mode 10)	               ;espacio entre el frame y el buffer
 (global-visual-line-mode 1)	       ;separar lineas 
 (setq-default cursor-type 'bar)	       ;tipo del cursor
+
 (setq column-number-mode t)	       ;numero de columna 
 (line-number-mode t)		       ;numero de fila
 (display-time-mode 1)		       ;mostrar la hora
@@ -63,15 +68,16 @@
   (ivy-mode 1))			     ;Activar ivy en todos los buffers
 
 (use-package neotree
-  :hook
-  (neo-after-create-hook . (lambda (&rest _) 
-			     (display-line-numbers-mode -1)
-			     (visual-line-mode -1)))
   :config
   (setq neo-theme 'ascii)
   (setq neo-smart-open t)
   (setq neo-window-width 25)
   (setq neo-window-fixed-size -1))
+
+(add-hook 'neo-after-create-hook
+	  (lambda (&rest _) 
+	    (display-line-numbers-mode -1)
+	    (visual-line-mode -1)))
 
 (use-package rainbow-mode)
 
@@ -89,34 +95,33 @@
 (use-package org
   :bind
   (:map org-mode-map
-	("<m-return>" . org-toggle-latex-fragment))
-  :hook
-  (org-mode-hook . (lambda (&rest _)
-		     (interactive)
-		     (display-line-numbers-mode -1)
-		     (org-indent-mode t)
-		     (org-content 2)))
+  	("<M-return>" . org-toggle-latex-fragment))
+  ;; :hook
+  ;; (org-mode-hook . (lambda ()
+  ;; 		     (display-line-numbers-mode -1)
+  ;; 		     (org-indent-mode t)
+  ;; 		     (org-content 2)))
   :config
   (setq org-support-shift-select t)
   (setq org-format-latex-options
 	(plist-put org-format-latex-options :scale 1.5)))
 
-;(require 'org)
-;(define-key org-mode-map (kbd "<m-return>") 'org-toggle-latex-fragment)
+;; (require 'org)
+;; (define-key org-mode-map (kbd "<M-return>") 'org-toggle-latex-fragment)
 
-;; (add-hook 'org-mode-hook
-;; 	  (lambda ()
-;; 	    (setq org-support-shift-select t)
-;; 	    (setq org-format-latex-options
-;; 		  (plist-put org-format-latex-options :scale 1.5)) 
+(add-hook 'org-mode-hook
+	  (lambda ()
+	    ;; (setq org-support-shift-select t) 
+	    ;; (setq org-format-latex-options
+	    ;; 	  (plist-put org-format-latex-options :scale 1.5)) 
 
-;; 	    (org-indent-mode t)
-;; 	    (setq org-content 2)
-;; 	    (org-reload)
-;; 	    (display-line-numbers-mode -1)
+	    (org-indent-mode t)
+	    (setq org-content 2)
+	    ;; (org-reload)
+	    (display-line-numbers-mode -1)
 
-;; 	    )
-;; 	  )
+	    )
+	  )
 
 (add-hook 'eshell-mode-hook
 	  (lambda (&rest _) 

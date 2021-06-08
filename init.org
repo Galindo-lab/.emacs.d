@@ -10,210 +10,181 @@ TODO:
 - añadir una funcion para estionar los temas.
 - crear una seccion para los keybind.
 - ordenar la seccion "Otros".
-   
-* Apariencia
+
+* Backups
+Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html][www.gnu.org]].
 #+BEGIN_SRC elisp
-  ;; Tipografia 
-  (set-face-attribute 'default nil
-                      :font "Fira Code"
-                      :height 98 )
+  (add-to-list 'backup-directory-alist
+               (cons "." "~/.emacs.d/backups/"))
 
-  (add-to-list 'load-path "~/.emacs.d/")
-  ;;(load-theme 'wombat)
-  ;;(load-file "~/.emacs.d/themes/sea.el")
+  (customize-set-variable
+   'tramp-backup-directory-alist backup-directory-alist)
+#+END_SRC
+ 
 
-  (setq inhibit-startup-message t)             ;Pantalla de inicio de emacs 
-  (global-display-line-numbers-mode t)         ;numeros de linea
-  (scroll-bar-mode -1)                         ;scroll bars visibles
-  (tool-bar-mode -1)		               ;barra de herramientas visisles
-  (menu-bar-mode -1)		               ;menu de herramientas visible
-  (set-fringe-mode 10)                         ;espacio entre el frame y el buffer
-  ;;(set-face-background 'fringe "#ff0000")    ;color del fringe
-  (global-visual-line-mode 1)	               ;separar lineas 
-  (setq-default cursor-type 'bar)	       ;tipo del cursor
+* Package Sources
+#+BEGIN_SRC elisp
+  ;; Fuetes
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org"   . "https://orgmode.org/elpa/")
+                           ("elpa"  . "https://elpa.gnu.org/packages/")))
 
-  ;; Modebar
-  (setq column-number-mode t)	               ;numero de columna 
-  (line-number-mode t)                         ;numero de fila
-  (display-time-mode 1)                        ;mostrar la hora
-  (display-battery-mode -1)	               ;mostrar batteria
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
 
-  ;;(set-frame-parameter (selected-frame) 'undecorated t) ;frame visible
-  ;;(set-frame-parameter (selected-frame) 'alpha '(95 95)) ;fondo trasparente
-  ;;(add-to-list 'default-frame-alist '(alpha 85 85)) ;transparencia del borde
+  ;; Inicializar 'use-package' para plataformas no unix
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
 
-  ;; (custom-set-faces
-  ;;  '(neo-root-dir-face ((t (:foreground "#8D8D84"))))
-  ;;  '(neo-dir-link-face ((t (:foreground "#0000FF"))))
-  ;;  '(neo-file-link-face ((t (:foreground "#BA36A5")))))
+  (require 'use-package)
+
+  ;; Asegurarse de que los paquetes simepre esten instalados
+  (setq use-package-always-ensure t)
 #+END_SRC
 
 
-* Global keybinds
-aqui se encuentra todos los keybinds *Globales* independientemente de los paquetes que usen, los keybinds para un modo espesifico.
+* Package Configuration
 #+BEGIN_SRC elisp
-  (global-set-key (kbd "C-x e") 'eshell)
-  (global-set-key (kbd "C-x j") 'neotree-toggle)
-  (global-set-key (kbd "C-x <") 'ido-switch-buffer)
-  (global-set-key (kbd "C-M-z") 'toggle-80-editting-columns-balanced)
+  ;; Mantiene una lista con los archivos abiertos recientemente es necesario que este activado.
+  (require 'recentf)
+  (recentf-mode 1)
 
-  ;; Make ESC quit prompts
-  ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-#+END_SRC
-
-* Packages setup
-** package sources
-#+BEGIN_SRC elisp
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org"   . "https://orgmode.org/elpa/")
-                         ("elpa"  . "https://elpa.gnu.org/packages/")))
-
-(package-initialize)
-(unless package-archive-contents
-(package-refresh-contents))
-
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-   (package-install 'use-package))
-
-(require 'use-package)
-
-(setq use-package-always-ensure t)
-#+END_SRC
-
-** path
-#+BEGIN_SRC elisp
-;(add-to-list 'load-path "~/.emacs.d/a/")
-;(add-to-list 'load-path "./themes/")
-#+END_SRC
-
-* Package configuration 
-configuraciones para los paquetes instalados, todo lo relacionado a un paquete, [[* Global keybinds][exepto su keybind]], debe estar en su correspondiente seccion.
-** enabled
-*** ivy
-#+BEGIN_SRC elisp
+  ;; Autocompletado en el minibufer
   (use-package ivy
-    :ensure t
-    :diminish
-    ;; :bind (
-    ;; :map ivy-minibuffer-map
-    ;;   ("TAB" . ivy-alt-done)
-    ;;   ("C-l" . ivy-alt-done)
-    ;;   ("C-j" . ivy-next-line)
-    ;;   ("C-k" . ivy-previous-line)
-    ;; :map ivy-switch-buffer-map
-    ;;   ("C-k" . ivy-previous-line)
-    ;;   ("C-l" . ivy-done)
-    ;;   ("C-d" . ivy-switch-buffer-kill)
-    ;; :map ivy-reverse-i-search-map
-    ;;   ("C-k" . ivy-previous-line)
-    ;;   ("C-d" . ivy-reverse-i-search-kill)
-    ;; )
     :config
-    (ivy-mode 1)			;Activar ivy en todos los buffers
-    )
+    (ivy-mode 1))                      ;Activar ivy en todos los buffers
+
+  ;; explorador de archivos 
+  (use-package neotree
+    :config
+    (setq neo-theme 'ascii)
+    (setq neo-smart-open t)
+    (setq neo-window-width 25)
+    (setq neo-window-fixed-size -1))
+
+  ;; desactivar los numeros y el warp de texto
+  (add-hook 'neo-after-create-hook
+            (lambda (&rest _) 
+              (display-line-numbers-mode -1)
+              (visual-line-mode -1)))
+
+  ;; Colorear los valores RGB
+  (use-package rainbow-mode)
+
+  ;; Getor de git para emacs
+  (use-package magit)
+
+  ;; Collection of Ridiculously Useful eXtensions for Emacs
+  (use-package crux)
+
+  ;; eshell hooks
+  (add-hook 'eshell-mode-hook
+            (lambda (&rest _) 
+              (display-line-numbers-mode -1)
+                (visual-line-mode -1)))
 #+END_SRC
 
-*** neotree
-**** hook
-#+BEGIN_SRC elisp
-(add-hook 'neo-after-create-hook
-  (lambda (&rest _) 
-    (display-line-numbers-mode -1)
-    (visual-line-mode -1)
-  ))
-#+END_SRC
-
-**** settings
-#+BEGIN_SRC elisp
-(use-package neotree
- :ensure t)
-(setq neo-theme 'ascii)
-(setq neo-smart-open t)
-(setq neo-window-width 25)
-(setq neo-window-fixed-size -1)
-#+END_SRC
-
-**** theme
-#+BEGIN_SRC elisp
-;; (custom-set-faces
-;;  '(neo-root-dir-face ((t (:foreground "#8D8D84"))))
-;;  '(neo-dir-link-face ((t (:foreground "#0000FF"))))
-;;  '(neo-file-link-face ((t (:foreground "#BA36A5")))))
-#+END_SRC
-
-*** rainbow-mode
-#+BEGIN_SRC elisp
-(use-package rainbow-mode
-:ensure t)
-#+END_SRC
-*** magit 
-#+BEGIN_SRC elisp
-(use-package magit
- :ensure t)
-#+END_SRC
-** disabled
-*** doom-modeline
-#+BEGIN_SRC elisp
-;; (doom-modeline 1)
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :init (doom-modeline-mode 1)
-;;   :custom ((doom-modeline-height 15)))
-#+END_SRC
-
-*** zen-mode
-origen: https://github.com/aki237/zen-mode
-#+BEGIN_SRC elisp
-;(require 'zen-mode)
-;(global-set-key (kbd "C-M-z") 'zen-mode)
-#+END_SRC
 
 * ORG mode
 Este modo lo uso tanto que pense que deberia tener su propia seccion.
 fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-latex-previews-in-org-files][Tamaño del la preview de latex]].
-** hook
 #+BEGIN_SRC elisp
+  (use-package org
+    :bind
+    (:map org-mode-map
+          ("<M-return>" . org-toggle-latex-fragment))
+    :config
+    (setq org-support-shift-select t)
+    (setq org-format-latex-options
+          (plist-put org-format-latex-options :scale 1.5)))
+
   (add-hook 'org-mode-hook
-    (lambda ()
-      (setq org-support-shift-select t)
-      (setq org-content 2)
-      (setq org-format-latex-options
-        (plist-put org-format-latex-options :scale 1.5)) ;latex-preview size
-
-      (org-indent-mode t)
-
-      (define-key org-mode-map (kbd "<C-return>") ;preview latex
-        'org-preview-latex-fragment))
-
-      (org-reload)
-    )
+            (lambda ()
+              (org-indent-mode t)
+              (setq org-content 2)
+              (display-line-numbers-mode -1)))
 #+END_SRC
 
-* Eshell
+
+* Apariencia
 #+BEGIN_SRC elisp
-(add-hook 'eshell-mode-hook
-  (lambda (&rest _) 
-    (display-line-numbers-mode -1)
-    (visual-line-mode -1)
-))
+  ;; Tipografia
+  (set-face-attribute 'default nil
+                      :font "Fira Code"
+                      :height 98 )
+
+  ;; Tema
+  (load-file "~/.emacs.d/themes/sea.el")
+
+  ;; otros
+  (setq inhibit-startup-message t)     ;Pantalla de inicio de emacs 
+  (global-display-line-numbers-mode t) ;numeros de linea
+  (scroll-bar-mode -1)                 ;scroll bars visibles
+  (tool-bar-mode -1)                   ;barra de herramientas visisles
+  (menu-bar-mode -1)                   ;menu de herramientas visible
+  (set-fringe-mode 10)                 ;espacio entre el frame y el buffer
+  (global-visual-line-mode 1)          ;separar lineas 
+  (setq-default cursor-type 'bar)      ;tipo del cursor
+
+  ;; Mode line
+  (setq column-number-mode t)          ;numero de columna 
+  (line-number-mode t)                 ;numero de fila
+  (display-time-mode 1)                ;mostrar la hora
+  (display-battery-mode -1)            ;mostrar batteria
+
+  ;; Frame
+  ;;(set-frame-parameter (selected-frame) 'undecorated t) ;frame visible
+  ;;(set-frame-parameter (selected-frame) 'alpha '(95 95)) ;fondo trasparente
+  ;;(add-to-list 'default-frame-alist '(alpha 85 85)) ;transparencia del borde
 #+END_SRC
+
+
+* Settings
+#+BEGIN_SRC elisp
+  ;; Varios
+  ;;(desktop-save-mode 1)                   ;guardar escritorio
+  (find-file "~/notes.org")               ;abrir archivo al iniciar
+#+END_SRC
+
+
+* Global Keybinds
+#+BEGIN_SRC elisp
+  ;; 
+  (global-set-key (kbd "C-x t") 'eshell)                                    
+  (global-set-key (kbd "C-x j") 'neotree-toggle)                            
+  (global-set-key (kbd "C-x <") 'ido-switch-buffer)                         
+  (global-set-key (kbd "C-M-z") 'toggle-80-editting-columns-balanced)      
+
+  ;; Crux
+  (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
+  (global-set-key (kbd "C-,") 'crux-find-user-init-file)
+  (global-set-key (kbd "C-x C-u") 'crux-upcase-region)
+  (global-set-key (kbd "C-x C-l") 'crux-downcase-region)
+  (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
+  (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
+#+END_SRC
+
+
 * Funciones
-** Cerrar todos los buffer no activos
+
+** [Disabled] Cerrar todos los buffer no activos
 Extraido de la [[https://www.emacswiki.org/emacs/KillingBuffers#toc2][wiki de emacs]].
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :exports none
 (defun kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 #+END_SRC
 
-** Insertar la fecha del sistema
+
+** [Disabled] Insertar la fecha del sistema
 extraido de la [[https://www.emacswiki.org/emacs/InsertingTodaysDate][wiki de emacs]].
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :exports none
 (defun insert-current-date () (interactive)
   (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
 #+END_SRC
+
 
 ** Margen de 80 columnas
 Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][gastack]] desde la pregunta de [[https://gist.github.com/jordonbiondo/aa6d68b680abdb1a5f70][Jordonbiondo]].
@@ -237,18 +208,5 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
              (right (- change left)))
         (set-window-margins nil left right)))))
 #+END_SRC
-* Otros
-#+BEGIN_SRC elisp
-;(desktop-save-mode 1)			;guardar escritorio
-;(find-file "~/notes.org")	                ;abrir archivo al iniciar
-#+END_SRC
-* Backups
-extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html][www.gnu.org]].
-#+BEGIN_SRC elisp
-(add-to-list 'backup-directory-alist
-             (cons "." "~/.emacs.d/backups/"))
-(customize-set-variable
- 'tramp-backup-directory-alist backup-directory-alist)
-#+END_SRC
 
-\[x+1\]
+

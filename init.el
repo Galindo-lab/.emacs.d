@@ -70,13 +70,6 @@
      :config
       (hl-todo-mode 1))
 
-;; (setq hl-todo-keyword-faces
-;;     '(("TODO"   . "#FF0000")
-;;       ("FIXME"  . "#FF0000")
-;;       ("DEBUG"  . "#A020F0")
-;;       ("GOTCHA" . "#FF4500")
-;;       ("STUB"   . "#1E90FF")))
-
 (use-package org
   :bind
   (:map org-mode-map
@@ -125,7 +118,7 @@
 ;;(desktop-save-mode 1)                   ;guardar escritorio
 (find-file "~/notes.org")               ;abrir archivo al iniciar
 
-;; 
+;; incluidas
 (global-set-key (kbd "C-x t") 'eshell)                                    
 (global-set-key (kbd "C-x j") 'neotree-toggle)                            
 (global-set-key (kbd "C-x <") 'ido-switch-buffer)                         

@@ -113,6 +113,7 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 + [[https://github.com/abo-abo/swiper][ivy]], frontend de auto completado en emacs.
 + [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]], los mejores color themes para emacs.
 
+
 * ORG mode
 Este modo lo uso tanto que pense que deberia tener su propia seccion.
 fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-latex-previews-in-org-files][Tamaño del la preview de latex]].

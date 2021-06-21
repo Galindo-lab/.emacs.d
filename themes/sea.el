@@ -26,7 +26,7 @@
       (*comments*           "#8c7f75")
       (*constant*           "#3086F3")
       (*current-line*       "#151515")
-      (*cursor-underscore*  "#FFFF00")	;"#AAFAFF"
+      (*cursor-underscore*  "#FFFF00")
       (*keywords*           "#27A9FF")
       (*line-number*        "#061A1F")
       (*method-declaration* "#A7D2FF")
@@ -34,12 +34,12 @@
       (*mode-inactive-bg*   "#222")
       (*mode-line-fg*       "#333333")
       (*mode-inactive-fg*   "#FFF")
-      (*normal*             "#FFF")	;#dedede
+      (*normal*             "#FFF")	
       (*number*             "#0C58FC")
       (*operators*          "#3086f3")
       (*warning*            "#ff6c60")
       (*regexp*             "#C9E")
-      (*string*             "#A7D2FF")  ;"#9B9490"
+      (*string*             "#A7D2FF") 
       (*variable*           "#C6C5FE")
       (*visual-selection*   "#2D2F31"))
 

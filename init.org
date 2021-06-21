@@ -17,6 +17,8 @@ TODO: Instalacion de Autocompletado.
 TODO: Instalar un engine de Snippets.
 TODO: Instalar más modos de programación.
 
+** lun 21 jun 2021 14:13:35
+Añadi unas funciones para exportar a html desde org, estos dias he estado trabajando en mi blog por lo tanto las necesito.
 
 * Backups
 Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html][www.gnu.org]].
@@ -28,7 +30,6 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
    'tramp-backup-directory-alist backup-directory-alist)
 #+END_SRC
  
-
 * Fuente de paquetes
 #+BEGIN_SRC elisp
   ;; Fuetes
@@ -49,7 +50,6 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
   ;; Asegurarse de que los paquetes simepre esten instalados
   (setq use-package-always-ensure t)
 #+END_SRC
-
 
 * Configuración de paquetes
 #+BEGIN_SRC elisp
@@ -89,20 +89,32 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
   (add-hook 'eshell-mode-hook
             (lambda (&rest _) 
               (display-line-numbers-mode -1)
-                (visual-line-mode -1)))
+              (visual-line-mode -1)))
 
   ;; highlight todo
   (use-package hl-todo
-       :custom-face
-       (hl-todo ((t (:inherit hl-todo :italic t))))
-       :hook ((prog-mode . hl-todo-mode)
-              (yaml-mode . hl-todo-mode)
-              (org-mode . hl-todo-mode))
-       :config
-        (hl-todo-mode 1))
+    :custom-face
+    (hl-todo ((t (:inherit hl-todo :italic t))))
+    :hook ((prog-mode . hl-todo-mode)
+           (yaml-mode . hl-todo-mode)
+           (org-mode . hl-todo-mode))
+    :config
+    (hl-todo-mode 1))
+
+  ;; htmlize
+  (use-package htmlize)
+
+  ;; ample theme
+  (use-package ample-theme
+    :init (progn (load-theme 'ample t t)
+                 (load-theme 'ample-flat t t)
+                 (load-theme 'ample-light t t)
+                 (enable-theme 'ample-flat))
+    :defer t
+    :ensure t)
+
 
 #+END_SRC
-
 
 * Documentación de los paqutes
 + [[https://github.com/tarsius/hl-todo][h1-todo]], resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
@@ -112,38 +124,47 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 + [[https://github.com/jaypei/emacs-neotree][neotree]], muestra los folders en la sidebar.
 + [[https://github.com/abo-abo/swiper][ivy]], frontend de auto completado en emacs.
 + [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]], los mejores color themes para emacs.
-
++ [[https://github.com/hniksic/emacs-htmlize][htmlize]], convierte el texto del búfer y las decoraciones asociadas a HTML.
++ [[https://github.com/jordonbiondo/ample-theme][ample themes]], temas bonitos.
 
 * ORG mode
 Este modo lo uso tanto que pense que deberia tener su propia seccion.
-fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-latex-previews-in-org-files][Tamaño del la preview de latex]].
+fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-latex-previews-in-org-files][Tamaño del la preview de latex]], [[https://ivanaf.com/tikz_snippet_preview_in_orgmode.html][Preview tikz]], [[https://stackoverflow.com/questions/15773354/indent-code-in-org-babel-src-blocks][Indentar src blocks]].
 #+BEGIN_SRC elisp
   (use-package org
     :bind
     (:map org-mode-map
           ("<M-return>" . org-toggle-latex-fragment))
     :config
+    ;; (setq org-html-postamble "%a")
     (setq org-support-shift-select t)
+    (setq org-preview-latex-default-process 'dvisvgm)       ;preview tikz
+    (setq org-src-tab-acts-natively t)		      ;indentar src_blocks
     (setq org-format-latex-options
-          (plist-put org-format-latex-options :scale 1.5)))
+          (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
 
   (add-hook 'org-mode-hook
             (lambda ()
               (org-indent-mode t)
-              (setq org-content 2)
+              (org-content 2)
               (display-line-numbers-mode -1)))
 #+END_SRC
 
+* ORG Babel
+#+BEGIN_SRC elisp
+  (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
+  (setq org-babel-python-command "python3")
+#+END_SRC
 
 * Apariencia
 #+BEGIN_SRC elisp
   ;; Tipografia
-  (set-face-attribute 'default nil
-                      :font "Fira Code"
-                      :height 98 )
+  ;; (set-face-attribute 'default nil
+  ;;                     :font "Fira Code"
+  ;;                     :height 98 )
 
   ;; Tema
-  (load-file "~/.emacs.d/themes/sea.el")
+  ;;(load-file "~/.emacs.d/themes/sea.el")
 
   ;; otros
   (setq inhibit-startup-message t)     ;Pantalla de inicio de emacs 
@@ -167,6 +188,16 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
   ;;(add-to-list 'default-frame-alist '(alpha 85 85)) ;transparencia del borde
 #+END_SRC
 
+* Tema
+#+BEGIN_SRC elisp
+  (use-package ample-theme
+    :init (progn (load-theme 'ample t t)
+                 (load-theme 'ample-flat t t)
+                 (load-theme 'ample-light t t)
+                 (enable-theme 'ample-flat))
+    :defer t
+    :ensure t)
+#+END_SRC
 
 * Settings
 #+BEGIN_SRC elisp
@@ -174,7 +205,6 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
   ;;(desktop-save-mode 1)                   ;guardar escritorio
   (find-file "~/notes.org")               ;abrir archivo al iniciar
 #+END_SRC
-
 
 * Global Keybinds
 #+BEGIN_SRC elisp
@@ -193,7 +223,6 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
   (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
 #+END_SRC
 
-
 * Funciones
 ** [Disabled] Cerrar todos los buffer no activos
 Extraido de la [[https://www.emacswiki.org/emacs/KillingBuffers#toc2][wiki de emacs]]. Este paquete es reduntante con crux.
@@ -204,14 +233,12 @@ Extraido de la [[https://www.emacswiki.org/emacs/KillingBuffers#toc2][wiki de em
   ;;   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 #+END_SRC
 
-
 ** [Disabled] Insertar la fecha del sistema
 extraido de la [[https://www.emacswiki.org/emacs/InsertingTodaysDate][wiki de emacs]]. Este paquete es reduntante con crux.
 #+BEGIN_SRC elisp
   ;; (defun insert-current-date () (interactive)
   ;;   (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
 #+END_SRC
-
 
 ** Margen de 80 columnas
 Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][gastack]] desde la pregunta de [[https://gist.github.com/jordonbiondo/aa6d68b680abdb1a5f70][Jordonbiondo]].
@@ -236,4 +263,15 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
         (set-window-margins nil left right)))))
 #+END_SRC
 
+* Modificaciones De Prueba
+#+BEGIN_SRC elisp 
+;; ----------------- Modificaciones De Prueba -------------------
+#+END_SRC
 
+[[https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/][Extraido de reddit]].
+#+BEGIN_SRC elisp
+(defun run-buffer ()
+  (interactive)
+  (shell-command (concat "./eigenmath " buffer-file-name)))
+(global-set-key (kbd "<f9>") 'run-buffer)
+#+END_SRC

@@ -31,12 +31,15 @@
   :config
   (ivy-mode 1))                      ;Activar ivy en todos los buffers
 
+(setq org-preview-latex-default-process 'dvisvgm)
+(setq org-src-tab-acts-natively t)
+
 ;; explorador de archivos 
 (use-package neotree
   :config
   (setq neo-theme 'ascii)
   (setq neo-smart-open t)
-  (setq neo-window-width 25)
+  (setq neo-window-width 35)
   (setq neo-window-fixed-size -1))
 
 ;; desactivar los numeros y el warp de texto
@@ -58,22 +61,41 @@
 (add-hook 'eshell-mode-hook
           (lambda (&rest _) 
             (display-line-numbers-mode -1)
-            (visual-line-mode -1)))
+              (visual-line-mode -1)))
 
 ;; highlight todo
 (use-package hl-todo
-  :custom-face
-  (hl-todo ((t (:inherit hl-todo :italic t))))
-  :hook ((prog-mode . hl-todo-mode)
-         (yaml-mode . hl-todo-mode)
-         (org-mode . hl-todo-mode))
+     :custom-face
+     (hl-todo ((t (:inherit hl-todo :italic t))))
+     :hook ((prog-mode . hl-todo-mode)
+            (yaml-mode . hl-todo-mode)
+            (org-mode . hl-todo-mode))
+     :config
+      (hl-todo-mode 1))
+
+(use-package org
+  :bind
+  (:map org-mode-map
+        ("<M-return>" . org-toggle-latex-fragment))
   :config
-  (hl-todo-mode 1))
+  (setq org-support-shift-select t)
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :scale 1.5)))
 
-;; htmlize
-(use-package htmlize)
+(add-hook 'org-mode-hook
+          (lambda ()
+            (org-indent-mode t)
+            (org-content)	
+            (display-line-numbers-mode -1)))
 
-;; ample theme
+;; Tipografia
+;; (set-face-attribute 'default nil
+;; ;;                    :font "Source Code Pro"
+;; 		    :font "Ubuntu Mono Regular"		    
+;;                     :height 98 )
+
+;; Tema
+;;(load-file "~/.emacs.d/themes/sea.el")
 (use-package ample-theme
   :init (progn (load-theme 'ample t t)
                (load-theme 'ample-flat t t)
@@ -81,35 +103,6 @@
                (enable-theme 'ample-flat))
   :defer t
   :ensure t)
-
-(use-package org
-  :bind
-  (:map org-mode-map
-        ("<M-return>" . org-toggle-latex-fragment))
-  :config
-  ;; (setq org-html-postamble "%a")
-  (setq org-support-shift-select t)
-  (setq org-preview-latex-default-process 'dvisvgm)       ;preview tikz
-  (setq org-src-tab-acts-natively t)		      ;indentar src_blocks
-  (setq org-format-latex-options
-        (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (org-indent-mode t)
-            (org-content 2)
-            (display-line-numbers-mode -1)))
-
-(org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
-(setq org-babel-python-command "python3")
-
-;; Tipografia
-;; (set-face-attribute 'default nil
-;;                     :font "Fira Code"
-;;                     :height 98 )
-
-;; Tema
-;;(load-file "~/.emacs.d/themes/sea.el")
 
 ;; otros
 (setq inhibit-startup-message t)     ;Pantalla de inicio de emacs 
@@ -124,21 +117,13 @@
 ;; Mode line
 (setq column-number-mode t)          ;numero de columna 
 (line-number-mode t)                 ;numero de fila
-(display-time-mode -1)		 ;mostrar la hora
+(display-time-mode -1)		     ;mostrar la hora
 (display-battery-mode -1)            ;mostrar batteria
 
 ;; Frame
 ;;(set-frame-parameter (selected-frame) 'undecorated t) ;frame visible
 ;;(set-frame-parameter (selected-frame) 'alpha '(95 95)) ;fondo trasparente
 ;;(add-to-list 'default-frame-alist '(alpha 85 85)) ;transparencia del borde
-
-(use-package ample-theme
-  :init (progn (load-theme 'ample t t)
-               (load-theme 'ample-flat t t)
-               (load-theme 'ample-light t t)
-               (enable-theme 'ample-flat))
-  :defer t
-  :ensure t)
 
 ;; Varios
 ;;(desktop-save-mode 1)                   ;guardar escritorio
@@ -151,7 +136,7 @@
 (global-set-key (kbd "C-M-z") 'toggle-80-editting-columns-balanced)      
 
 ;; Crux
-(global-set-key (kbd "C-c f") 'crux-recentf-find-file)
+(global-set-key (kbd "C-c C-f") 'crux-recentf-find-file)
 (global-set-key (kbd "C-,") 'crux-find-user-init-file)
 (global-set-key (kbd "C-x C-u") 'crux-upcase-region)
 (global-set-key (kbd "C-x C-l") 'crux-downcase-region)
@@ -184,10 +169,65 @@
              (left (/ change 2))
              (right (- change left)))
         (set-window-margins nil left right)))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes nil)
+ '(custom-safe-themes
+   (quote
+    ("bf798e9e8ff00d4bf2512597f36e5a135ce48e477ce88a0764cfb5d8104e8163" "c9ddf33b383e74dac7690255dd2c3dfa1961a8e8a1d20e401c6572febef61045" default)))
+ '(package-selected-packages
+   (quote
+    (htmlize exec-path-from-shell hl-todo crux magit rainbow-mode neotree ivy use-package)))
+ '(safe-local-variable-values
+   (quote
+    ((org-html-postamble . "%t %a %d")
+     (org-html-postamble . "%t %a %d %D")
+     (org-html-postamble . "test"))))
+ '(tramp-backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(hl-todo ((t (:inherit hl-todo :italic t)))))
 
-;; ----------------- Modificaciones De Prueba -------------------
+;; ---------------------------------------------------
 
+
+
+;(setq frame-title-format "")
+
+;(load-file "~/.emacs.d/themes/mate-flat-theme.el")
+
+;; (setq frame-title-format
+;;       '(buffer-file-name "%f"
+;; 			 (dired-directory dired-directory "%b")))
+
+
+;;https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/
 (defun run-buffer ()
   (interactive)
   (shell-command (concat "./eigenmath " buffer-file-name)))
 (global-set-key (kbd "<f9>") 'run-buffer)
+
+(setq eshell-prompt-function '(lambda () (concat (car (last (split-string (eshell/pwd) "/"))) " $ ")))
+
+(use-package htmlize)
+
+(setq org-html-postamble (concat
+			  "Autor: %a <br>"
+			  "Modificado: " (shell-command-to-string "echo -n $(date +%Y-%m-%d)") ))	 
+
+(defun publish-dir-org ()
+  "Publish all org files in a directory"
+  (interactive)
+  (save-excursion
+    (mapc
+     (lambda (file)
+       (with-current-buffer
+       (find-file-noselect file)
+     (org-export-as-html-batch)))
+       (file-expand-wildcards  "*.org"))))

@@ -1,9 +1,3 @@
-(add-to-list 'backup-directory-alist
-             (cons "." "~/.emacs.d/backups/"))
-
-(customize-set-variable
- 'tramp-backup-directory-alist backup-directory-alist)
-
 ;; Fuetes
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org"   . "https://orgmode.org/elpa/")
@@ -22,42 +16,29 @@
 ;; Asegurarse de que los paquetes simepre esten instalados
 (setq use-package-always-ensure t)
 
-;; Mantiene una lista con los archivos abiertos recientemente es necesario que este activado.
-  (require 'recentf)
-  (recentf-mode 1)
+(require 'recentf)
+(recentf-mode 1)
 
-  ;; Autocompletado en el minibufer
-  (use-package ivy
-    :config
-    (ivy-mode 1))                      ;Activar ivy en todos los buffers
+(use-package ivy
+  :config
+  (ivy-mode 1))
 
-;; Colorear los valores RGB
-  (use-package rainbow-mode)
+(use-package rainbow-mode)
 
-  ;; Getor de git para emacs
-  (use-package magit)
+(use-package magit)
 
-  ;; Collection of Ridiculously Useful eXtensions for Emacs 
-  (use-package crux)
+(use-package crux)
 
-  ;; eshell hooks 
-  (add-hook 'eshell-mode-hook
-            (lambda (&rest _) 
-              (display-line-numbers-mode -1)
-              (visual-line-mode -1)))
+(use-package hl-todo
+  :custom-face
+  (hl-todo ((t (:inherit hl-todo :italic t))))
+  :hook ((prog-mode . hl-todo-mode)
+         (yaml-mode . hl-todo-mode)
+         (org-mode . hl-todo-mode))
+  :config
+  (hl-todo-mode 1))
 
-  ;; highlight todo 
-  (use-package hl-todo
-    :custom-face
-    (hl-todo ((t (:inherit hl-todo :italic t))))
-    :hook ((prog-mode . hl-todo-mode)
-           (yaml-mode . hl-todo-mode)
-           (org-mode . hl-todo-mode))
-    :config
-    (hl-todo-mode 1))
-
-  ;; htmlize
-  (use-package htmlize)
+(use-package htmlize)
 
 ;; explorador de archivos 
 (use-package neotree
@@ -96,66 +77,50 @@
 
 (use-package lua-mode)
 
-;; ample theme 
-(use-package ample-theme
-  :init (progn (load-theme 'ample t t)
-               (load-theme 'ample-flat t t)
-               (load-theme 'ample-light t t)
-               (enable-theme 'ample-flat))
-  :defer t
-  :ensure t)
-
-(use-package org
-  :bind
-  (:map org-mode-map
-        ("<M-return>" . org-toggle-latex-fragment))
-  :config
-  ;; (setq org-html-postamble "%a")
-  (setq org-support-shift-select t)
-  (setq org-preview-latex-default-process 'dvisvgm)       ;preview tikz
-  (setq org-src-tab-acts-natively t)		      ;indentar src_blocks
-  (setq org-format-latex-options
-        (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (org-indent-mode t)
-            (org-content 2)
-            (display-line-numbers-mode -1)))
-
-(org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
-(setq org-babel-python-command "python3")
-
 ;; Tipografia
 ;; (set-face-attribute 'default nil
 ;;                     :font "Fira Code"
 ;;                     :height 98 )
 
-;; Tema
-;;(load-file "~/.emacs.d/themes/sea.el")
-
-;; otros
-(setq inhibit-startup-message t)     ;Pantalla de inicio de emacs 
-(global-display-line-numbers-mode t) ;numeros de linea
-(scroll-bar-mode -1)                 ;scroll bars visibles
-(tool-bar-mode -1)                   ;barra de herramientas visisles
-(menu-bar-mode -1)                   ;menu de herramientas visible
-(set-fringe-mode 10)                 ;espacio entre el frame y el buffer
-(global-visual-line-mode 1)          ;separar lineas 
-(setq-default cursor-type 'bar)      ;tipo del cursor
-(setq-default tab-width 4)			 ;tamaño del tab
+;; Ajustes 
+;; Pantalla de inicio de emacs
+(setq inhibit-startup-message t)
+;; numeros de linea
+(global-display-line-numbers-mode t)
+;; scroll bars visibles
+(scroll-bar-mode -1)
+;; barra de herramientas visisles
+(tool-bar-mode -1)
+;; menu de herramientas visible
+(menu-bar-mode -1)
+;; espacio entre el frame y el buffer	   
+(set-fringe-mode 10)
+;; separar lineas 
+(global-visual-line-mode 1)
+;; tipo del cursor
+(setq-default cursor-type 'bar)
+;; tamaño del tab
+(setq-default tab-width 4)
 
 ;; Mode line
-(setq column-number-mode t)          ;numero de columna 
-(line-number-mode t)                 ;numero de fila
-(display-time-mode -1)				 ;mostrar la hora
-(display-battery-mode -1)            ;mostrar batteria
+;; numero de columna
+(setq column-number-mode t)
+;; numero de fila
+(line-number-mode t)
+;; mostrar la hora             
+(display-time-mode -1)
+;; mostrar batteria
+(display-battery-mode -1)
 
 ;; Frame
-;;(set-frame-parameter (selected-frame) 'undecorated t) ;frame visible
-;;(set-frame-parameter (selected-frame) 'alpha '(95 95)) ;fondo trasparente
-;;(add-to-list 'default-frame-alist '(alpha 85 85)) ;transparencia del borde
+;; frame visible
+;;(set-frame-parameter (selected-frame) 'undecorated t) 
+;; fondo trasparente
+;;(set-frame-parameter (selected-frame) 'alpha '(95 95))
+;; transparencia del borde
+;;(add-to-list 'default-frame-alist '(alpha 85 85)) 
 
+;; Tema
 (use-package ample-theme
   :init (progn (load-theme 'ample t t)
                (load-theme 'ample-flat t t)
@@ -164,10 +129,17 @@
   :defer t
   :ensure t)
 
-;; Varios
-;;(desktop-save-mode 1)                 ;guardar escritorio
-(find-file "~/notes.org")               ;abrir archivo al iniciar
-(delete-selection-mode 1)				;eliminar elemento seleccionado
+;; guardar escritorio
+;;(desktop-save-mode 1)                 
+;; abrir archivo al iniciar
+(find-file "~/notes.org")             
+;; eliminar elemento seleccionado   
+(delete-selection-mode 1)
+
+(add-hook 'eshell-mode-hook
+          (lambda (&rest _) 
+            (display-line-numbers-mode -1)
+            (visual-line-mode -1)))
 
 ;; incluidas
 (global-set-key (kbd "C-x t") 'eshell)                                    
@@ -182,6 +154,34 @@
 (global-set-key (kbd "C-x C-l") 'crux-downcase-region)
 (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
 (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
+
+(use-package org
+  :bind
+  (:map org-mode-map
+        ("<M-return>" . org-toggle-latex-fragment))
+  :config
+  (setq org-support-shift-select t)
+  (setq org-preview-latex-default-process 'dvisvgm)	;preview tikz
+  (setq org-src-tab-acts-natively t)	;indentar src_blocks
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
+
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (org-indent-mode t)
+            (org-content 2)
+            (display-line-numbers-mode -1)))
+
+;; Babel
+(org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
+(setq org-babel-python-command "python3")
+
+(add-to-list 'backup-directory-alist
+             (cons "." "~/.emacs.d/backups/"))
+
+(customize-set-variable
+ 'tramp-backup-directory-alist backup-directory-alist)
 
 ;; (defun kill-other-buffers ()
 ;;   "Kill all other buffers."
@@ -210,12 +210,6 @@
              (right (- change left)))
         (set-window-margins nil left right)))))
 
-;; ----------------- Modificaciones De Prueba -------------------
-
-(defun run-buffer ()
-  (interactive)
-  (shell-command (concat "./eigenmath " buffer-file-name)))
-(global-set-key (kbd "<f9>") 'run-buffer)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -223,7 +217,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(ample-theme lua-mode emmet-mode web-mode company neotree htmlize hl-todo crux magit rainbow-mode ivy use-package)))
+    (lua-mode company emmet-mode web-mode use-package rainbow-mode neotree magit ivy htmlize hl-todo exec-path-from-shell crux base16-theme ample-theme)))
  '(tramp-backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -231,3 +225,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-todo ((t (:inherit hl-todo :italic t)))))
+
+;; -------------------- Pruebas --------------------
+
+;; https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/
+
+(defun run-buffer ()
+  (interactive)
+  (shell-command (concat "./eigenmath " buffer-file-name)))
+(global-set-key (kbd "<f9>") 'run-buffer)

@@ -6,35 +6,28 @@
 #+LANGUAGE: es
 #+PROPERTY: header-args :tangle init.el
 
-* Mi init.el 
-** lun 07 jun 2021 21:14:39
-Este es mi primer config de emacs, anteriormente ya habia hecho una pero era cuando notenia tanto conocimiento sobre este editor y todo lo que es capaz de hacer, depues de usar doom emacs por algunos meses pude apreder todo lo que es capaz de hacer he decidido volver a intentarlo, este es el resultado.
+* Notas 
+** Bitácora
+- lun 07 jun 2021 21:14:39 :: Este es mi primer config de emacs, anteriormente ya habia hecho una pero era cuando notenia tanto conocimiento sobre este editor y todo lo que es capaz de hacer, depues de usar doom emacs por algunos meses pude apreder todo lo que es capaz de hacer he decidido volver a intentarlo, este es el resultado.
 
+- lun 21 jun 2021 14:13:35 :: Añadi unas funciones para exportar a html desde org, estos dias he estado trabajando en mi blog por lo tanto las necesito.
+
+- sáb 10 jul 2021 17:27:35 :: Este init file se esta volviendo muy largo, tendre que buscar otra organizacion para gestionarlo. Uno de los objetivos principales de este init es que sea que sea un unico archivo.
+
+- sáb 10 jul 2021 20:26:11 :: Ya terminé de reorganizar el init file ahora es más especifico.
+
+** Por hacer
 TODO: Crear una pantalla de inicio.
-TODO: Crear un tema para el editor, el tema actual es solo una modificacion de [[https://github.com/owainlewis/emacs-color-themes][Graham]].
-NOTE: Quizá crear una modeline?.
+TODO: Crear una modeline.
 TODO: Instalacion de Autocompletado.
 TODO: Instalar un engine de Snippets.
 TODO: Instalar más modos de programación.
 
-** lun 21 jun 2021 14:13:35
-Añadi unas funciones para exportar a html desde org, estos dias he estado trabajando en mi blog por lo tanto las necesito.
 
-** sáb 10 jul 2021 17:27:35
-Este dot init se esta volviendo muy largo, tendre que buscar otra organizacion para gestionarlo. Uno de los objetivos principales de este init es que sea que sea un unico archivo. 
-
-* Backups
-Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html][www.gnu.org]].
+* Paquetes
+** Fuentes
 #+BEGIN_SRC elisp
-  (add-to-list 'backup-directory-alist
-               (cons "." "~/.emacs.d/backups/"))
 
-  (customize-set-variable
-   'tramp-backup-directory-alist backup-directory-alist)
-#+END_SRC
- 
-* Fuente de paquetes
-#+BEGIN_SRC elisp
   ;; Fuetes
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                            ("org"   . "https://orgmode.org/elpa/")
@@ -52,50 +45,57 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 
   ;; Asegurarse de que los paquetes simepre esten instalados
   (setq use-package-always-ensure t)
+
 #+END_SRC
 
-* Configuración de paquetes
-** Documentación de los paqutes
-+ [[https://github.com/tarsius/hl-todo][h1-todo]] :: resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
-+ [[https://github.com/bbatsov/crux][crux]] :: Añade un montón de funciones extra a emacs.
-+ [[https://github.com/magit/magit][magit]] :: Cliente de GIT en emacs. 
-+ [[https://github.com/emacsmirror/rainbow-mode][rainbow-mode]] :: Muestra los colores hex en el buffer (aparentemente no hay mucha documentación de este paquete).
-+ [[https://github.com/jaypei/emacs-neotree][neotree]] :: Muestra los folders en la sidebar.
-+ [[https://github.com/abo-abo/swiper][ivy]] :: Frontend de auto completado en emacs.
-+ [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]] :: Los mejores color themes para emacs.
-+ [[https://github.com/hniksic/emacs-htmlize][htmlize]] :: Convierte el texto del búfer y las decoraciones asociadas a HTML.
-+ [[https://github.com/jordonbiondo/ample-theme][ample themes]] :: Temas bonitos.
-+ [[https://web-mode.org/][web-mode]] :: Permite editar en los lenguajes de la web dentro del mismo archivo.
-+ [[http://company-mode.github.io/][company-mode]] :: Marco de autocompletado de texto para Emacs.
-+ [[https://github.com/smihica/emmet-mode][emmet-mode]] :: Escribir codigo xml mas rapido.
+** Configuraciónes
+*** recentf
+Mantiene una lista con los archivos abiertos recientemente, es necesario que este activado para mantener los registros.
+#+BEGIN_SRC elisp 
 
-** Editor
-#+BEGIN_SRC elisp
-  ;; Mantiene una lista con los archivos abiertos recientemente es necesario que este activado.
   (require 'recentf)
   (recentf-mode 1)
 
-  ;; Autocompletado en el minibufer
+#+END_SRC
+
+*** ivy
+Autocompletado en el minibufer.
+#+BEGIN_SRC elisp
+
   (use-package ivy
     :config
-    (ivy-mode 1))                      ;Activar ivy en todos los buffers
+    (ivy-mode 1))
 
-;; Colorear los valores RGB
+#+END_SRC
+
+*** rainbow-mode
+Colorear los valores RGB.
+#+BEGIN_SRC elisp
+
   (use-package rainbow-mode)
 
-  ;; Getor de git para emacs
+#+END_SRC
+
+*** magit
+Getor de git para emacs.
+#+BEGIN_SRC elisp
+
   (use-package magit)
 
-  ;; Collection of Ridiculously Useful eXtensions for Emacs 
+#+END_SRC
+
+*** crux
+Collection of Ridiculously Useful eXtensions for Emacs.
+#+BEGIN_SRC elisp
+
   (use-package crux)
 
-  ;; eshell hooks 
-  (add-hook 'eshell-mode-hook
-            (lambda (&rest _) 
-              (display-line-numbers-mode -1)
-              (visual-line-mode -1)))
+#+END_SRC
 
-  ;; highlight todo 
+*** highlight todo
+Resalta palabras como "TODO, NOTE, FIXME...".
+#+BEGIN_SRC elisp
+
   (use-package hl-todo
     :custom-face
     (hl-todo ((t (:inherit hl-todo :italic t))))
@@ -105,12 +105,20 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
     :config
     (hl-todo-mode 1))
 
-  ;; htmlize
-  (use-package htmlize)
 #+END_SRC
 
-** Neotree
+*** htmlize
+Convierte source blocks a html.
 #+BEGIN_SRC elisp
+
+  (use-package htmlize)
+
+#+END_SRC
+
+*** neotree
+Muestra los folders en la sidebar.
+#+BEGIN_SRC elisp
+
   ;; explorador de archivos 
   (use-package neotree
     :config
@@ -124,10 +132,13 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
             (lambda (&rest _) 
               (display-line-numbers-mode -1)
               (visual-line-mode -1)))
+
 #+END_SRC
 
-** Company 
+*** company 
+Marco de autocompletado de texto para Emacs.
 #+BEGIN_SRC elisp
+
   (use-package company
     :ensure t
     :defer t
@@ -142,98 +153,92 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
             company-show-numbers t)
       (setq company-dabbrev-downcase nil))
     :diminish company-mode)
+
 #+END_SRC
-** Programación
-*** Web 
+
+** Modos y Herramientas de Programación
+*** Web
 #+BEGIN_SRC elisp
+
   ;; para editar codigo html, css y js en el mismo archivo
   (use-package web-mode)
 
   ;; para hacer html más rapidos
   (use-package emmet-mode)
+
 #+END_SRC
+
 *** Lua
 #+BEGIN_SRC elisp
+
   (use-package lua-mode)
-#+END_SRC
-** Temas
-#+BEGIN_SRC elisp
-  ;; ample theme 
-  (use-package ample-theme
-    :init (progn (load-theme 'ample t t)
-                 (load-theme 'ample-flat t t)
-                 (load-theme 'ample-light t t)
-                 (enable-theme 'ample-flat))
-    :defer t
-    :ensure t)
+
 #+END_SRC
 
+** Documentación
++ [[https://github.com/tarsius/hl-todo][h1-todo]] :: resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
++ [[https://github.com/bbatsov/crux][crux]] :: Añade un montón de funciones extra a emacs.
++ [[https://github.com/magit/magit][magit]] :: Cliente de GIT en emacs. 
++ [[https://github.com/emacsmirror/rainbow-mode][rainbow-mode]] :: Muestra los colores hex en el buffer (aparentemente no hay mucha documentación de este paquete).
++ [[https://github.com/jaypei/emacs-neotree][neotree]] :: Muestra los folders en la sidebar.
++ [[https://github.com/abo-abo/swiper][ivy]] :: Frontend de auto completado en emacs.
++ [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]] :: Los mejores color themes para emacs.
++ [[https://github.com/hniksic/emacs-htmlize][htmlize]] :: Convierte el texto del búfer y las decoraciones asociadas a HTML.
++ [[https://github.com/jordonbiondo/ample-theme][ample themes]] :: Temas bonitos.
++ [[https://web-mode.org/][web-mode]] :: Permite editar en los lenguajes de la web dentro del mismo archivo.
++ [[http://company-mode.github.io/][company-mode]] :: Marco de autocompletado de texto para Emacs.
++ [[https://github.com/smihica/emmet-mode][emmet-mode]] :: Escribir codigo xml mas rapido.
 
-* ORG mode
-** Settings
-Este modo lo uso tanto que pense que deberia tener su propia seccion.
-fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-latex-previews-in-org-files][Tamaño del la preview de latex]], [[https://ivanaf.com/tikz_snippet_preview_in_orgmode.html][Preview tikz]], [[https://stackoverflow.com/questions/15773354/indent-code-in-org-babel-src-blocks][Indentar src blocks]].
+
+* Configuración
+** Apariencia
+Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
 #+BEGIN_SRC elisp
-  (use-package org
-    :bind
-    (:map org-mode-map
-          ("<M-return>" . org-toggle-latex-fragment))
-    :config
-    ;; (setq org-html-postamble "%a")
-    (setq org-support-shift-select t)
-    (setq org-preview-latex-default-process 'dvisvgm)       ;preview tikz
-    (setq org-src-tab-acts-natively t)		      ;indentar src_blocks
-    (setq org-format-latex-options
-          (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
 
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (org-indent-mode t)
-              (org-content 2)
-              (display-line-numbers-mode -1)))
-#+END_SRC
-
-** Babel
-#+BEGIN_SRC elisp
-  (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
-  (setq org-babel-python-command "python3")
-#+END_SRC
-
-* Apariencia
-#+BEGIN_SRC elisp
   ;; Tipografia
   ;; (set-face-attribute 'default nil
   ;;                     :font "Fira Code"
   ;;                     :height 98 )
 
-  ;; Tema
-  ;;(load-file "~/.emacs.d/themes/sea.el")
-
-  ;; otros
-  (setq inhibit-startup-message t)     ;Pantalla de inicio de emacs 
-  (global-display-line-numbers-mode t) ;numeros de linea
-  (scroll-bar-mode -1)                 ;scroll bars visibles
-  (tool-bar-mode -1)                   ;barra de herramientas visisles
-  (menu-bar-mode -1)                   ;menu de herramientas visible
-  (set-fringe-mode 10)                 ;espacio entre el frame y el buffer
-  (global-visual-line-mode 1)          ;separar lineas 
-  (setq-default cursor-type 'bar)      ;tipo del cursor
-  (setq-default tab-width 4)			 ;tamaño del tab
+  ;; Ajustes 
+  ;; Pantalla de inicio de emacs
+  (setq inhibit-startup-message t)
+  ;; numeros de linea
+  (global-display-line-numbers-mode t)
+  ;; scroll bars visibles
+  (scroll-bar-mode -1)
+  ;; barra de herramientas visisles
+  (tool-bar-mode -1)
+  ;; menu de herramientas visible
+  (menu-bar-mode -1)
+  ;; espacio entre el frame y el buffer	   
+  (set-fringe-mode 10)
+  ;; separar lineas 
+  (global-visual-line-mode 1)
+  ;; tipo del cursor
+  (setq-default cursor-type 'bar)
+  ;; tamaño del tab
+  (setq-default tab-width 4)
 
   ;; Mode line
-  (setq column-number-mode t)          ;numero de columna 
-  (line-number-mode t)                 ;numero de fila
-  (display-time-mode -1)				 ;mostrar la hora
-  (display-battery-mode -1)            ;mostrar batteria
+  ;; numero de columna
+  (setq column-number-mode t)
+  ;; numero de fila
+  (line-number-mode t)
+  ;; mostrar la hora             
+  (display-time-mode -1)
+  ;; mostrar batteria
+  (display-battery-mode -1)
 
   ;; Frame
-  ;;(set-frame-parameter (selected-frame) 'undecorated t) ;frame visible
-  ;;(set-frame-parameter (selected-frame) 'alpha '(95 95)) ;fondo trasparente
-  ;;(add-to-list 'default-frame-alist '(alpha 85 85)) ;transparencia del borde
-#+END_SRC
+  ;; frame visible
+  ;;(set-frame-parameter (selected-frame) 'undecorated t) 
+  ;; fondo trasparente
+  ;;(set-frame-parameter (selected-frame) 'alpha '(95 95))
+  ;; transparencia del borde
+  ;;(add-to-list 'default-frame-alist '(alpha 85 85)) 
 
-* Tema
-#+BEGIN_SRC elisp
+  ;; Tema
   (use-package ample-theme
     :init (progn (load-theme 'ample t t)
                  (load-theme 'ample-flat t t)
@@ -241,18 +246,34 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
                  (enable-theme 'ample-flat))
     :defer t
     :ensure t)
+
 #+END_SRC
 
-* Settings
+** Comportamiento
 #+BEGIN_SRC elisp
-  ;; Varios
-  ;;(desktop-save-mode 1)                 ;guardar escritorio
-  (find-file "~/notes.org")               ;abrir archivo al iniciar
-  (delete-selection-mode 1)				;eliminar elemento seleccionado 
+
+  ;; guardar escritorio
+  ;;(desktop-save-mode 1)                 
+  ;; abrir archivo al iniciar
+  (find-file "~/notes.org")             
+  ;; eliminar elemento seleccionado   
+  (delete-selection-mode 1)		
+		
 #+END_SRC
 
-* Global Keybinds
+** Eshell
 #+BEGIN_SRC elisp
+
+  (add-hook 'eshell-mode-hook
+            (lambda (&rest _) 
+              (display-line-numbers-mode -1)
+              (visual-line-mode -1)))
+
+#+END_SRC
+
+** Keybinds
+#+BEGIN_SRC elisp
+
   ;; incluidas
   (global-set-key (kbd "C-x t") 'eshell)                                    
   (global-set-key (kbd "C-x j") 'neotree-toggle)                            
@@ -266,28 +287,75 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
   (global-set-key (kbd "C-x C-l") 'crux-downcase-region)
   (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
   (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
+
 #+END_SRC
+
+** Org
+fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-latex-previews-in-org-files][Tamaño del la preview de latex]], [[https://ivanaf.com/tikz_snippet_preview_in_orgmode.html][Preview tikz]], [[https://stackoverflow.com/questions/15773354/indent-code-in-org-babel-src-blocks][Indentar src blocks]].
+#+BEGIN_SRC elisp
+
+  (use-package org
+    :bind
+    (:map org-mode-map
+          ("<M-return>" . org-toggle-latex-fragment))
+    :config
+    (setq org-support-shift-select t)
+    (setq org-preview-latex-default-process 'dvisvgm)	;preview tikz
+    (setq org-src-tab-acts-natively t)	;indentar src_blocks
+    (setq org-format-latex-options
+          (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
+
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-indent-mode t)
+              (org-content 2)
+              (display-line-numbers-mode -1)))
+
+  ;; Babel
+  (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
+  (setq org-babel-python-command "python3")
+
+#+END_SRC
+
+** Backups
+Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html][www.gnu.org]].
+#+BEGIN_SRC elisp
+
+  (add-to-list 'backup-directory-alist
+               (cons "." "~/.emacs.d/backups/"))
+
+  (customize-set-variable
+   'tramp-backup-directory-alist backup-directory-alist)
+
+#+END_SRC
+
 
 * Funciones
-** [Disabled] Cerrar todos los buffer no activos
+** Cerrar todos los buffer no activos
 Extraido de la [[https://www.emacswiki.org/emacs/KillingBuffers#toc2][wiki de emacs]]. Este paquete es reduntante con crux.
 #+BEGIN_SRC elisp
-  ;; (defun kill-other-buffers ()
-  ;;   "Kill all other buffers."
-  ;;   (interactive)
-  ;;   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+    ;; (defun kill-other-buffers ()
+    ;;   "Kill all other buffers."
+    ;;   (interactive)
+    ;;   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
 #+END_SRC
 
-** [Disabled] Insertar la fecha del sistema
+** Insertar la fecha del sistema
 extraido de la [[https://www.emacswiki.org/emacs/InsertingTodaysDate][wiki de emacs]]. Este paquete es reduntante con crux.
 #+BEGIN_SRC elisp
+
   ;; (defun insert-current-date () (interactive)
   ;;   (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
+
 #+END_SRC
 
 ** Margen de 80 columnas
 Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][gastack]] desde la pregunta de [[https://gist.github.com/jordonbiondo/aa6d68b680abdb1a5f70][Jordonbiondo]].
 #+BEGIN_SRC elisp
+
 (defun toggle-80-editting-columns ()
   "Set the right window margin so the edittable space is only 80 columns."
   (interactive)
@@ -306,19 +374,42 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
              (left (/ change 2))
              (right (- change left)))
         (set-window-margins nil left right)))))
+
 #+END_SRC
 
-* Custom ser variables
 
-* Modificaciones De Prueba
-#+BEGIN_SRC elisp 
-;; ----------------- Modificaciones De Prueba -------------------
-#+END_SRC
-
-[[https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/][Extraido de reddit]].
+* Custom Variables
 #+BEGIN_SRC elisp
-(defun run-buffer ()
-  (interactive)
-  (shell-command (concat "./eigenmath " buffer-file-name)))
-(global-set-key (kbd "<f9>") 'run-buffer)
+
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     (quote
+      (lua-mode company emmet-mode web-mode use-package rainbow-mode neotree magit ivy htmlize hl-todo exec-path-from-shell crux base16-theme ample-theme)))
+   '(tramp-backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(hl-todo ((t (:inherit hl-todo :italic t)))))
+
+#+END_SRC
+
+
+* Modificaciones de Prueba 
+#+BEGIN_SRC elisp 
+
+  ;; -------------------- Pruebas --------------------
+
+  ;; https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/
+
+  (defun run-buffer ()
+    (interactive)
+    (shell-command (concat "./eigenmath " buffer-file-name)))
+  (global-set-key (kbd "<f9>") 'run-buffer)
+
 #+END_SRC

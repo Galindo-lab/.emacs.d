@@ -20,6 +20,9 @@ TODO: Instalar más modos de programación.
 ** lun 21 jun 2021 14:13:35
 Añadi unas funciones para exportar a html desde org, estos dias he estado trabajando en mi blog por lo tanto las necesito.
 
+** sáb 10 jul 2021 17:27:35
+Este dot init se esta volviendo muy largo, tendre que buscar otra organizacion para gestionarlo. Uno de los objetivos principales de este init es que sea que sea un unico archivo. 
+
 * Backups
 Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html][www.gnu.org]].
 #+BEGIN_SRC elisp
@@ -52,6 +55,21 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 #+END_SRC
 
 * Configuración de paquetes
+** Documentación de los paqutes
++ [[https://github.com/tarsius/hl-todo][h1-todo]] :: resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
++ [[https://github.com/bbatsov/crux][crux]] :: Añade un montón de funciones extra a emacs.
++ [[https://github.com/magit/magit][magit]] :: Cliente de GIT en emacs. 
++ [[https://github.com/emacsmirror/rainbow-mode][rainbow-mode]] :: Muestra los colores hex en el buffer (aparentemente no hay mucha documentación de este paquete).
++ [[https://github.com/jaypei/emacs-neotree][neotree]] :: Muestra los folders en la sidebar.
++ [[https://github.com/abo-abo/swiper][ivy]] :: Frontend de auto completado en emacs.
++ [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]] :: Los mejores color themes para emacs.
++ [[https://github.com/hniksic/emacs-htmlize][htmlize]] :: Convierte el texto del búfer y las decoraciones asociadas a HTML.
++ [[https://github.com/jordonbiondo/ample-theme][ample themes]] :: Temas bonitos.
++ [[https://web-mode.org/][web-mode]] :: Permite editar en los lenguajes de la web dentro del mismo archivo.
++ [[http://company-mode.github.io/][company-mode]] :: Marco de autocompletado de texto para Emacs.
++ [[https://github.com/smihica/emmet-mode][emmet-mode]] :: Escribir codigo xml mas rapido.
+
+** Editor
 #+BEGIN_SRC elisp
   ;; Mantiene una lista con los archivos abiertos recientemente es necesario que este activado.
   (require 'recentf)
@@ -62,36 +80,22 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
     :config
     (ivy-mode 1))                      ;Activar ivy en todos los buffers
 
-  ;; explorador de archivos 
-  (use-package neotree
-    :config
-    (setq neo-theme 'ascii)
-    (setq neo-smart-open t)
-    (setq neo-window-width 25)
-    (setq neo-window-fixed-size -1))
-
-  ;; desactivar los numeros y el warp de texto
-  (add-hook 'neo-after-create-hook
-            (lambda (&rest _) 
-              (display-line-numbers-mode -1)
-              (visual-line-mode -1)))
-
-  ;; Colorear los valores RGB
+;; Colorear los valores RGB
   (use-package rainbow-mode)
 
   ;; Getor de git para emacs
   (use-package magit)
 
-  ;; Collection of Ridiculously Useful eXtensions for Emacs
+  ;; Collection of Ridiculously Useful eXtensions for Emacs 
   (use-package crux)
 
-  ;; eshell hooks
+  ;; eshell hooks 
   (add-hook 'eshell-mode-hook
             (lambda (&rest _) 
               (display-line-numbers-mode -1)
               (visual-line-mode -1)))
 
-  ;; highlight todo
+  ;; highlight todo 
   (use-package hl-todo
     :custom-face
     (hl-todo ((t (:inherit hl-todo :italic t))))
@@ -103,8 +107,58 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 
   ;; htmlize
   (use-package htmlize)
+#+END_SRC
 
-  ;; ample theme
+** Neotree
+#+BEGIN_SRC elisp
+  ;; explorador de archivos 
+  (use-package neotree
+    :config
+    (setq neo-theme 'ascii)
+    (setq neo-smart-open t)
+    (setq neo-window-width 25)
+    (setq neo-window-fixed-size -1))
+
+  ;; desactivar los numeros y el warp de texto 
+  (add-hook 'neo-after-create-hook
+            (lambda (&rest _) 
+              (display-line-numbers-mode -1)
+              (visual-line-mode -1)))
+#+END_SRC
+
+** Company 
+#+BEGIN_SRC elisp
+  (use-package company
+    :ensure t
+    :defer t
+    :init (global-company-mode)
+    :config
+    (progn
+      ;; Use Company for completion
+      (bind-key [remap completion-at-point] #'company-complete company-mode-map)
+
+      (setq company-tooltip-align-annotations t
+            ;; Easy navigation to candidates with M-<n>
+            company-show-numbers t)
+      (setq company-dabbrev-downcase nil))
+    :diminish company-mode)
+#+END_SRC
+** Programación
+*** Web 
+#+BEGIN_SRC elisp
+  ;; para editar codigo html, css y js en el mismo archivo
+  (use-package web-mode)
+
+  ;; para hacer html más rapidos
+  (use-package emmet-mode)
+#+END_SRC
+*** Lua
+#+BEGIN_SRC elisp
+  (use-package lua-mode)
+#+END_SRC
+** Temas
+#+BEGIN_SRC elisp
+  ;; ample theme 
   (use-package ample-theme
     :init (progn (load-theme 'ample t t)
                  (load-theme 'ample-flat t t)
@@ -112,22 +166,11 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
                  (enable-theme 'ample-flat))
     :defer t
     :ensure t)
-
-
 #+END_SRC
 
-* Documentación de los paqutes
-+ [[https://github.com/tarsius/hl-todo][h1-todo]], resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
-+ [[https://github.com/bbatsov/crux][crux]], Añade un montón de funciones extra a emacs.
-+ [[https://github.com/magit/magit][magit]], Cliente de GIT en emacs. 
-+ [[https://github.com/emacsmirror/rainbow-mode][rainbow-mode]], muestra los colores hex en el buffer (aparentemente no hay mucha documentación de este paquete).
-+ [[https://github.com/jaypei/emacs-neotree][neotree]], muestra los folders en la sidebar.
-+ [[https://github.com/abo-abo/swiper][ivy]], frontend de auto completado en emacs.
-+ [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]], los mejores color themes para emacs.
-+ [[https://github.com/hniksic/emacs-htmlize][htmlize]], convierte el texto del búfer y las decoraciones asociadas a HTML.
-+ [[https://github.com/jordonbiondo/ample-theme][ample themes]], temas bonitos.
 
 * ORG mode
+** Settings
 Este modo lo uso tanto que pense que deberia tener su propia seccion.
 fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-latex-previews-in-org-files][Tamaño del la preview de latex]], [[https://ivanaf.com/tikz_snippet_preview_in_orgmode.html][Preview tikz]], [[https://stackoverflow.com/questions/15773354/indent-code-in-org-babel-src-blocks][Indentar src blocks]].
 #+BEGIN_SRC elisp
@@ -150,7 +193,7 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
               (display-line-numbers-mode -1)))
 #+END_SRC
 
-* ORG Babel
+** Babel
 #+BEGIN_SRC elisp
   (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
   (setq org-babel-python-command "python3")
@@ -175,11 +218,12 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
   (set-fringe-mode 10)                 ;espacio entre el frame y el buffer
   (global-visual-line-mode 1)          ;separar lineas 
   (setq-default cursor-type 'bar)      ;tipo del cursor
+  (setq-default tab-width 4)			 ;tamaño del tab
 
   ;; Mode line
   (setq column-number-mode t)          ;numero de columna 
   (line-number-mode t)                 ;numero de fila
-  (display-time-mode -1)		 ;mostrar la hora
+  (display-time-mode -1)				 ;mostrar la hora
   (display-battery-mode -1)            ;mostrar batteria
 
   ;; Frame
@@ -202,8 +246,9 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
 * Settings
 #+BEGIN_SRC elisp
   ;; Varios
-  ;;(desktop-save-mode 1)                   ;guardar escritorio
+  ;;(desktop-save-mode 1)                 ;guardar escritorio
   (find-file "~/notes.org")               ;abrir archivo al iniciar
+  (delete-selection-mode 1)				;eliminar elemento seleccionado 
 #+END_SRC
 
 * Global Keybinds
@@ -262,6 +307,8 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
              (right (- change left)))
         (set-window-margins nil left right)))))
 #+END_SRC
+
+* Custom ser variables
 
 * Modificaciones De Prueba
 #+BEGIN_SRC elisp 

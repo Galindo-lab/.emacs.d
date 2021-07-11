@@ -23,13 +23,41 @@
 (setq use-package-always-ensure t)
 
 ;; Mantiene una lista con los archivos abiertos recientemente es necesario que este activado.
-(require 'recentf)
-(recentf-mode 1)
+  (require 'recentf)
+  (recentf-mode 1)
 
-;; Autocompletado en el minibufer
-(use-package ivy
-  :config
-  (ivy-mode 1))                      ;Activar ivy en todos los buffers
+  ;; Autocompletado en el minibufer
+  (use-package ivy
+    :config
+    (ivy-mode 1))                      ;Activar ivy en todos los buffers
+
+;; Colorear los valores RGB
+  (use-package rainbow-mode)
+
+  ;; Getor de git para emacs
+  (use-package magit)
+
+  ;; Collection of Ridiculously Useful eXtensions for Emacs 
+  (use-package crux)
+
+  ;; eshell hooks 
+  (add-hook 'eshell-mode-hook
+            (lambda (&rest _) 
+              (display-line-numbers-mode -1)
+              (visual-line-mode -1)))
+
+  ;; highlight todo 
+  (use-package hl-todo
+    :custom-face
+    (hl-todo ((t (:inherit hl-todo :italic t))))
+    :hook ((prog-mode . hl-todo-mode)
+           (yaml-mode . hl-todo-mode)
+           (org-mode . hl-todo-mode))
+    :config
+    (hl-todo-mode 1))
+
+  ;; htmlize
+  (use-package htmlize)
 
 ;; explorador de archivos 
 (use-package neotree
@@ -39,41 +67,36 @@
   (setq neo-window-width 25)
   (setq neo-window-fixed-size -1))
 
-;; desactivar los numeros y el warp de texto
+;; desactivar los numeros y el warp de texto 
 (add-hook 'neo-after-create-hook
           (lambda (&rest _) 
             (display-line-numbers-mode -1)
             (visual-line-mode -1)))
 
-;; Colorear los valores RGB
-(use-package rainbow-mode)
-
-;; Getor de git para emacs
-(use-package magit)
-
-;; Collection of Ridiculously Useful eXtensions for Emacs
-(use-package crux)
-
-;; eshell hooks
-(add-hook 'eshell-mode-hook
-          (lambda (&rest _) 
-            (display-line-numbers-mode -1)
-            (visual-line-mode -1)))
-
-;; highlight todo
-(use-package hl-todo
-  :custom-face
-  (hl-todo ((t (:inherit hl-todo :italic t))))
-  :hook ((prog-mode . hl-todo-mode)
-         (yaml-mode . hl-todo-mode)
-         (org-mode . hl-todo-mode))
+(use-package company
+  :ensure t
+  :defer t
+  :init (global-company-mode)
   :config
-  (hl-todo-mode 1))
+  (progn
+    ;; Use Company for completion
+    (bind-key [remap completion-at-point] #'company-complete company-mode-map)
 
-;; htmlize
-(use-package htmlize)
+    (setq company-tooltip-align-annotations t
+          ;; Easy navigation to candidates with M-<n>
+          company-show-numbers t)
+    (setq company-dabbrev-downcase nil))
+  :diminish company-mode)
 
-;; ample theme
+;; para editar codigo html, css y js en el mismo archivo
+(use-package web-mode)
+
+;; para hacer html más rapidos
+(use-package emmet-mode)
+
+(use-package lua-mode)
+
+;; ample theme 
 (use-package ample-theme
   :init (progn (load-theme 'ample t t)
                (load-theme 'ample-flat t t)
@@ -120,11 +143,12 @@
 (set-fringe-mode 10)                 ;espacio entre el frame y el buffer
 (global-visual-line-mode 1)          ;separar lineas 
 (setq-default cursor-type 'bar)      ;tipo del cursor
+(setq-default tab-width 4)			 ;tamaño del tab
 
 ;; Mode line
 (setq column-number-mode t)          ;numero de columna 
 (line-number-mode t)                 ;numero de fila
-(display-time-mode -1)		 ;mostrar la hora
+(display-time-mode -1)				 ;mostrar la hora
 (display-battery-mode -1)            ;mostrar batteria
 
 ;; Frame
@@ -141,8 +165,9 @@
   :ensure t)
 
 ;; Varios
-;;(desktop-save-mode 1)                   ;guardar escritorio
+;;(desktop-save-mode 1)                 ;guardar escritorio
 (find-file "~/notes.org")               ;abrir archivo al iniciar
+(delete-selection-mode 1)				;eliminar elemento seleccionado
 
 ;; incluidas
 (global-set-key (kbd "C-x t") 'eshell)                                    
@@ -191,3 +216,18 @@
   (interactive)
   (shell-command (concat "./eigenmath " buffer-file-name)))
 (global-set-key (kbd "<f9>") 'run-buffer)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+	(ample-theme lua-mode emmet-mode web-mode company neotree htmlize hl-todo crux magit rainbow-mode ivy use-package)))
+ '(tramp-backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(hl-todo ((t (:inherit hl-todo :italic t)))))

@@ -16,13 +16,10 @@
 
 - sáb 10 jul 2021 20:26:11 :: Ya terminé de reorganizar el init file ahora es más especifico.
 
-** Por hacer
-TODO: Crear una pantalla de inicio.
-TODO: Crear una modeline.
-TODO: Instalacion de Autocompletado.
-TODO: Instalar un engine de Snippets.
-TODO: Instalar más modos de programación.
+- mar 20 jul 2021 12:35:41 :: Añadidos algunos modos extra y tema doom-one es el default.
 
+** Por hacer
+TODO: Instalar un engine de Snippets.
 
 * Paquetes
 ** Fuentes
@@ -135,7 +132,7 @@ Muestra los folders en la sidebar.
 
 #+END_SRC
 
-*** company 
+*** company
 Marco de autocompletado de texto para Emacs.
 #+BEGIN_SRC elisp
 
@@ -154,6 +151,16 @@ Marco de autocompletado de texto para Emacs.
       (setq company-dabbrev-downcase nil))
     :diminish company-mode)
 
+#+END_SRC
+
+**** lua
+#+BEGIN_SRC elisp
+(use-package company-lua)
+#+END_SRC
+
+*** csv-mode
+#+BEGIN_SRC elisp
+(use-package csv-mode)
 #+END_SRC
 
 ** Modos y Herramientas de Programación
@@ -189,7 +196,6 @@ Marco de autocompletado de texto para Emacs.
 + [[http://company-mode.github.io/][company-mode]] :: Marco de autocompletado de texto para Emacs.
 + [[https://github.com/smihica/emmet-mode][emmet-mode]] :: Escribir codigo xml mas rapido.
 
-
 * Configuración
 ** Apariencia
 Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
@@ -199,6 +205,11 @@ Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
   ;; (set-face-attribute 'default nil
   ;;                     :font "Fira Code"
   ;;                     :height 98 )
+
+  ;; Tipografia
+  (set-face-attribute 'default nil
+                      :font "Fira Code Nerd Font Mono" 
+                      :height 98 )
 
   ;; Ajustes 
   ;; Pantalla de inicio de emacs
@@ -239,13 +250,21 @@ Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
   ;;(add-to-list 'default-frame-alist '(alpha 85 85)) 
 
   ;; Tema
-  (use-package ample-theme
-    :init (progn (load-theme 'ample t t)
-                 (load-theme 'ample-flat t t)
-                 (load-theme 'ample-light t t)
-                 (enable-theme 'ample-flat))
-    :defer t
-    :ensure t)
+  ;; (use-package ample-theme
+  ;;   :init (progn (load-theme 'ample t t)
+  ;;                (load-theme 'ample-flat t t)
+  ;;                (load-theme 'ample-light t t)
+  ;;                (enable-theme 'ample-flat))
+  ;;   :defer t
+  ;;   :ensure t)
+  ;; (use-package underwater-theme)
+  ;; (use-package challenger-deep-theme)
+  ;; (use-package nord-theme)			  
+  ;; (use-package mood-one-theme)
+  ;; (use-package weyland-yutani-theme)
+  (use-package doom-themes :ensure t)
+  (load-theme 'doom-one)
+  ;; (load-theme 'wombat)
 
 #+END_SRC
 
@@ -257,8 +276,9 @@ Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
   ;; abrir archivo al iniciar
   (find-file "~/notes.org")             
   ;; eliminar elemento seleccionado   
-  (delete-selection-mode 1)		
-		
+  (delete-selection-mode 1)	
+  (setq-default indent-tabs-mode nil)	
+
 #+END_SRC
 
 ** Eshell
@@ -330,7 +350,6 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 
 #+END_SRC
 
-
 * Funciones
 ** Cerrar todos los buffer no activos
 Extraido de la [[https://www.emacswiki.org/emacs/KillingBuffers#toc2][wiki de emacs]]. Este paquete es reduntante con crux.
@@ -377,30 +396,15 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
 
 #+END_SRC
 
-
 * Custom Variables
 #+BEGIN_SRC elisp
 
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(package-selected-packages
-     (quote
-      (lua-mode company emmet-mode web-mode use-package rainbow-mode neotree magit ivy htmlize hl-todo exec-path-from-shell crux base16-theme ample-theme)))
-   '(tramp-backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))))
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(hl-todo ((t (:inherit hl-todo :italic t)))))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 #+END_SRC
 
-
-* Modificaciones de Prueba 
+* Modificaciones de Prueba
 #+BEGIN_SRC elisp 
 
   ;; -------------------- Pruebas --------------------

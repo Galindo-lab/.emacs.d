@@ -69,6 +69,10 @@
     (setq company-dabbrev-downcase nil))
   :diminish company-mode)
 
+(use-package company-lua)
+
+(use-package csv-mode)
+
 ;; para editar codigo html, css y js en el mismo archivo
 (use-package web-mode)
 
@@ -81,6 +85,11 @@
 ;; (set-face-attribute 'default nil
 ;;                     :font "Fira Code"
 ;;                     :height 98 )
+
+;; Tipografia
+(set-face-attribute 'default nil
+                    :font "Fira Code Nerd Font Mono" 
+                    :height 98 )
 
 ;; Ajustes 
 ;; Pantalla de inicio de emacs
@@ -112,42 +121,24 @@
 ;; mostrar batteria
 (display-battery-mode -1)
 
-;; Frame
-;; frame visible
-;;(set-frame-parameter (selected-frame) 'undecorated t) 
-;; fondo trasparente
-;;(set-frame-parameter (selected-frame) 'alpha '(95 95))
-;; transparencia del borde
-;;(add-to-list 'default-frame-alist '(alpha 85 85)) 
+(use-package doom-themes :ensure t)
+(load-theme 'doom-one)
 
-;; Tema
-(use-package ample-theme
-  :init (progn (load-theme 'ample t t)
-               (load-theme 'ample-flat t t)
-               (load-theme 'ample-light t t)
-               (enable-theme 'ample-flat))
-  :defer t
-  :ensure t)
-
-;; guardar escritorio
-;;(desktop-save-mode 1)                 
-;; abrir archivo al iniciar
 (find-file "~/notes.org")             
-;; eliminar elemento seleccionado   
-(delete-selection-mode 1)
+  
+(delete-selection-mode 1)	
+(setq-default indent-tabs-mode nil)
 
 (add-hook 'eshell-mode-hook
           (lambda (&rest _) 
             (display-line-numbers-mode -1)
             (visual-line-mode -1)))
 
-;; incluidas
 (global-set-key (kbd "C-x t") 'eshell)                                    
 (global-set-key (kbd "C-x j") 'neotree-toggle)                            
 (global-set-key (kbd "C-x <") 'ido-switch-buffer)                         
 (global-set-key (kbd "C-M-z") 'toggle-80-editting-columns-balanced)      
 
-;; Crux
 (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
 (global-set-key (kbd "C-,") 'crux-find-user-init-file)
 (global-set-key (kbd "C-x C-u") 'crux-upcase-region)
@@ -210,21 +201,8 @@
              (right (- change left)))
         (set-window-margins nil left right)))))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (lua-mode company emmet-mode web-mode use-package rainbow-mode neotree magit ivy htmlize hl-todo exec-path-from-shell crux base16-theme ample-theme)))
- '(tramp-backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(hl-todo ((t (:inherit hl-todo :italic t)))))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 ;; -------------------- Pruebas --------------------
 

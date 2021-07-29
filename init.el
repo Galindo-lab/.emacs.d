@@ -82,14 +82,14 @@
 (use-package lua-mode)
 
 ;; Tipografia
-;; (set-face-attribute 'default nil
-;;                     :font "Fira Code"
-;;                     :height 98 )
+(set-face-attribute 'default nil
+                    :font "Fira Code"
+                    :height 98 )
 
 ;; Tipografia
-(set-face-attribute 'default nil
-                    :font "Fira Code Nerd Font Mono" 
-                    :height 98 )
+;; (set-face-attribute 'default nil
+;;                     :font "Fira Code Nerd Font Mono" 
+;;                     :height 98 )
 
 ;; Ajustes 
 ;; Pantalla de inicio de emacs
@@ -122,7 +122,7 @@
 (display-battery-mode -1)
 
 (use-package doom-themes :ensure t)
-(load-theme 'doom-one)
+(load-theme 'doom-one t)
 
 (find-file "~/notes.org")             
   
@@ -212,3 +212,45 @@
   (interactive)
   (shell-command (concat "./eigenmath " buffer-file-name)))
 (global-set-key (kbd "<f9>") 'run-buffer)
+
+
+(use-package company
+ :ensure t
+ :config
+ (setq company-idle-delay 0
+       company-minimum-prefix-length 2
+       company-show-numbers t
+       company-tooltip-limit 10
+       company-tooltip-align-annotations t
+       ;; invert the navigation direction if the the completion popup-isearch-match
+       ;; is displayed on top (happens near the bottom of windows)
+       company-tooltip-flip-when-above t)
+ 
+ (global-company-mode t)
+ )
+
+(use-package anaconda-mode
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  ;;(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+  )
+(use-package company-anaconda
+  :ensure t
+  :init (require 'rx)
+  :after (company)
+  :config
+  (add-to-list 'company-backends 'company-anaconda)
+  )
+
+
+
+(use-package dashboard
+    :ensure t
+    :diminish dashboard-mode
+    :config
+    ;; (setq dashboard-banner-logo-title "your custom text")
+    ;; (setq dashboard-startup-banner "/path/to/image")
+    (setq dashboard-items '((recents  . 10)
+                            (bookmarks . 10)))
+    (dashboard-setup-startup-hook))

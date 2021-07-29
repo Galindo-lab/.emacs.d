@@ -18,6 +18,8 @@
 
 - mar 20 jul 2021 12:35:41 :: Añadidos algunos modos extra y tema doom-one es el default.
 
+- jue 29 jul 2021 13:47:50 :: Modo de python añadidos y dashboard agregado.
+
 ** Por hacer
 TODO: Instalar un engine de Snippets.
 
@@ -151,16 +153,75 @@ Marco de autocompletado de texto para Emacs.
       (setq company-dabbrev-downcase nil))
     :diminish company-mode)
 
+  (use-package company-quickhelp
+    ;; Quickhelp may incorrectly place tooltip towards end of buffer
+    ;; See: https://github.com/expez/company-quickhelp/issues/72
+    :ensure t
+    :config
+    (company-quickhelp-mode)
+    )
+  
+  ;; (use-package company
+  ;;  :ensure t
+  ;;  :config
+  ;;  (setq company-idle-delay 0
+  ;;        company-minimum-prefix-length 2
+  ;;        company-show-numbers t
+  ;;        company-tooltip-limit 10
+  ;;        company-tooltip-align-annotations t
+  ;;        ;; invert the navigation direction if the the completion popup-isearch-match
+  ;;        ;; is displayed on top (happens near the bottom of windows)
+  ;;        company-tooltip-flip-when-above t)
+
+  ;;  (global-company-mode t)
+  ;;  )
+
 #+END_SRC
 
 **** lua
 #+BEGIN_SRC elisp
+
 (use-package company-lua)
+
+#+END_SRC
+
+**** Python
+#+BEGIN_SRC elisp
+
+  (use-package anaconda-mode
+    :ensure t
+    :config
+    (add-hook 'python-mode-hook 'anaconda-mode)
+    ;;(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+    )
+
+  (use-package company-anaconda
+    :ensure t
+    :init (require 'rx)
+    :after (company)
+    :config
+    (add-to-list 'company-backends 'company-anaconda)
+    )
+
 #+END_SRC
 
 *** csv-mode
 #+BEGIN_SRC elisp
 (use-package csv-mode)
+#+END_SRC
+
+*** dashboard
+#+BEGIN_SRC elisp
+(use-package dashboard
+    :ensure t
+    :diminish dashboard-mode
+    :config
+    ;; (setq dashboard-banner-logo-title "your custom text")
+    ;; (setq dashboard-startup-banner "/path/to/image")
+    (setq dashboard-items '((recents  . 5)
+                            (bookmarks . 5)))
+    (dashboard-setup-startup-hook))
+
 #+END_SRC
 
 ** Modos y Herramientas de Programación
@@ -201,15 +262,15 @@ Marco de autocompletado de texto para Emacs.
 Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
 #+BEGIN_SRC elisp
 
-  ;; Tipografia
-  ;; (set-face-attribute 'default nil
-  ;;                     :font "Fira Code"
-  ;;                     :height 98 )
+  Tipografia
+  (set-face-attribute 'default nil
+                      :font "Fira Code"
+                      :height 98 )
 
   ;; Tipografia
-  (set-face-attribute 'default nil
-                      :font "Fira Code Nerd Font Mono" 
-                      :height 98 )
+  ;; (set-face-attribute 'default nil
+  ;;                     :font "Fira Code Nerd Font Mono" 
+  ;;                     :height 98 )
 
   ;; Ajustes 
   ;; Pantalla de inicio de emacs
@@ -263,7 +324,7 @@ Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
   ;; (use-package mood-one-theme)
   ;; (use-package weyland-yutani-theme)
   (use-package doom-themes :ensure t)
-  (load-theme 'doom-one)
+  (load-theme 'doom-one t)
   ;; (load-theme 'wombat)
 
 #+END_SRC

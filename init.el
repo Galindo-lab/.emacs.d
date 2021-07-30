@@ -53,7 +53,7 @@
   (setq neo-theme 'ascii
         neo-smart-open t
         neo-window-width 25
-        setq neo-window-fixed-size -1))
+        neo-window-fixed-size -1) )
 
 ;; desactivar los numeros y el warp de texto 
 (add-hook 'neo-after-create-hook
@@ -105,10 +105,12 @@
     :ensure t
     :diminish dashboard-mode
     :config
+    (setq dashboard-startup-banner 1)
+    (setq dashboard-center-content t)
     ;; (setq dashboard-banner-logo-title "your custom text")
     ;; (setq dashboard-startup-banner "/path/to/image")
-    (setq dashboard-items '((recents  . 5)
-                            (bookmarks . 5)))
+    (setq dashboard-items '((recents  . 10)
+                            (bookmarks . 10)))
     (dashboard-setup-startup-hook))
 
 ;; para editar codigo html, css y js en el mismo archivo

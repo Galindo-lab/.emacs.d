@@ -14,22 +14,27 @@
 (require 'use-package)
 
 ;; Asegurarse de que los paquetes simepre esten instalados
-(setq use-package-always-ensure t)
+;; (setq use-package-always-ensure t)
 
 (require 'recentf)
 (recentf-mode 1)
 
 (use-package ivy
+  :ensure t
   :config
   (ivy-mode 1))
 
-(use-package rainbow-mode)
+(use-package rainbow-mode
+  :ensure t)
 
-(use-package magit)
+(use-package magit
+  :ensure t)
 
-(use-package crux)
+(use-package crux
+  :ensure t)
 
 (use-package hl-todo
+  :ensure t
   :custom-face
   (hl-todo ((t (:inherit hl-todo :italic t))))
   :hook ((prog-mode . hl-todo-mode)
@@ -38,15 +43,17 @@
   :config
   (hl-todo-mode 1))
 
-(use-package htmlize)
+(use-package htmlize
+  :ensure t)
 
 ;; explorador de archivos 
 (use-package neotree
+  :ensure t
   :config
-  (setq neo-theme 'ascii)
-  (setq neo-smart-open t)
-  (setq neo-window-width 25)
-  (setq neo-window-fixed-size -1))
+  (setq neo-theme 'ascii
+        neo-smart-open t
+        neo-window-width 25
+        setq neo-window-fixed-size -1))
 
 ;; desactivar los numeros y el warp de texto 
 (add-hook 'neo-after-create-hook
@@ -54,24 +61,55 @@
             (display-line-numbers-mode -1)
             (visual-line-mode -1)))
 
+;; (use-package company
+;;   :ensure t
+;;   :defer t
+;;   :init (global-company-mode)
+;;   :config
+;;   (progn
+;;     ;; Use Company for completion
+;;     (bind-key [remap completion-at-point] #'company-complete company-mode-map)
+
+;;     (setq company-tooltip-align-annotations t
+;;           ;; Easy navigation to candidates with M-<n>
+;;           company-show-numbers t)
+;;     (setq company-dabbrev-downcase nil))
+;;   :diminish company-mode)
+
 (use-package company
+ :ensure t
+ :config
+ (setq company-idle-delay 0
+       company-minimum-prefix-length 2
+       company-show-numbers t
+       company-tooltip-limit 10
+       company-tooltip-align-annotations t
+       ;; invert the navigation direction if the the completion popup-isearch-match
+       ;; is displayed on top (happens near the bottom of windows)
+       company-tooltip-flip-when-above t)
+
+ (global-company-mode t)
+ )
+
+(use-package company-quickhelp
+  ;; Quickhelp may incorrectly place tooltip towards end of buffer
+  ;; See: https://github.com/expez/company-quickhelp/issues/72
   :ensure t
-  :defer t
-  :init (global-company-mode)
   :config
-  (progn
-    ;; Use Company for completion
-    (bind-key [remap completion-at-point] #'company-complete company-mode-map)
-
-    (setq company-tooltip-align-annotations t
-          ;; Easy navigation to candidates with M-<n>
-          company-show-numbers t)
-    (setq company-dabbrev-downcase nil))
-  :diminish company-mode)
-
-(use-package company-lua)
+  (company-quickhelp-mode)
+  )
 
 (use-package csv-mode)
+
+(use-package dashboard
+    :ensure t
+    :diminish dashboard-mode
+    :config
+    ;; (setq dashboard-banner-logo-title "your custom text")
+    ;; (setq dashboard-startup-banner "/path/to/image")
+    (setq dashboard-items '((recents  . 5)
+                            (bookmarks . 5)))
+    (dashboard-setup-startup-hook))
 
 ;; para editar codigo html, css y js en el mismo archivo
 (use-package web-mode)
@@ -81,15 +119,24 @@
 
 (use-package lua-mode)
 
-;; Tipografia
+(use-package anaconda-mode
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  ;;(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+  )
+
+(use-package company-anaconda
+  :ensure t
+  :init (require 'rx)
+  :after (company)
+  :config
+  (add-to-list 'company-backends 'company-anaconda)
+  )
+
 (set-face-attribute 'default nil
                     :font "Fira Code"
                     :height 98 )
-
-;; Tipografia
-;; (set-face-attribute 'default nil
-;;                     :font "Fira Code Nerd Font Mono" 
-;;                     :height 98 )
 
 ;; Ajustes 
 ;; Pantalla de inicio de emacs
@@ -124,8 +171,11 @@
 (use-package doom-themes :ensure t)
 (load-theme 'doom-one t)
 
-(find-file "~/notes.org")             
-  
+;; guardar escritorio
+;;(desktop-save-mode 1)                 
+;; abrir archivo al iniciar
+;; (find-file "~/notes.org")        
+;; eliminar elemento seleccionado   
 (delete-selection-mode 1)	
 (setq-default indent-tabs-mode nil)
 
@@ -134,11 +184,13 @@
             (display-line-numbers-mode -1)
             (visual-line-mode -1)))
 
+;; incluidas
 (global-set-key (kbd "C-x t") 'eshell)                                    
 (global-set-key (kbd "C-x j") 'neotree-toggle)                            
 (global-set-key (kbd "C-x <") 'ido-switch-buffer)                         
 (global-set-key (kbd "C-M-z") 'toggle-80-editting-columns-balanced)      
 
+;; Crux
 (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
 (global-set-key (kbd "C-,") 'crux-find-user-init-file)
 (global-set-key (kbd "C-x C-u") 'crux-upcase-region)
@@ -174,14 +226,6 @@
 (customize-set-variable
  'tramp-backup-directory-alist backup-directory-alist)
 
-;; (defun kill-other-buffers ()
-;;   "Kill all other buffers."
-;;   (interactive)
-;;   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
-;; (defun insert-current-date () (interactive)
-;;   (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
-
 (defun toggle-80-editting-columns ()
   "Set the right window margin so the edittable space is only 80 columns."
   (interactive)
@@ -204,53 +248,10 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-;; -------------------- Pruebas --------------------
-
-;; https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/
-
 (defun run-buffer ()
   (interactive)
   (shell-command (concat "./eigenmath " buffer-file-name)))
 (global-set-key (kbd "<f9>") 'run-buffer)
 
-
-(use-package company
- :ensure t
- :config
- (setq company-idle-delay 0
-       company-minimum-prefix-length 2
-       company-show-numbers t
-       company-tooltip-limit 10
-       company-tooltip-align-annotations t
-       ;; invert the navigation direction if the the completion popup-isearch-match
-       ;; is displayed on top (happens near the bottom of windows)
-       company-tooltip-flip-when-above t)
- 
- (global-company-mode t)
- )
-
-(use-package anaconda-mode
-  :ensure t
-  :config
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  ;;(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-  )
-(use-package company-anaconda
-  :ensure t
-  :init (require 'rx)
-  :after (company)
-  :config
-  (add-to-list 'company-backends 'company-anaconda)
-  )
-
-
-
-(use-package dashboard
-    :ensure t
-    :diminish dashboard-mode
-    :config
-    ;; (setq dashboard-banner-logo-title "your custom text")
-    ;; (setq dashboard-startup-banner "/path/to/image")
-    (setq dashboard-items '((recents  . 10)
-                            (bookmarks . 10)))
-    (dashboard-setup-startup-hook))
+(setq scroll-step            1
+      scroll-conservatively  10000)

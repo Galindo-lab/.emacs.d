@@ -20,6 +20,8 @@
 
 - jue 29 jul 2021 13:47:50 :: Modo de python añadidos y dashboard agregado.
 
+- vie 30 jul 2021 17:23:12 :: Reorganizado.
+
 ** Por hacer
 TODO: Instalar un engine de Snippets.
 
@@ -43,7 +45,7 @@ TODO: Instalar un engine de Snippets.
   (require 'use-package)
 
   ;; Asegurarse de que los paquetes simepre esten instalados
-  (setq use-package-always-ensure t)
+  ;; (setq use-package-always-ensure t)
 
 #+END_SRC
 
@@ -62,6 +64,7 @@ Autocompletado en el minibufer.
 #+BEGIN_SRC elisp
 
   (use-package ivy
+    :ensure t
     :config
     (ivy-mode 1))
 
@@ -71,7 +74,8 @@ Autocompletado en el minibufer.
 Colorear los valores RGB.
 #+BEGIN_SRC elisp
 
-  (use-package rainbow-mode)
+  (use-package rainbow-mode
+    :ensure t)
 
 #+END_SRC
 
@@ -79,7 +83,8 @@ Colorear los valores RGB.
 Getor de git para emacs.
 #+BEGIN_SRC elisp
 
-  (use-package magit)
+  (use-package magit
+    :ensure t)
 
 #+END_SRC
 
@@ -87,7 +92,8 @@ Getor de git para emacs.
 Collection of Ridiculously Useful eXtensions for Emacs.
 #+BEGIN_SRC elisp
 
-  (use-package crux)
+  (use-package crux
+    :ensure t)
 
 #+END_SRC
 
@@ -96,6 +102,7 @@ Resalta palabras como "TODO, NOTE, FIXME...".
 #+BEGIN_SRC elisp
 
   (use-package hl-todo
+    :ensure t
     :custom-face
     (hl-todo ((t (:inherit hl-todo :italic t))))
     :hook ((prog-mode . hl-todo-mode)
@@ -110,7 +117,8 @@ Resalta palabras como "TODO, NOTE, FIXME...".
 Convierte source blocks a html.
 #+BEGIN_SRC elisp
 
-  (use-package htmlize)
+  (use-package htmlize
+    :ensure t)
 
 #+END_SRC
 
@@ -120,11 +128,12 @@ Muestra los folders en la sidebar.
 
   ;; explorador de archivos 
   (use-package neotree
+    :ensure t
     :config
-    (setq neo-theme 'ascii)
-    (setq neo-smart-open t)
-    (setq neo-window-width 25)
-    (setq neo-window-fixed-size -1))
+    (setq neo-theme 'ascii
+          neo-smart-open t
+          neo-window-width 25
+          neo-window-fixed-size -1))
 
   ;; desactivar los numeros y el warp de texto 
   (add-hook 'neo-after-create-hook
@@ -138,20 +147,35 @@ Muestra los folders en la sidebar.
 Marco de autocompletado de texto para Emacs.
 #+BEGIN_SRC elisp
 
-  (use-package company
-    :ensure t
-    :defer t
-    :init (global-company-mode)
-    :config
-    (progn
-      ;; Use Company for completion
-      (bind-key [remap completion-at-point] #'company-complete company-mode-map)
+  ;; (use-package company
+  ;;   :ensure t
+  ;;   :defer t
+  ;;   :init (global-company-mode)
+  ;;   :config
+  ;;   (progn
+  ;;     ;; Use Company for completion
+  ;;     (bind-key [remap completion-at-point] #'company-complete company-mode-map)
 
-      (setq company-tooltip-align-annotations t
-            ;; Easy navigation to candidates with M-<n>
-            company-show-numbers t)
-      (setq company-dabbrev-downcase nil))
-    :diminish company-mode)
+  ;;     (setq company-tooltip-align-annotations t
+  ;;           ;; Easy navigation to candidates with M-<n>
+  ;;           company-show-numbers t)
+  ;;     (setq company-dabbrev-downcase nil))
+  ;;   :diminish company-mode)
+
+  (use-package company
+   :ensure t
+   :config
+   (setq company-idle-delay 0
+         company-minimum-prefix-length 2
+         company-show-numbers t
+         company-tooltip-limit 10
+         company-tooltip-align-annotations t
+         ;; invert the navigation direction if the the completion popup-isearch-match
+         ;; is displayed on top (happens near the bottom of windows)
+         company-tooltip-flip-when-above t)
+
+   (global-company-mode t)
+   )
 
   (use-package company-quickhelp
     ;; Quickhelp may incorrectly place tooltip towards end of buffer
@@ -159,48 +183,6 @@ Marco de autocompletado de texto para Emacs.
     :ensure t
     :config
     (company-quickhelp-mode)
-    )
-  
-  ;; (use-package company
-  ;;  :ensure t
-  ;;  :config
-  ;;  (setq company-idle-delay 0
-  ;;        company-minimum-prefix-length 2
-  ;;        company-show-numbers t
-  ;;        company-tooltip-limit 10
-  ;;        company-tooltip-align-annotations t
-  ;;        ;; invert the navigation direction if the the completion popup-isearch-match
-  ;;        ;; is displayed on top (happens near the bottom of windows)
-  ;;        company-tooltip-flip-when-above t)
-
-  ;;  (global-company-mode t)
-  ;;  )
-
-#+END_SRC
-
-**** lua
-#+BEGIN_SRC elisp
-
-(use-package company-lua)
-
-#+END_SRC
-
-**** Python
-#+BEGIN_SRC elisp
-
-  (use-package anaconda-mode
-    :ensure t
-    :config
-    (add-hook 'python-mode-hook 'anaconda-mode)
-    ;;(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-    )
-
-  (use-package company-anaconda
-    :ensure t
-    :init (require 'rx)
-    :after (company)
-    :config
-    (add-to-list 'company-backends 'company-anaconda)
     )
 
 #+END_SRC
@@ -243,6 +225,26 @@ Marco de autocompletado de texto para Emacs.
 
 #+END_SRC
 
+*** Python (anaconda)
+#+BEGIN_SRC elisp
+
+  (use-package anaconda-mode
+    :ensure t
+    :config
+    (add-hook 'python-mode-hook 'anaconda-mode)
+    ;;(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+    )
+
+  (use-package company-anaconda
+    :ensure t
+    :init (require 'rx)
+    :after (company)
+    :config
+    (add-to-list 'company-backends 'company-anaconda)
+    )
+
+#+END_SRC
+
 ** Documentación
 + [[https://github.com/tarsius/hl-todo][h1-todo]] :: resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
 + [[https://github.com/bbatsov/crux][crux]] :: Añade un montón de funciones extra a emacs.
@@ -256,21 +258,16 @@ Marco de autocompletado de texto para Emacs.
 + [[https://web-mode.org/][web-mode]] :: Permite editar en los lenguajes de la web dentro del mismo archivo.
 + [[http://company-mode.github.io/][company-mode]] :: Marco de autocompletado de texto para Emacs.
 + [[https://github.com/smihica/emmet-mode][emmet-mode]] :: Escribir codigo xml mas rapido.
++ [[https://github.com/pythonic-emacs/anaconda-mode][anaconda-mode]] :: Python completation.
 
 * Configuración
 ** Apariencia
 Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
 #+BEGIN_SRC elisp
 
-  Tipografia
   (set-face-attribute 'default nil
                       :font "Fira Code"
                       :height 98 )
-
-  ;; Tipografia
-  ;; (set-face-attribute 'default nil
-  ;;                     :font "Fira Code Nerd Font Mono" 
-  ;;                     :height 98 )
 
   ;; Ajustes 
   ;; Pantalla de inicio de emacs
@@ -302,31 +299,42 @@ Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
   ;; mostrar batteria
   (display-battery-mode -1)
 
-  ;; Frame
-  ;; frame visible
-  ;;(set-frame-parameter (selected-frame) 'undecorated t) 
-  ;; fondo trasparente
-  ;;(set-frame-parameter (selected-frame) 'alpha '(95 95))
-  ;; transparencia del borde
-  ;;(add-to-list 'default-frame-alist '(alpha 85 85)) 
+#+END_SRC
 
-  ;; Tema
-  ;; (use-package ample-theme
-  ;;   :init (progn (load-theme 'ample t t)
-  ;;                (load-theme 'ample-flat t t)
-  ;;                (load-theme 'ample-light t t)
-  ;;                (enable-theme 'ample-flat))
-  ;;   :defer t
-  ;;   :ensure t)
-  ;; (use-package underwater-theme)
-  ;; (use-package challenger-deep-theme)
-  ;; (use-package nord-theme)			  
-  ;; (use-package mood-one-theme)
-  ;; (use-package weyland-yutani-theme)
+** Frame
+#+BEGIN_SRC elisp :tangle no
+
+  ;; frame visible
+  (set-frame-parameter (selected-frame) 'undecorated t) 
+  ;; fondo trasparente
+  (set-frame-parameter (selected-frame) 'alpha '(95 95))
+  ;; transparencia del borde
+  (add-to-list 'default-frame-alist '(alpha 85 85)) 
+
+#+END_SRC
+
+** Tema
+#+BEGIN_SRC elisp
+ 
   (use-package doom-themes :ensure t)
   (load-theme 'doom-one t)
-  ;; (load-theme 'wombat)
 
+#+END_SRC
+
+#+BEGIN_SRC elisp :tangle no
+  (use-package ample-theme
+    :init (progn (load-theme 'ample t t)
+                 (load-theme 'ample-flat t t)
+                 (load-theme 'ample-light t t)
+                 (enable-theme 'ample-flat))
+    :defer t
+    :ensure t)
+  (use-package underwater-theme)
+  (use-package challenger-deep-theme)
+  (use-package nord-theme)			  
+  (use-package mood-one-theme)
+  (use-package weyland-yutani-theme)
+  (load-theme 'wombat)
 #+END_SRC
 
 ** Comportamiento
@@ -335,7 +343,7 @@ Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
   ;; guardar escritorio
   ;;(desktop-save-mode 1)                 
   ;; abrir archivo al iniciar
-  (find-file "~/notes.org")             
+  ;; (find-file "~/notes.org")        
   ;; eliminar elemento seleccionado   
   (delete-selection-mode 1)	
   (setq-default indent-tabs-mode nil)	
@@ -414,21 +422,21 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 * Funciones
 ** Cerrar todos los buffer no activos
 Extraido de la [[https://www.emacswiki.org/emacs/KillingBuffers#toc2][wiki de emacs]]. Este paquete es reduntante con crux.
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :tangle no
 
-    ;; (defun kill-other-buffers ()
-    ;;   "Kill all other buffers."
-    ;;   (interactive)
-    ;;   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+  (defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 #+END_SRC
 
 ** Insertar la fecha del sistema
 extraido de la [[https://www.emacswiki.org/emacs/InsertingTodaysDate][wiki de emacs]]. Este paquete es reduntante con crux.
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :tangle no
 
-  ;; (defun insert-current-date () (interactive)
-  ;;   (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
+  (defun insert-current-date () (interactive)
+    (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
 
 #+END_SRC
 
@@ -457,7 +465,7 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
 
 #+END_SRC
 
-* Custom Variables
+* External file
 #+BEGIN_SRC elisp
 
 (setq custom-file "~/.emacs.d/custom.el")
@@ -466,15 +474,21 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
 #+END_SRC
 
 * Modificaciones de Prueba
+** Programas externos 
+[[https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/][Reddit - how_would_i_make_a_keybinding_run_a_shell_command]]
 #+BEGIN_SRC elisp 
-
-  ;; -------------------- Pruebas --------------------
-
-  ;; https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/
 
   (defun run-buffer ()
     (interactive)
     (shell-command (concat "./eigenmath " buffer-file-name)))
   (global-set-key (kbd "<f9>") 'run-buffer)
+
+#+END_SRC
+
+** scolling suave
+#+BEGIN_SRC elisp
+
+  (setq scroll-step            1
+        scroll-conservatively  10000)
 
 #+END_SRC

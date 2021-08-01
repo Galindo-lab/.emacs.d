@@ -13,10 +13,6 @@
 
 (require 'use-package)
 
-;; Asegurarse de que los paquetes simepre esten instalados
-;; (setq use-package-always-ensure t)
-
-
 (require 'recentf)
 (recentf-mode 1)
 
@@ -62,43 +58,24 @@
             (display-line-numbers-mode -1)
             (visual-line-mode -1)))
 
-;; (use-package company
-;;   :ensure t
-;;   :defer t
-;;   :init (global-company-mode)
-;;   :config
-;;   (progn
-;;     ;; Use Company for completion
-;;     (bind-key [remap completion-at-point] #'company-complete company-mode-map)
-
-;;     (setq company-tooltip-align-annotations t
-;;           ;; Easy navigation to candidates with M-<n>
-;;           company-show-numbers t)
-;;     (setq company-dabbrev-downcase nil))
-;;   :diminish company-mode)
-
 (use-package company
  :ensure t
+ :init (global-company-mode)
  :config
  (setq company-idle-delay 0
        company-minimum-prefix-length 2
        company-show-numbers t
        company-tooltip-limit 10
        company-tooltip-align-annotations t
-       ;; invert the navigation direction if the the completion popup-isearch-match
-       ;; is displayed on top (happens near the bottom of windows)
        company-tooltip-flip-when-above t)
 
- (global-company-mode t)
+ ;; (global-company-mode t)
  )
 
 (use-package company-quickhelp
-  ;; Quickhelp may incorrectly place tooltip towards end of buffer
-  ;; See: https://github.com/expez/company-quickhelp/issues/72
   :ensure t
   :config
-  (company-quickhelp-mode)
-  )
+  (company-quickhelp-mode))
 
 (use-package csv-mode
   :ensure t)
@@ -145,46 +122,27 @@
                     :font "Fira Code"
                     :height 98 )
 
-;; Ajustes 
-;; Pantalla de inicio de emacs
-(setq inhibit-startup-message t)
-;; numeros de linea
-(global-display-line-numbers-mode t)
-;; scroll bars visibles
-(scroll-bar-mode -1)
-;; barra de herramientas visisles
-(tool-bar-mode -1)
-;; menu de herramientas visible
-(menu-bar-mode -1)
-;; espacio entre el frame y el buffer	   
-(set-fringe-mode 10)
-;; separar lineas 
-(global-visual-line-mode 1)
-;; tipo del cursor
-(setq-default cursor-type 'bar)
-;; tamaño del tab
-(setq-default tab-width 4)
+(setq inhibit-startup-message t)        ;Pantalla de inicio de emacs
+(global-display-line-numbers-mode t)    ;numeros de linea 
+(set-fringe-mode 10)                    ;espacio entre el frame y el buffer
+(global-visual-line-mode 1)             ;separar lineas 
+(setq-default cursor-type 'bar)         ;tipo del cursor
+(setq-default tab-width 4)              ;tamaño del tab
+(tool-bar-mode -1)                      ;barra de herramientas visisles
+(menu-bar-mode -1)                      ;menu de herramientas visible
+(setq column-number-mode t)             ;numero de columna en el modeline
+(line-number-mode t)                    ;numero de fila en el modeline
+(scroll-bar-mode -1)                    ;scroll bars visibles
 
-;; Mode line
-;; numero de columna
-(setq column-number-mode t)
-;; numero de fila
-(line-number-mode t)
-;; mostrar la hora             
-(display-time-mode -1)
-;; mostrar batteria
-(display-battery-mode -1)
+(use-package doom-themes 
+  :ensure t
+  :init (load-theme 'doom-one t))
 
-(use-package doom-themes :ensure t)
-(load-theme 'doom-one t)
-
-;; guardar escritorio
-;;(desktop-save-mode 1)                 
-;; abrir archivo al iniciar
-;; (find-file "~/notes.org")        
 ;; eliminar elemento seleccionado   
 (delete-selection-mode 1)	
-(setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)	
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 (add-hook 'eshell-mode-hook
           (lambda (&rest _) 
@@ -227,72 +185,6 @@
 (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
 (setq org-babel-python-command "python3")
 
-;; (defun org-icons ()
-  ;;   "Beautify org mode keywords."
-  ;;   (setq prettify-symbols-alist '(("=>" . "⟹")
-  ;;                                  ("<=" . "⟸")
-  ;;                                  ("->" . "⟶")
-  ;;                                  ("<-" . "⟵")))
-;;   (prettify-symbols-mode))
-(setq global-prettify-symbols-mode t)
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (push '("->" . ?⟶) prettify-symbols-alist)
-            (prettify-symbols-mode)))
-
-(add-hook 'lua-mode-hook
-          (lambda ()
-            (push '("->" . ?→) prettify-symbols-alist)))
-
-
-;; (defun configure-prettify-symbols-alist ()
-;;   "Set prettify symbols alist."
-;;   (setq prettify-symbols-alist '(("lambda" . "λ")
-;;                                  ("->" . "→")
-;;                                  ;; ("->>" . ?↠)
-;;                                  ;; ("=>" . ?⇒)
-;;                                  ;; ("map" . ?↦)
-;;                                  ;; ("/=" . ?≠)
-;;                                  ;; ("!=" . ?≠)
-;;                                  ;; ("==" . ?≡)
-;;                                  ;; ("<=" . ?≤)
-;;                                  ;; (">=" . ?≥)
-;;                                  ;; ("=<<" . ?=≪)
-;;                                  ;; (">>=" . ?≫=)
-;;                                  ;; ("<=<" . ?↢)
-;;                                  ;; (">=>" . ?↣)
-;;                                  ;; ("&&" . ?∧)
-;;                                  ;; ("||" . ?∨)
-;;                                  ("not" . "¬"))))
-
-;; (defun prettify-set ()
-;;   (setq prettify-symbols-alist
-;;         (prettify-utils-generate
-;;          ("lambda"	"λ")
-;;          ("|>"		"▷")
-;;          ("<|"		"◁")
-;;          ("->>"		"↠")
-;;          ("->"		"→")
-;;          ("<-"		"←")
-;;          ("=>"		"⇒")
-;;          ("<="		"≤")
-;;          (">="		"≥")
-;;          )))
-
- ;; (setq prettify-symbols-alist
- ;;        (prettify-utils-generate
- ;;         ("lambda"	"λ")
- ;;         ("|>"		"▷")
- ;;         ("<|"		"◁")
- ;;         ("->>"		"↠")
- ;;         ("->"		"→")
- ;;         ("<-"		"←")
- ;;         ("=>"		"⇒")
- ;;         ("<="		"≤")
- ;;         (">="		"≥")
- ;;         ))
-
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
 
@@ -317,9 +209,6 @@
              (left (/ change 2))
              (right (- change left)))
         (set-window-margins nil left right)))))
-
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
 
 (defun run-buffer ()
   (interactive)

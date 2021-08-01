@@ -6,25 +6,18 @@
 #+LANGUAGE: es
 #+PROPERTY: header-args :tangle init.el
 
-
-
 * Notas 
 ** Bitácora
 - lun 07 jun 2021 21:14:39 :: Este es mi primer config de emacs, anteriormente ya habia hecho una pero era cuando notenia tanto conocimiento sobre este editor y todo lo que es capaz de hacer, depues de usar doom emacs por algunos meses pude apreder todo lo que es capaz de hacer he decidido volver a intentarlo, este es el resultado.
-
-- lun 21 jun 2021 14:13:35 :: Añadi unas funciones para exportar a html desde org, estos dias he estado trabajando en mi blog por lo tanto las necesito.
-
+- lun 21 jun 2021 14:13:35 :: Añadí unas funciones para exportar a html desde org, estos dias he estado trabajando en mi blog por lo tanto las necesito.
 - sáb 10 jul 2021 17:27:35 :: Este init file se esta volviendo muy largo, tendre que buscar otra organizacion para gestionarlo. Uno de los objetivos principales de este init es que sea que sea un unico archivo.
-
 - sáb 10 jul 2021 20:26:11 :: Ya terminé de reorganizar el init file ahora es más especifico.
-
 - mar 20 jul 2021 12:35:41 :: Añadidos algunos modos extra y tema doom-one es el default.
-
 - jue 29 jul 2021 13:47:50 :: Modo de python añadidos y dashboard agregado.
-
 - vie 30 jul 2021 17:23:12 :: Reorganizado.
+- dom 01 ago 2021 12:58:54 :: Reorganizado.
 
-** tips 
+** Informacion 
 *** Expancion de code blocks
 |------------------------+-----------------------------------------|
 | Typing the below + TAB | Expands to …                            |
@@ -41,8 +34,25 @@
 | <v                     | ’#+BEGIN_VERSE’ … ‘#+END_VERSE’         |
 |------------------------+-----------------------------------------|
 
-** Por hacer
-TODO: Instalar un engine de Snippet
+*** Documentación
++ [[https://github.com/tarsius/hl-todo][h1-todo]] :: resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
++ [[https://github.com/bbatsov/crux][crux]] :: Añade un montón de funciones extra a emacs.
++ [[https://github.com/magit/magit][magit]] :: Cliente de GIT en emacs. 
++ [[https://github.com/emacsmirror/rainbow-mode][rainbow-mode]] :: Muestra los colores hex en el buffer (aparentemente no hay mucha documentación de este paquete).
++ [[https://github.com/jaypei/emacs-neotree][neotree]] :: Muestra los folders en la sidebar.
++ [[https://github.com/abo-abo/swiper][ivy]] :: Frontend de auto completado en emacs.
++ [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]] :: Los mejores color themes para emacs.
++ [[https://github.com/hniksic/emacs-htmlize][htmlize]] :: Convierte el texto del búfer y las decoraciones asociadas a HTML.
++ [[https://github.com/jordonbiondo/ample-theme][ample themes]] :: Temas bonitos.
++ [[https://web-mode.org/][web-mode]] :: Permite editar en los lenguajes de la web dentro del mismo archivo.
++ [[http://company-mode.github.io/][company-mode]] :: Marco de autocompletado de texto para Emacs.
++ [[https://github.com/smihica/emmet-mode][emmet-mode]] :: Escribir codigo xml mas rapido.
++ [[https://github.com/pythonic-emacs/anaconda-mode][anaconda-mode]] :: Python completation.
++ [[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] :: pantalla de inicio.
+
+** TODO
+- [ ] Instalar un engine de Snippet
+
 * Paquetes
 ** Fuentes
 #+BEGIN_SRC elisp
@@ -61,9 +71,6 @@ TODO: Instalar un engine de Snippet
     (package-install 'use-package))
 
   (require 'use-package)
-
-  ;; Asegurarse de que los paquetes simepre esten instalados
-  ;; (setq use-package-always-ensure t)
 
 #+END_SRC
 
@@ -165,43 +172,24 @@ Muestra los folders en la sidebar.
 Marco de autocompletado de texto para Emacs.
 #+BEGIN_SRC elisp
 
-  ;; (use-package company
-  ;;   :ensure t
-  ;;   :defer t
-  ;;   :init (global-company-mode)
-  ;;   :config
-  ;;   (progn
-  ;;     ;; Use Company for completion
-  ;;     (bind-key [remap completion-at-point] #'company-complete company-mode-map)
-
-  ;;     (setq company-tooltip-align-annotations t
-  ;;           ;; Easy navigation to candidates with M-<n>
-  ;;           company-show-numbers t)
-  ;;     (setq company-dabbrev-downcase nil))
-  ;;   :diminish company-mode)
-
   (use-package company
    :ensure t
+   :init (global-company-mode)
    :config
    (setq company-idle-delay 0
          company-minimum-prefix-length 2
          company-show-numbers t
          company-tooltip-limit 10
          company-tooltip-align-annotations t
-         ;; invert the navigation direction if the the completion popup-isearch-match
-         ;; is displayed on top (happens near the bottom of windows)
          company-tooltip-flip-when-above t)
 
-   (global-company-mode t)
+   ;; (global-company-mode t)
    )
 
   (use-package company-quickhelp
-    ;; Quickhelp may incorrectly place tooltip towards end of buffer
-    ;; See: https://github.com/expez/company-quickhelp/issues/72
     :ensure t
     :config
-    (company-quickhelp-mode)
-    )
+    (company-quickhelp-mode))
 
 #+END_SRC
 
@@ -269,79 +257,60 @@ Marco de autocompletado de texto para Emacs.
 
 #+END_SRC
 
-** Documentación
-+ [[https://github.com/tarsius/hl-todo][h1-todo]] :: resalta palabras como "TODO, NOTE, FIXME..." [[https://www.reddit.com/r/emacs/comments/f8tox6/todo_highlighting/][extraido de aqui]].
-+ [[https://github.com/bbatsov/crux][crux]] :: Añade un montón de funciones extra a emacs.
-+ [[https://github.com/magit/magit][magit]] :: Cliente de GIT en emacs. 
-+ [[https://github.com/emacsmirror/rainbow-mode][rainbow-mode]] :: Muestra los colores hex en el buffer (aparentemente no hay mucha documentación de este paquete).
-+ [[https://github.com/jaypei/emacs-neotree][neotree]] :: Muestra los folders en la sidebar.
-+ [[https://github.com/abo-abo/swiper][ivy]] :: Frontend de auto completado en emacs.
-+ [[https://github.com/owainlewis/emacs-color-themes][Emacs themes]] :: Los mejores color themes para emacs.
-+ [[https://github.com/hniksic/emacs-htmlize][htmlize]] :: Convierte el texto del búfer y las decoraciones asociadas a HTML.
-+ [[https://github.com/jordonbiondo/ample-theme][ample themes]] :: Temas bonitos.
-+ [[https://web-mode.org/][web-mode]] :: Permite editar en los lenguajes de la web dentro del mismo archivo.
-+ [[http://company-mode.github.io/][company-mode]] :: Marco de autocompletado de texto para Emacs.
-+ [[https://github.com/smihica/emmet-mode][emmet-mode]] :: Escribir codigo xml mas rapido.
-+ [[https://github.com/pythonic-emacs/anaconda-mode][anaconda-mode]] :: Python completation.
-
 * Configuración
-** Apariencia
-Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
+** Tipografia
 #+BEGIN_SRC elisp
 
   (set-face-attribute 'default nil
                       :font "Fira Code"
                       :height 98 )
 
-  ;; Ajustes 
-  ;; Pantalla de inicio de emacs
-  (setq inhibit-startup-message t)
-  ;; numeros de linea
-  (global-display-line-numbers-mode t)
-  ;; scroll bars visibles
-  (scroll-bar-mode -1)
-  ;; barra de herramientas visisles
-  (tool-bar-mode -1)
-  ;; menu de herramientas visible
-  (menu-bar-mode -1)
-  ;; espacio entre el frame y el buffer	   
-  (set-fringe-mode 10)
-  ;; separar lineas 
-  (global-visual-line-mode 1)
-  ;; tipo del cursor
-  (setq-default cursor-type 'bar)
-  ;; tamaño del tab
-  (setq-default tab-width 4)
+#+END_SRC
 
-  ;; Mode line
-  ;; numero de columna
-  (setq column-number-mode t)
-  ;; numero de fila
-  (line-number-mode t)
-  ;; mostrar la hora             
-  (display-time-mode -1)
-  ;; mostrar batteria
-  (display-battery-mode -1)
+** Apariencia
+#+BEGIN_SRC elisp
+
+  (setq inhibit-startup-message t)        ;Pantalla de inicio de emacs
+  (global-display-line-numbers-mode t)    ;numeros de linea 
+  (set-fringe-mode 10)                    ;espacio entre el frame y el buffer
+  (global-visual-line-mode 1)             ;separar lineas 
+  (setq-default cursor-type 'bar)         ;tipo del cursor
+  (setq-default tab-width 4)              ;tamaño del tab
+  (tool-bar-mode -1)                      ;barra de herramientas visisles
+  (menu-bar-mode -1)                      ;menu de herramientas visible
+  (setq column-number-mode t)             ;numero de columna en el modeline
+  (line-number-mode t)                    ;numero de fila en el modeline
+  (scroll-bar-mode -1)                    ;scroll bars visibles
+
+#+END_SRC
+
+#+BEGIN_SRC elisp :tangle no
+
+  (display-time-mode -1)                  ;mostrar la hora
+  (display-battery-mode -1)               ;mostrar batteria
 
 #+END_SRC
 
 ** Frame
 #+BEGIN_SRC elisp :tangle no
 
-  ;; frame visible
-  (set-frame-parameter (selected-frame) 'undecorated t) 
-  ;; fondo trasparente
-  (set-frame-parameter (selected-frame) 'alpha '(95 95))
-  ;; transparencia del borde
-  (add-to-list 'default-frame-alist '(alpha 85 85)) 
+  (set-frame-parameter                    ;frame visible
+   (selected-frame) 'undecorated t) 
+
+  (set-frame-parameter                    ;fondo trasparente
+   (selected-frame) 'alpha '(95 95))
+
+  (add-to-list                            ;transparencia del borde
+   'default-frame-alist '(alpha 85 85)) 
 
 #+END_SRC
 
 ** Tema
 #+BEGIN_SRC elisp
- 
-  (use-package doom-themes :ensure t)
-  (load-theme 'doom-one t)
+
+    (use-package doom-themes 
+      :ensure t
+      :init (load-theme 'doom-one t))
 
 #+END_SRC
 
@@ -364,13 +333,18 @@ Ajustes visuales que no afectan de ninguna forma el comportamiento del editor
 ** Comportamiento
 #+BEGIN_SRC elisp
 
-  ;; guardar escritorio
-  ;;(desktop-save-mode 1)                 
-  ;; abrir archivo al iniciar
-  ;; (find-file "~/notes.org")        
   ;; eliminar elemento seleccionado   
   (delete-selection-mode 1)	
   (setq-default indent-tabs-mode nil)	
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load custom-file)
+
+#+END_SRC
+
+#+BEGIN_SRC elisp :tangle no
+
+  (desktop-save-mode 1)                   ;  guardar escritorio
+  (find-file "~/notes.org")               ;  abrir archivo al iniciar
 
 #+END_SRC
 
@@ -428,36 +402,6 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
   ;; Babel
   (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
   (setq org-babel-python-command "python3")
-
-#+END_SRC
-
-** prettify simbols
-#+BEGIN_SRC elisp
-
-
-    ;; (defun org-icons ()
-    ;;   "Beautify org mode keywords."
-    ;;   (setq prettify-symbols-alist '(("=>" . "⟹")
-    ;;                                  ("<=" . "⟸")
-    ;;                                  ("->" . "⟶")
-    ;;                                  ("<-" . "⟵")))
-    ;;   (prettify-symbols-mode))
-
-  (defun prettify-set ()
-    (setq prettify-symbols-alist
-          (prettify-utils-generate
-           ("lambda"	"λ")
-           ("|>"		"▷")
-           ("<|"		"◁")
-           ("->>"		"↠")
-           ("->"		"→")
-           ("<-"		"←")
-           ("=>"		"⇒")
-           ("<="		"≤")
-           (">="		"≥")
-           )))
-
-
 
 #+END_SRC
 
@@ -519,16 +463,8 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
 
 #+END_SRC
 
-* External file
-#+BEGIN_SRC elisp
-
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
-
-#+END_SRC
-
 * Modificaciones de Prueba
-** Programas externos 
+** Programas externos
 [[https://www.reddit.com/r/emacs/comments/98prqr/how_would_i_make_a_keybinding_run_a_shell_command/][Reddit - how_would_i_make_a_keybinding_run_a_shell_command]]
 #+BEGIN_SRC elisp 
 
@@ -544,5 +480,34 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
 
   (setq scroll-step            1
         scroll-conservatively  10000)
+
+#+END_SRC
+** prettify simbols
+#+BEGIN_SRC elisp :tangle no
+
+
+    ;; (defun org-icons ()
+    ;;   "Beautify org mode keywords."
+    ;;   (setq prettify-symbols-alist '(("=>" . "⟹")
+    ;;                                  ("<=" . "⟸")
+    ;;                                  ("->" . "⟶")
+    ;;                                  ("<-" . "⟵")))
+    ;;   (prettify-symbols-mode))
+
+  ;; (defun prettify-set ()
+  ;;   (setq prettify-symbols-alist
+  ;;         (prettify-utils-generate
+  ;;          ("lambda"	"λ")
+  ;;          ("|>"		"▷")
+  ;;          ("<|"		"◁")
+  ;;          ("->>"		"↠")
+  ;;          ("->"		"→")
+  ;;          ("<-"		"←")
+  ;;          ("=>"		"⇒")
+  ;;          ("<="		"≤")
+  ;;          (">="		"≥")
+  ;;          )))
+
+
 
 #+END_SRC

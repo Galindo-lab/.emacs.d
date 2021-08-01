@@ -6,6 +6,8 @@
 #+LANGUAGE: es
 #+PROPERTY: header-args :tangle init.el
 
+
+
 * Notas 
 ** Bitácora
 - lun 07 jun 2021 21:14:39 :: Este es mi primer config de emacs, anteriormente ya habia hecho una pero era cuando notenia tanto conocimiento sobre este editor y todo lo que es capaz de hacer, depues de usar doom emacs por algunos meses pude apreder todo lo que es capaz de hacer he decidido volver a intentarlo, este es el resultado.
@@ -22,9 +24,25 @@
 
 - vie 30 jul 2021 17:23:12 :: Reorganizado.
 
-** Por hacer
-TODO: Instalar un engine de Snippets.
+** tips 
+*** Expancion de code blocks
+|------------------------+-----------------------------------------|
+| Typing the below + TAB | Expands to …                            |
+|------------------------+-----------------------------------------|
+| <a                     | ’#+BEGIN_EXPORT ascii’ … ‘#+END_EXPORT  |
+| <c                     | ’#+BEGIN_CENTER’ … ‘#+END_CENTER’       |
+| <C                     | ’#+BEGIN_COMMENT’ … ‘#+END_COMMENT’     |
+| <e                     | ’#+BEGIN_EXAMPLE’ … ‘#+END_EXAMPLE’     |
+| <E                     | ’#+BEGIN_EXPORT’ … ‘#+END_EXPORT’       |
+| <h                     | ’#+BEGIN_EXPORT html’ … ‘#+END_EXPORT’  |
+| <l                     | ’#+BEGIN_EXPORT latex’ … ‘#+END_EXPORT’ |
+| <q                     | ’#+BEGIN_QUOTE’ … ‘#+END_QUOTE’         |
+| <s                     | ’#+BEGIN_SRC’ … ‘#+END_SRC’             |
+| <v                     | ’#+BEGIN_VERSE’ … ‘#+END_VERSE’         |
+|------------------------+-----------------------------------------|
 
+** Por hacer
+TODO: Instalar un engine de Snippet
 * Paquetes
 ** Fuentes
 #+BEGIN_SRC elisp
@@ -189,7 +207,8 @@ Marco de autocompletado de texto para Emacs.
 
 *** csv-mode
 #+BEGIN_SRC elisp
-(use-package csv-mode)
+  (use-package csv-mode
+    :ensure t)
 #+END_SRC
 
 *** dashboard
@@ -213,17 +232,20 @@ Marco de autocompletado de texto para Emacs.
 #+BEGIN_SRC elisp
 
   ;; para editar codigo html, css y js en el mismo archivo
-  (use-package web-mode)
+  (use-package web-mode
+    :ensure t)
 
   ;; para hacer html más rapidos
-  (use-package emmet-mode)
+  (use-package emmet-mode
+    :ensure t)
 
 #+END_SRC
 
 *** Lua
 #+BEGIN_SRC elisp
 
-  (use-package lua-mode)
+  (use-package lua-mode
+    :ensure t)
 
 #+END_SRC
 
@@ -406,6 +428,36 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
   ;; Babel
   (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
   (setq org-babel-python-command "python3")
+
+#+END_SRC
+
+** prettify simbols
+#+BEGIN_SRC elisp
+
+
+    ;; (defun org-icons ()
+    ;;   "Beautify org mode keywords."
+    ;;   (setq prettify-symbols-alist '(("=>" . "⟹")
+    ;;                                  ("<=" . "⟸")
+    ;;                                  ("->" . "⟶")
+    ;;                                  ("<-" . "⟵")))
+    ;;   (prettify-symbols-mode))
+
+  (defun prettify-set ()
+    (setq prettify-symbols-alist
+          (prettify-utils-generate
+           ("lambda"	"λ")
+           ("|>"		"▷")
+           ("<|"		"◁")
+           ("->>"		"↠")
+           ("->"		"→")
+           ("<-"		"←")
+           ("=>"		"⇒")
+           ("<="		"≤")
+           (">="		"≥")
+           )))
+
+
 
 #+END_SRC
 

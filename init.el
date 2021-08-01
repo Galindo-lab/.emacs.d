@@ -16,6 +16,7 @@
 ;; Asegurarse de que los paquetes simepre esten instalados
 ;; (setq use-package-always-ensure t)
 
+
 (require 'recentf)
 (recentf-mode 1)
 
@@ -99,7 +100,8 @@
   (company-quickhelp-mode)
   )
 
-(use-package csv-mode)
+(use-package csv-mode
+  :ensure t)
 
 (use-package dashboard
     :ensure t
@@ -114,12 +116,15 @@
     (dashboard-setup-startup-hook))
 
 ;; para editar codigo html, css y js en el mismo archivo
-(use-package web-mode)
+(use-package web-mode
+  :ensure t)
 
 ;; para hacer html más rapidos
-(use-package emmet-mode)
+(use-package emmet-mode
+  :ensure t)
 
-(use-package lua-mode)
+(use-package lua-mode
+  :ensure t)
 
 (use-package anaconda-mode
   :ensure t
@@ -221,6 +226,72 @@
 ;; Babel
 (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
 (setq org-babel-python-command "python3")
+
+;; (defun org-icons ()
+  ;;   "Beautify org mode keywords."
+  ;;   (setq prettify-symbols-alist '(("=>" . "⟹")
+  ;;                                  ("<=" . "⟸")
+  ;;                                  ("->" . "⟶")
+  ;;                                  ("<-" . "⟵")))
+;;   (prettify-symbols-mode))
+(setq global-prettify-symbols-mode t)
+
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (push '("->" . ?⟶) prettify-symbols-alist)
+            (prettify-symbols-mode)))
+
+(add-hook 'lua-mode-hook
+          (lambda ()
+            (push '("->" . ?→) prettify-symbols-alist)))
+
+
+;; (defun configure-prettify-symbols-alist ()
+;;   "Set prettify symbols alist."
+;;   (setq prettify-symbols-alist '(("lambda" . "λ")
+;;                                  ("->" . "→")
+;;                                  ;; ("->>" . ?↠)
+;;                                  ;; ("=>" . ?⇒)
+;;                                  ;; ("map" . ?↦)
+;;                                  ;; ("/=" . ?≠)
+;;                                  ;; ("!=" . ?≠)
+;;                                  ;; ("==" . ?≡)
+;;                                  ;; ("<=" . ?≤)
+;;                                  ;; (">=" . ?≥)
+;;                                  ;; ("=<<" . ?=≪)
+;;                                  ;; (">>=" . ?≫=)
+;;                                  ;; ("<=<" . ?↢)
+;;                                  ;; (">=>" . ?↣)
+;;                                  ;; ("&&" . ?∧)
+;;                                  ;; ("||" . ?∨)
+;;                                  ("not" . "¬"))))
+
+;; (defun prettify-set ()
+;;   (setq prettify-symbols-alist
+;;         (prettify-utils-generate
+;;          ("lambda"	"λ")
+;;          ("|>"		"▷")
+;;          ("<|"		"◁")
+;;          ("->>"		"↠")
+;;          ("->"		"→")
+;;          ("<-"		"←")
+;;          ("=>"		"⇒")
+;;          ("<="		"≤")
+;;          (">="		"≥")
+;;          )))
+
+ ;; (setq prettify-symbols-alist
+ ;;        (prettify-utils-generate
+ ;;         ("lambda"	"λ")
+ ;;         ("|>"		"▷")
+ ;;         ("<|"		"◁")
+ ;;         ("->>"		"↠")
+ ;;         ("->"		"→")
+ ;;         ("<-"		"←")
+ ;;         ("=>"		"⇒")
+ ;;         ("<="		"≤")
+ ;;         (">="		"≥")
+ ;;         ))
 
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))

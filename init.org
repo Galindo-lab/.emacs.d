@@ -1,7 +1,7 @@
 
 #+TITLE:  init.org
 #+AUTHOR: Luis Eduardo Galindo Amaya
-#+DATE:   2021-06-03                        
+#+DATE:   [2021-06-03]
 
 #+LANGUAGE: es
 #+PROPERTY: header-args :tangle init.el
@@ -16,6 +16,7 @@
 - jue 29 jul 2021 13:47:50 :: Modo de python añadidos y dashboard agregado.
 - vie 30 jul 2021 17:23:12 :: Reorganizado.
 - dom 01 ago 2021 12:58:54 :: Reorganizado.
+- mar 31 ago 2021 09:16:43 :: Muban y plantillas agregadas.
 
 ** Informacion 
 *** Expancion de code blocks
@@ -49,7 +50,7 @@
 + [[https://github.com/smihica/emmet-mode][emmet-mode]] :: Escribir codigo xml mas rapido.
 + [[https://github.com/pythonic-emacs/anaconda-mode][anaconda-mode]] :: Python completation.
 + [[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] :: pantalla de inicio.
-
++ [[https://github.com/jiahaowork/muban.el][muban]] :: Plantillas.
 ** TODO
 - [ ] Instalar un engine de Snippet
 
@@ -201,7 +202,7 @@ Marco de autocompletado de texto para Emacs.
 
 *** dashboard
 #+BEGIN_SRC elisp
-(use-package dashboard
+  (use-package dashboard
     :ensure t
     :diminish dashboard-mode
     :config
@@ -215,6 +216,13 @@ Marco de autocompletado de texto para Emacs.
 
 #+END_SRC
 
+*** muban
+#+BEGIN_SRC elisp
+(use-package muban
+  :ensure t
+  :bind
+  ("C-c i" . muban-apply))
+#+END_SRC
 ** Modos y Herramientas de Programación
 *** Web
 #+BEGIN_SRC elisp
@@ -375,6 +383,9 @@ Marco de autocompletado de texto para Emacs.
   (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
   (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
 
+  ;; muban
+  (global-set-key (kbd "C-c i") 'muban-apply)
+
 #+END_SRC
 
 ** Org
@@ -386,8 +397,12 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
     (:map org-mode-map
           ("<M-return>" . org-toggle-latex-fragment))
     :config
+    (setq org-babel-python-command "python3")
     (setq org-support-shift-select t)
-    (setq org-preview-latex-default-process 'dvisvgm)	;preview tikz
+    (setq org-preview-latex-default-process 'dvisvgm)
+    (setq org-html-htmlize-output-type `nil)
+    (setf org-html-mathjax-template "<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>")
+    ;preview tikz
     (setq org-src-tab-acts-natively t)	;indentar src_blocks
     (setq org-format-latex-options
           (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
@@ -400,8 +415,11 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
               (display-line-numbers-mode -1)))
 
   ;; Babel
-  (org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
-  (setq org-babel-python-command "python3")
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((emacs-lisp . t)
+                               (python . t)
+                               (latex . t)
+                               (ditaa . t)))
 
 #+END_SRC
 

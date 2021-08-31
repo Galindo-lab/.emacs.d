@@ -81,16 +81,21 @@
   :ensure t)
 
 (use-package dashboard
-    :ensure t
-    :diminish dashboard-mode
-    :config
-    (setq dashboard-startup-banner 1)
-    (setq dashboard-center-content t)
-    ;; (setq dashboard-banner-logo-title "your custom text")
-    ;; (setq dashboard-startup-banner "/path/to/image")
-    (setq dashboard-items '((recents  . 10)
-                            (bookmarks . 10)))
-    (dashboard-setup-startup-hook))
+  :ensure t
+  :diminish dashboard-mode
+  :config
+  (setq dashboard-startup-banner 1)
+  (setq dashboard-center-content t)
+  ;; (setq dashboard-banner-logo-title "your custom text")
+  ;; (setq dashboard-startup-banner "/path/to/image")
+  (setq dashboard-items '((recents  . 10)
+                          (bookmarks . 10)))
+  (dashboard-setup-startup-hook))
+
+(use-package muban
+  :ensure t
+  :bind
+  ("C-c i" . muban-apply))
 
 ;; para editar codigo html, css y js en el mismo archivo
 (use-package web-mode
@@ -163,13 +168,20 @@
 (global-set-key (kbd "C-x M-c") 'crux-capitalize-region)
 (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
 
+;; muban
+(global-set-key (kbd "C-c i") 'muban-apply)
+
 (use-package org
   :bind
   (:map org-mode-map
         ("<M-return>" . org-toggle-latex-fragment))
   :config
+  (setq org-babel-python-command "python3")
   (setq org-support-shift-select t)
-  (setq org-preview-latex-default-process 'dvisvgm)	;preview tikz
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-html-htmlize-output-type `nil)
+  (setf org-html-mathjax-template "<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>")
+  ;preview tikz
   (setq org-src-tab-acts-natively t)	;indentar src_blocks
   (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
@@ -182,8 +194,11 @@
             (display-line-numbers-mode -1)))
 
 ;; Babel
-(org-babel-do-load-languages 'org-babel-load-languages '( (python . t) ) )
-(setq org-babel-python-command "python3")
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((emacs-lisp . t)
+                             (python . t)
+                             (latex . t)
+                             (ditaa . t)))
 
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))

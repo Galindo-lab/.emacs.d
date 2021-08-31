@@ -1,0 +1,13 @@
+#+LANGUAGE: es
+
+#+OPTIONS: html-style:nil 
+#+OPTIONS: html-scripts:nil
+#+OPTIONS: num:nil 
+#+OPTIONS: toc:nil
+#+OPTIONS: html-postamble:nil
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./style.css" />
+#+HTML_HEAD: <link rel="shortcut icon" type="image/jpg" href="./favicon.png"/>
+#+HTML_HEAD: <script defer type="text/javascript" src="./script.js"></script>
+#+HTML_HEAD: <meta name="theme-color" content="#fff">
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>

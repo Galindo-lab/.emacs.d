@@ -97,12 +97,23 @@
   :bind
   ("C-c i" . muban-apply))
 
-;; para editar codigo html, css y js en el mismo archivo
-(use-package web-mode
+(use-package rainbow-delimiters
+             :ensure t
+             :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(use-package emmet-mode
   :ensure t)
 
-;; para hacer html más rapidos
-(use-package emmet-mode
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
+
+;; para editar codigo html, css y js en el mismo archivo
+(use-package web-mode
   :ensure t)
 
 (use-package lua-mode
@@ -123,6 +134,48 @@
   (add-to-list 'company-backends 'company-anaconda)
   )
 
+(use-package racket-mode
+  :ensure t)
+
+(use-package org
+  :bind
+  (:map org-mode-map
+        ("<M-return>" . org-toggle-latex-fragment))
+  :config
+  (setq org-babel-python-command "python3")
+  (setq org-support-shift-select t)
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-html-htmlize-output-type `nil)
+  (setf org-html-mathjax-template "<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>")
+  ;preview tikz
+  (setq org-src-tab-acts-natively t)	;indentar src_blocks
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (org-indent-mode t)
+            (org-content 2)
+            (display-line-numbers-mode -1)))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((emacs-lisp . t)
+                             (python . t)
+                             (latex . t)
+                             (ditaa . t)
+                             (maxima . t)))
+
+(setq org-latex-pdf-process
+      (let
+          ((cmd (concat "pdflatex -shell-escape -interaction nonstopmode"
+                        " --synctex=1"
+                        " -output-directory %o %f")))
+        (list cmd
+              "cd %o; if test -r %b.idx; then makeindex %b.idx; fi"
+              "cd %o; bibtex %b"
+              cmd
+              cmd)))
+
 (set-face-attribute 'default nil
                     :font "Fira Code"
                     :height 98 )
@@ -139,9 +192,14 @@
 (line-number-mode t)                    ;numero de fila en el modeline
 (scroll-bar-mode -1)                    ;scroll bars visibles
 
+;; (use-package doom-themes 
+;;   :ensure t
+;;   :init (load-theme 'doom-one t))
+
+
 (use-package doom-themes 
   :ensure t
-  :init (load-theme 'doom-one t))
+  :init (load-theme 'doom-opera t))
 
 ;; eliminar elemento seleccionado   
 (delete-selection-mode 1)	
@@ -171,40 +229,15 @@
 ;; muban
 (global-set-key (kbd "C-c i") 'muban-apply)
 
-(use-package org
-  :bind
-  (:map org-mode-map
-        ("<M-return>" . org-toggle-latex-fragment))
-  :config
-  (setq org-babel-python-command "python3")
-  (setq org-support-shift-select t)
-  (setq org-preview-latex-default-process 'dvisvgm)
-  (setq org-html-htmlize-output-type `nil)
-  (setf org-html-mathjax-template "<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>")
-  ;preview tikz
-  (setq org-src-tab-acts-natively t)	;indentar src_blocks
-  (setq org-format-latex-options
-        (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
-
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (org-indent-mode t)
-            (org-content 2)
-            (display-line-numbers-mode -1)))
-
-;; Babel
-(org-babel-do-load-languages
- 'org-babel-load-languages '((emacs-lisp . t)
-                             (python . t)
-                             (latex . t)
-                             (ditaa . t)))
-
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
 
 (customize-set-variable
  'tramp-backup-directory-alist backup-directory-alist)
+
+(setq initial-major-mode 'org-mode)
+(setq initial-scratch-message nil)
+(setq org-confirm-babel-evaluate nil)
 
 (defun toggle-80-editting-columns ()
   "Set the right window margin so the edittable space is only 80 columns."
@@ -224,11 +257,6 @@
              (left (/ change 2))
              (right (- change left)))
         (set-window-margins nil left right)))))
-
-(defun run-buffer ()
-  (interactive)
-  (shell-command (concat "./eigenmath " buffer-file-name)))
-(global-set-key (kbd "<f9>") 'run-buffer)
 
 (setq scroll-step            1
       scroll-conservatively  10000)

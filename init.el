@@ -50,13 +50,15 @@
   (setq neo-theme 'ascii
         neo-smart-open t
         neo-window-width 25
-        neo-window-fixed-size -1) )
+        neo-window-fixed-size -1) 
+  )
 
 ;; desactivar los numeros y el warp de texto 
 (add-hook 'neo-after-create-hook
-          (lambda (&rest _) 
-            (display-line-numbers-mode -1)
-            (visual-line-mode -1)))
+            (lambda (&rest _) 
+              (display-line-numbers-mode -1)
+              (visual-line-mode -1))
+)
 
 (use-package company
  :ensure t
@@ -68,7 +70,6 @@
        company-tooltip-limit 10
        company-tooltip-align-annotations t
        company-tooltip-flip-when-above t)
-
  ;; (global-company-mode t)
  )
 
@@ -98,8 +99,8 @@
   ("C-c i" . muban-apply))
 
 (use-package rainbow-delimiters
-             :ensure t
-             :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  :ensure t
+  :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package emmet-mode
   :ensure t)
@@ -111,6 +112,21 @@
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c p" . projectile-command-map)))
+
+(use-package gnuplot
+  :ensure t)
+
+(use-package git-gutter
+  :ensure t
+  :init
+  (global-git-gutter-mode +1)
+)
+
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode)
+)
 
 ;; para editar codigo html, css y js en el mismo archivo
 (use-package web-mode
@@ -137,6 +153,9 @@
 (use-package racket-mode
   :ensure t)
 
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
 (use-package org
   :bind
   (:map org-mode-map
@@ -156,7 +175,8 @@
           (lambda ()
             (org-indent-mode t)
             (org-content 2)
-            (display-line-numbers-mode -1)))
+            ;; (display-line-numbers-mode -1)
+            ))
 
 (org-babel-do-load-languages
  'org-babel-load-languages '((emacs-lisp . t)
@@ -181,9 +201,9 @@
                     :height 98 )
 
 (setq inhibit-startup-message t)        ;Pantalla de inicio de emacs
-(global-display-line-numbers-mode t)    ;numeros de linea 
+;; (global-display-line-numbers-mode t)    ;numeros de linea 
 (set-fringe-mode 10)                    ;espacio entre el frame y el buffer
-(global-visual-line-mode 1)             ;separar lineas 
+;; (global-visual-line-mode 1)             ;separar lineas 
 (setq-default cursor-type 'bar)         ;tipo del cursor
 (setq-default tab-width 4)              ;tamaño del tab
 (tool-bar-mode -1)                      ;barra de herramientas visisles
@@ -238,25 +258,6 @@
 (setq initial-major-mode 'org-mode)
 (setq initial-scratch-message nil)
 (setq org-confirm-babel-evaluate nil)
-
-(defun toggle-80-editting-columns ()
-  "Set the right window margin so the edittable space is only 80 columns."
-  (interactive)
-  (let ((margins (window-margins)))
-    (if (or (car margins) (cdr margins))
-        (set-window-margins nil 0 0)
-      (set-window-margins nil 0 (max (- (window-width) 80) 0)))))
-
-(defun toggle-80-editting-columns-balanced ()
-  "Set both window margins so the edittable space is only 80 columns."
-  (interactive)
-  (let ((margins (window-margins)))
-    (if (or (car margins) (cdr margins))
-        (set-window-margins nil 0 0)
-      (let* ((change (max (- (window-width) 80) 0))
-             (left (/ change 2))
-             (right (- change left)))
-        (set-window-margins nil left right)))))
 
 (setq scroll-step            1
       scroll-conservatively  10000)

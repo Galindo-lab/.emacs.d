@@ -1,7 +1,7 @@
 
 #+TITLE:  init.org
 #+AUTHOR: Luis Eduardo Galindo Amaya
-#+DATE:   [2021-06-03]
+#+DATE:   [2022-03-11 vie]
 
 #+LANGUAGE: es
 #+PROPERTY: header-args :tangle init.el
@@ -104,20 +104,22 @@ Convierte source blocks a html.
 Muestra los folders en la sidebar.
 #+BEGIN_SRC elisp
 
-  ;; explorador de archivos 
+    ;; explorador de archivos 
   (use-package neotree
     :ensure t
     :config
     (setq neo-theme 'ascii
           neo-smart-open t
           neo-window-width 25
-          neo-window-fixed-size -1) )
+          neo-window-fixed-size -1) 
+    )
 
   ;; desactivar los numeros y el warp de texto 
   (add-hook 'neo-after-create-hook
-            (lambda (&rest _) 
-              (display-line-numbers-mode -1)
-              (visual-line-mode -1)))
+              (lambda (&rest _) 
+                (display-line-numbers-mode -1)
+                (visual-line-mode -1))
+  )
 
 #+END_SRC
 
@@ -135,7 +137,6 @@ Marco de autocompletado de texto para Emacs.
          company-tooltip-limit 10
          company-tooltip-align-annotations t
          company-tooltip-flip-when-above t)
-
    ;; (global-company-mode t)
    )
 
@@ -148,12 +149,15 @@ Marco de autocompletado de texto para Emacs.
 
 *** csv-mode
 #+BEGIN_SRC elisp
+
   (use-package csv-mode
     :ensure t)
+
 #+END_SRC
 
 *** dashboard
 #+BEGIN_SRC elisp
+
   (use-package dashboard
     :ensure t
     :diminish dashboard-mode
@@ -170,17 +174,21 @@ Marco de autocompletado de texto para Emacs.
 
 *** muban
 #+BEGIN_SRC elisp
-(use-package muban
-  :ensure t
-  :bind
-  ("C-c i" . muban-apply))
+
+  (use-package muban
+    :ensure t
+    :bind
+    ("C-c i" . muban-apply))
+
 #+END_SRC
 
 *** rainbow-delimiters
 #+BEGIN_SRC elisp
-(use-package rainbow-delimiters
-             :ensure t
-             :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+  (use-package rainbow-delimiters
+    :ensure t
+    :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
 #+END_SRC
 
 *** emmet
@@ -194,13 +202,51 @@ Marco de autocompletado de texto para Emacs.
 *** projectile
 #+BEGIN_SRC elisp
 
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map)))
+  (use-package projectile
+    :ensure t
+    :init
+    (projectile-mode +1)
+    :bind (:map projectile-mode-map
+                ("s-p" . projectile-command-map)
+                ("C-c p" . projectile-command-map)))
+
+#+END_SRC
+
+*** gnuplot
+#+BEGIN_SRC elisp
+
+  (use-package gnuplot
+    :ensure t)
+
+#+END_SRC
+
+*** git-glutter
+#+BEGIN_SRC elisp
+
+  (use-package git-gutter
+    :ensure t
+    :init
+    (global-git-gutter-mode +1)
+  )
+
+#+END_SRC
+
+*** which-key
+#+BEGIN_SRC elisp
+
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode)
+  )
+
+#+END_SRC
+
+*** olivetti
+#+BEGIN_SRC elisp
+
+  (use-package olivetti
+    :ensure t)
 
 #+END_SRC
 
@@ -222,7 +268,7 @@ Marco de autocompletado de texto para Emacs.
 
 #+END_SRC
 
-*** Python (anaconda)
+*** Python
 #+BEGIN_SRC elisp
 
   (use-package anaconda-mode
@@ -246,6 +292,14 @@ Marco de autocompletado de texto para Emacs.
 #+BEGIN_SRC elisp
   (use-package racket-mode
     :ensure t)
+#+END_SRC
+
+*** Octave
+#+BEGIN_SRC elisp
+
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
 #+END_SRC
 
 * Org
@@ -276,7 +330,8 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
             (lambda ()
               (org-indent-mode t)
               (org-content 2)
-              (display-line-numbers-mode -1)))
+              ;; (display-line-numbers-mode -1)
+              ))
 
 #+END_SRC
 
@@ -323,9 +378,9 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
 #+BEGIN_SRC elisp
 
   (setq inhibit-startup-message t)        ;Pantalla de inicio de emacs
-  (global-display-line-numbers-mode t)    ;numeros de linea 
+  ;; (global-display-line-numbers-mode t)    ;numeros de linea 
   (set-fringe-mode 10)                    ;espacio entre el frame y el buffer
-  (global-visual-line-mode 1)             ;separar lineas 
+  ;; (global-visual-line-mode 1)             ;separar lineas 
   (setq-default cursor-type 'bar)         ;tipo del cursor
   (setq-default tab-width 4)              ;tamaño del tab
   (tool-bar-mode -1)                      ;barra de herramientas visisles
@@ -403,6 +458,12 @@ fuentes: [[https://emacs.stackexchange.com/questions/19880/font-size-control-of-
 
   (desktop-save-mode 1)                   ;  guardar escritorio
   (find-file "~/notes.org")               ;  abrir archivo al iniciar
+  (setq history-length 25)
+  (savehist-mode 1)
+
+  (save-place-mode 1)
+  (setq use-dialog-box nil)
+  (global-auto-revert-mode 1)
 
 #+END_SRC
 
@@ -453,9 +514,9 @@ Extraido de [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002
 ** Scratch Buffer
 #+BEGIN_SRC elisp
 
-(setq initial-major-mode 'org-mode)
-(setq initial-scratch-message nil)
-(setq org-confirm-babel-evaluate nil)
+  (setq initial-major-mode 'org-mode)
+  (setq initial-scratch-message nil)
+  (setq org-confirm-babel-evaluate nil)
 
 #+END_SRC
 
@@ -482,26 +543,26 @@ extraido de la [[https://www.emacswiki.org/emacs/InsertingTodaysDate][wiki de em
 
 ** Margen de 80 columnas
 Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][gastack]] desde la pregunta de [[https://gist.github.com/jordonbiondo/aa6d68b680abdb1a5f70][Jordonbiondo]].
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :tangle no
 
-(defun toggle-80-editting-columns ()
-  "Set the right window margin so the edittable space is only 80 columns."
-  (interactive)
-  (let ((margins (window-margins)))
-    (if (or (car margins) (cdr margins))
-        (set-window-margins nil 0 0)
-      (set-window-margins nil 0 (max (- (window-width) 80) 0)))))
+  (defun toggle-80-editting-columns ()
+    "Set the right window margin so the edittable space is only 80 columns."
+    (interactive)
+    (let ((margins (window-margins)))
+      (if (or (car margins) (cdr margins))
+          (set-window-margins nil 0 0)
+        (set-window-margins nil 0 (max (- (window-width) 80) 0)))))
 
-(defun toggle-80-editting-columns-balanced ()
-  "Set both window margins so the edittable space is only 80 columns."
-  (interactive)
-  (let ((margins (window-margins)))
-    (if (or (car margins) (cdr margins))
-        (set-window-margins nil 0 0)
-      (let* ((change (max (- (window-width) 80) 0))
-             (left (/ change 2))
-             (right (- change left)))
-        (set-window-margins nil left right)))))
+  (defun toggle-80-editting-columns-balanced ()
+    "Set both window margins so the edittable space is only 80 columns."
+    (interactive)
+    (let ((margins (window-margins)))
+      (if (or (car margins) (cdr margins))
+          (set-window-margins nil 0 0)
+        (let* ((change (max (- (window-width) 80) 0))
+               (left (/ change 2))
+               (right (- change left)))
+          (set-window-margins nil left right)))))
 
 #+END_SRC
 
@@ -550,7 +611,5 @@ Extraido de [[https://qastack.mx/emacs/147/how-can-i-get-a-ruler-at-column-80][g
   ;;          ("<="		"≤")
   ;;          (">="		"≥")
   ;;          )))
-
-
 
 #+END_SRC

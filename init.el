@@ -1,3 +1,5 @@
+;; test
+
 ;; Fuetes
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org"   . "https://orgmode.org/elpa/")
@@ -43,35 +45,35 @@
 (use-package htmlize
   :ensure t)
 
-;; explorador de archivos 
+;; explorador de archivos
 (use-package neotree
   :ensure t
   :config
   (setq neo-theme 'ascii
         neo-smart-open t
         neo-window-width 25
-        neo-window-fixed-size -1) 
+        neo-window-fixed-size -1)
   )
 
-;; desactivar los numeros y el warp de texto 
+;; desactivar los numeros y el warp de texto
 (add-hook 'neo-after-create-hook
-            (lambda (&rest _) 
-              (display-line-numbers-mode -1)
-              (visual-line-mode -1))
-)
+          (lambda (&rest _)
+            (display-line-numbers-mode -1)
+            (visual-line-mode -1))
+          )
 
 (use-package company
- :ensure t
- :init (global-company-mode)
- :config
- (setq company-idle-delay 0
-       company-minimum-prefix-length 2
-       company-show-numbers t
-       company-tooltip-limit 10
-       company-tooltip-align-annotations t
-       company-tooltip-flip-when-above t)
- ;; (global-company-mode t)
- )
+  :ensure t
+  :init (global-company-mode)
+  :config
+  (setq company-idle-delay 0
+        company-minimum-prefix-length 2
+        company-show-numbers t
+        company-tooltip-limit 10
+        company-tooltip-align-annotations t
+        company-tooltip-flip-when-above t)
+  ;; (global-company-mode t)
+  )
 
 (use-package company-quickhelp
   :ensure t
@@ -120,13 +122,28 @@
   :ensure t
   :init
   (global-git-gutter-mode +1)
-)
+  )
 
 (use-package which-key
   :ensure t
   :init
   (which-key-mode)
-)
+  )
+
+(use-package olivetti
+  :ensure t)
+
+(use-package format-all
+  :ensure t
+  )
+
+(use-package lorem-ipsum
+  :ensure t
+  )
+
+(global-set-key (kbd "C-c C-l s") 'lorem-ipsum-insert-sentences)
+(global-set-key (kbd "C-c C-l p") 'lorem-ipsum-insert-paragraphs)
+(global-set-key (kbd "C-c C-l l") 'lorem-ipsum-insert-list)
 
 ;; para editar codigo html, css y js en el mismo archivo
 (use-package web-mode
@@ -153,6 +170,13 @@
 (use-package racket-mode
   :ensure t)
 
+(use-package octave
+  :ensure t
+  :init
+  :bind (:map octave-mode-map
+              ("C-c C-c" . octave-send-buffer)
+              ))
+
 (setq auto-mode-alist
       (cons '("\\.m$" . octave-mode) auto-mode-alist))
 
@@ -166,7 +190,7 @@
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-html-htmlize-output-type `nil)
   (setf org-html-mathjax-template "<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>")
-  ;preview tikz
+                                        ;preview tikz
   (setq org-src-tab-acts-natively t)	;indentar src_blocks
   (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 1.5))) ;tamaño de preview
@@ -183,7 +207,12 @@
                              (python . t)
                              (latex . t)
                              (ditaa . t)
-                             (maxima . t)))
+                             (maxima . t)
+                             (octave . t)
+                             (plantuml . t)))
+
+(setq org-plantuml-jar-path
+      (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar"))
 
 (setq org-latex-pdf-process
       (let
@@ -200,10 +229,13 @@
                     :font "Fira Code"
                     :height 98 )
 
+
+(setq default-frame-alist '((font . "Source Code Pro-10")))
+
 (setq inhibit-startup-message t)        ;Pantalla de inicio de emacs
-;; (global-display-line-numbers-mode t)    ;numeros de linea 
+;; (global-display-line-numbers-mode t)    ;numeros de linea
 (set-fringe-mode 10)                    ;espacio entre el frame y el buffer
-;; (global-visual-line-mode 1)             ;separar lineas 
+;; (global-visual-line-mode 1)             ;separar lineas
 (setq-default cursor-type 'bar)         ;tipo del cursor
 (setq-default tab-width 4)              ;tamaño del tab
 (tool-bar-mode -1)                      ;barra de herramientas visisles
@@ -212,31 +244,31 @@
 (line-number-mode t)                    ;numero de fila en el modeline
 (scroll-bar-mode -1)                    ;scroll bars visibles
 
-;; (use-package doom-themes 
+;; (use-package doom-themes
 ;;   :ensure t
 ;;   :init (load-theme 'doom-one t))
 
 
-(use-package doom-themes 
+(use-package doom-themes
   :ensure t
   :init (load-theme 'doom-opera t))
 
-;; eliminar elemento seleccionado   
-(delete-selection-mode 1)	
-(setq-default indent-tabs-mode nil)	
+;; eliminar elemento seleccionado
+(delete-selection-mode 1)
+(setq-default indent-tabs-mode nil)
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
 (add-hook 'eshell-mode-hook
-          (lambda (&rest _) 
+          (lambda (&rest _)
             (display-line-numbers-mode -1)
             (visual-line-mode -1)))
 
 ;; incluidas
-(global-set-key (kbd "C-x t") 'eshell)                                    
-(global-set-key (kbd "C-x j") 'neotree-toggle)                            
-(global-set-key (kbd "C-x <") 'ido-switch-buffer)                         
-(global-set-key (kbd "C-M-z") 'toggle-80-editting-columns-balanced)      
+(global-set-key (kbd "C-x t") 'eshell)
+(global-set-key (kbd "C-x j") 'neotree-toggle)
+(global-set-key (kbd "C-x <") 'ido-switch-buffer)
+(global-set-key (kbd "C-M-z") 'toggle-80-editting-columns-balanced)
 
 ;; Crux
 (global-set-key (kbd "C-c f") 'crux-recentf-find-file)

@@ -48,9 +48,6 @@
 (unless package-archive-contents	    ;Recarga los paquetes manualmente
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
 (setq use-package-always-ensure t)
 
 

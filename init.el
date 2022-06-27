@@ -1,3 +1,24 @@
+;; 
+;;             #####    #####                          
+;;          ####################                
+;;  ###  *###      ###     (######             
+;; @######                    #######    ##    
+;;    ,          #               ########       
+;;             #           ##@      ##          
+;;           #        *# ######           
+;;          #      ####    ####                 
+;;        *###*####         ###                 
+;;        ######             ##                 
+;;                           #                  
+
+;;        *** My GNU/Emacs Config ***        
+;; 
+;; Author: Luis E. Galindo Amaya
+;; Site:   https://galindosoft.neocities.org
+;; Github: https://github.com/Galindo-lab
+;; 
+;; lun 27 jun 2022 00:24:49
+
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org"   . "https://orgmode.org/elpa/")
                          ("elpa"  . "https://elpa.gnu.org/packages/")))
@@ -29,6 +50,8 @@
 (display-time-mode -1)                  ;Mostrar la hora3
 (display-battery-mode -1)               ;Mostrar batteria
 (delete-selection-mode 1)               ;Typed text replaces the selection
+
+(setq default-frame-alist '((font . "Source Code Pro-10")))
 
 (setq initial-major-mode 'fundamental-mode)
 (setq initial-scratch-message nil)
@@ -202,4 +225,21 @@
   (:map org-mode-map
         ("<M-return>" . org-toggle-latex-fragment))
 
+  )
+
+(use-package anaconda-mode
+  :hook
+  ((python-mode-hook . anaconda-mode)
+   (python-mode-hook . anaconda-eldoc-mode))
+  )
+
+(use-package company-anaconda
+  :init 
+  (require 'rx)
+
+  :after 
+  (company)
+
+  :config
+  (add-to-list 'company-backends 'company-anaconda)
   )

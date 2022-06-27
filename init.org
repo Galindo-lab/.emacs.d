@@ -1,11 +1,19 @@
+#+TITLE: GNU/Emacs Config
+#+AUTHOR: Luis E. Galindo Amaya
+#+DESCRIPTION: Galindo personal Emacs config.
+#+PROPERTY: header-args :tangle init-test.el
 
-;; SETTINGS --------------------------------------------------------------------
+
+
+
+* SETTINGS
+** custom
+#+BEGIN_SRC elisp
 
 (setq-default cursor-type 'bar)         ;Tipo del cursor
 (setq-default tab-width 4)              ;Tamaño del tab
 (setq-default indent-tabs-mode nil)     ;Desactivar tabs
 (setq scroll-step 1)                    ;Smooth scrolling
-
 (set-fringe-mode 10)                    ;Espaciado
 (global-hl-line-mode 1)                 ;Cambiar el color de la line actual
 (tool-bar-mode -1)                      ;Barra de herramientas visisles
@@ -15,21 +23,34 @@
 (scroll-bar-mode -1)                    ;Scroll bars visibles
 (display-time-mode -1)                  ;Mostrar la hora3
 (display-battery-mode -1)               ;Mostrar batteria
-(delete-selection-mode 1)               ;eliminar texto al escribir
+(delete-selection-mode 1)               ;
+ 
+#+END_SRC
 
-(setq custom-file "~/.emacs.d/custom.el")
-  (load custom-file)
+** frame
+#+BEGIN_SRC elisp :tangle no
 
-;; FRAME SETTINGS --------------------------------------------------------------
+  (set-frame-parameter                    ;frame visible
+   (selected-frame) 'undecorated t) 
 
+  (set-frame-parameter                    ;fondo trasparente
+   (selected-frame) 'alpha '(95 95))
 
-;; SCRATCH BUFFER --------------------------------------------------------------
+  (add-to-list                            ;transparencia del borde
+   'default-frame-alist '(alpha 85 85)) 
+
+#+END_SRC
+
+** scratch buffer
+#+BEGIN_SRC elisp
 
 (setq initial-major-mode 'fundamental-mode)
 (setq initial-scratch-message nil)
 
+#+END_SRC
 
-;; BACKUPS ---------------------------------------------------------------------
+* BACKUPS
+#+BEGIN_SRC elisp
 
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
@@ -37,8 +58,10 @@
 (customize-set-variable 'tramp-backup-directory-alist
                         backup-directory-alist)
 
+#+END_SRC
 
-;; SETUP PACKAGE.EL TO WORK WITH MELPA -----------------------------------------
+* SETUP PACKAGE.EL
+#+BEGIN_SRC elisp
 
 (require 'package)
 (add-to-list 'package-archives
@@ -48,13 +71,12 @@
 (unless package-archive-contents	    ;Recarga los paquetes manualmente
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
 (setq use-package-always-ensure t)
 
+#+END_SRC
 
-;; STARTUP PERFORMANCE ---------------------------------------------------------
+* STARTUP PERFORMANCE
+#+BEGIN_SRC elisp
 
 (use-package gcmh                       ;Using garbage magic hack.
   :config
@@ -64,12 +86,21 @@
 (setq gc-cons-threshold 402653184       ;Setting garbage collection threshold
       gc-cons-percentage 0.6)
 
-;; BASE PACKAGES ---------------------------------------------------------------
+#+END_SRC
+
+* BASE PACKAGES
+** recentf
+#+BEGIN_SRC elisp
 
 (use-package recentf                    ;Archivos abiertos recientemente
   :config
   (recentf-mode 1)
   )
+
+#+END_SRC
+
+** ivy
+#+BEGIN_SRC elisp
 
 (use-package ivy                        ;Minibuffer completion in Emacs
   :init
@@ -79,6 +110,11 @@
   ("C-x <" . ido-switch-buffer)
   )
 
+#+END_SRC
+
+** magit
+#+BEGIN_SRC elisp
+
 (use-package magit                      ;Integracion con git
   :ensure t
   :bind
@@ -87,10 +123,20 @@
   ("C-c M-g" . magit-file-dispatch)
   )
 
+#+END_SRC
+
+** eshell
+#+BEGIN_SRC elisp
+
 (use-package eshell                     ;Terminal de emacs
   :bind
   ("C-x t" . eshell)
   )
+
+#+END_SRC
+
+** projectile
+#+BEGIN_SRC elisp
 
 (use-package projectile                 ;Project interaction
   :init
@@ -101,6 +147,11 @@
         ("s-p"   . projectile-command-map)
         ("C-c p" . projectile-command-map))
   )
+
+#+END_SRC
+
+** neotree
+#+BEGIN_SRC elisp
 
 (use-package neotree                    ;Explorador de archivos
   :bind
@@ -114,10 +165,20 @@
         neo-show-hidden-files t)
   )
 
+#+END_SRC
+
+** which-key
+#+BEGIN_SRC elisp
+
 (use-package which-key                  ;Display key bindings
   :init
   (which-key-mode)
   )
+
+#+END_SRC
+
+** crux
+#+BEGIN_SRC elisp
 
 (use-package crux                       ;Useful interactive commands
   :bind
@@ -129,21 +190,37 @@
   ("C-c k"   . crux-kill-other-buffers)
   )
 
+#+END_SRC
+
+** dashboard
+#+BEGIN_SRC elisp
+
 (use-package dashboard
   :init
+  (setq dashboard-startup-banner "~/.emacs.d/res/cccc.png")
   :config
-  (setq dashboard-startup-banner "~/.emacs.d/res/cccc.png"
-        dashboard-center-content t
+  ;; (setq dashboard-startup-banner 1)
+  (setq dashboard-center-content t
         dashboard-items '((recents  . 10)
                           (bookmarks . 10)))
 
   (dashboard-setup-startup-hook)
   )
 
+#+END_SRC
+
+** doom-themes
+#+BEGIN_SRC elisp
+
 (use-package doom-themes                ;tema del editor
   :config
   (load-theme 'doom-opera t)
   )
+
+#+END_SRC
+
+** company
+#+BEGIN_SRC elisp
 
 (use-package company                    ;completion framework for Emacs
   :init
@@ -158,18 +235,40 @@
         company-tooltip-flip-when-above t)
   )
 
+#+END_SRC
+
+** company-quickhelp
+#+BEGIN_SRC elisp
+
 (use-package company-quickhelp          ;show completion pop-up
   :config
   (company-quickhelp-mode)
   )
 
+#+END_SRC
+
+** git-gutter
+#+BEGIN_SRC elisp
+
 (use-package git-gutter                 ;indicating modified lines in a file
+  :ensure t
+  
   ;; :config
   ;; (global-git-gutter-mode +1)
   )
 
+#+END_SRC
+
+** centered-window
+#+BEGIN_SRC elisp
+
 (use-package centered-window            ;Minor mode that centers the text
   )
+
+#+END_SRC
+
+** hl-todo
+#+BEGIN_SRC elisp
 
 (use-package hl-todo                    ;Highlight keywords
   :custom-face
@@ -179,21 +278,33 @@
   ((prog-mode . hl-todo-mode)
    (yaml-mode . hl-todo-mode)
    (org-mode . hl-todo-mode))
-
+  
   :config
   (setq hl-todo-mode 1)
   )
+
+#+END_SRC
+
+** rainbow-delimiters
+#+BEGIN_SRC elisp
 
 (use-package rainbow-delimiters         ;Rainbow parentheses
   :hook
   (prog-mode-hook . rainbow-delimiters-mode)
   )
 
+#+END_SRC
+
+** format-all
+#+BEGIN_SRC elisp
+
 (use-package format-all                 ;Formatear codigo
   )
 
-;; ORG-MODE ---------------------------------------------------------
+#+END_SRC
 
+* ORG-MODE
+#+BEGIN_SRC elisp
 
 (use-package org
   :init
@@ -201,8 +312,8 @@
   :hook
   (org-mode . (lambda ()
                 (org-indent-mode t)
-                (org-content 2)))
-
+                (org-content 2)))  
+  
   :config
   (setq org-babel-python-command "python3"
         org-support-shift-select t
@@ -224,9 +335,14 @@
                                (maxima . t)
                                (octave . t)
                                (plantuml . t)))
-
+  
   :bind
   (:map org-mode-map
         ("<M-return>" . org-toggle-latex-fragment))
-
+  
   )
+
+#+END_SRC
+
+* PROGRAMMING MODES
+* 

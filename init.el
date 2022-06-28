@@ -10,7 +10,7 @@
 ;;        *###*####         ###                 
 ;;        ######             ##                 
 ;;                           #                  
-
+;; 
 ;;        *** My GNU/Emacs Config ***        
 ;; 
 ;; Author: Luis E. Galindo Amaya
@@ -129,6 +129,7 @@
   ("C-x C-l" . crux-downcase-region)
   ("C-x M-c" . crux-capitalize-region)
   ("C-c k"   . crux-kill-other-buffers)
+  ("C-c t"   . crux-visit-term-buffer)
   )
 
 (use-package dashboard
@@ -193,6 +194,11 @@
 (use-package format-all                 ;Formatear codigo
   )
 
+(use-package emmet-mode
+  :hook
+  ((sgml-mode-hook . emmet-mode))
+  )
+
 (use-package org
   :hook
   (org-mode . (lambda ()
@@ -242,4 +248,7 @@
 
   :config
   (add-to-list 'company-backends 'company-anaconda)
+  )
+
+(use-package web-mode
   )

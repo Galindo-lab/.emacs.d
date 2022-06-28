@@ -18,7 +18,7 @@
   ;;        *###*####         ###                 
   ;;        ######             ##                 
   ;;                           #                  
-
+  ;; 
   ;;        *** My GNU/Emacs Config ***        
   ;; 
   ;; Author: Luis E. Galindo Amaya
@@ -223,6 +223,7 @@
     ("C-x C-l" . crux-downcase-region)
     ("C-x M-c" . crux-capitalize-region)
     ("C-c k"   . crux-kill-other-buffers)
+    ("C-c t"   . crux-visit-term-buffer)
     )
 
 #+END_SRC
@@ -335,6 +336,16 @@
 
 #+END_SRC
 
+** emmet
+#+BEGIN_SRC elisp
+
+  (use-package emmet-mode
+    :hook
+    ((sgml-mode-hook . emmet-mode))
+    )
+
+#+END_SRC
+
 * ORG-MODE
 #+BEGIN_SRC elisp
 
@@ -397,3 +408,10 @@
 
 #+END_SRC
 
+** web
+#+BEGIN_SRC elisp
+
+  (use-package web-mode
+    )
+
+#+END_SRC

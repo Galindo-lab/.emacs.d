@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (format-all rainbow-delimiters hl-todo centered-window git-gutter company-quickhelp company doom-themes dashboard crux which-key neotree projectile magit ivy gcmh use-package)))
+    (company-web company-anaconda anaconda-mode gnuplot emmet-mode format-all rainbow-delimiters hl-todo centered-window git-gutter company-quickhelp company doom-themes dashboard crux which-key neotree projectile magit ivy gcmh use-package)))
  '(tramp-backup-directory-alist (quote (("." . "~/.emacs.d/backups/")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

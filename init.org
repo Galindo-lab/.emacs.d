@@ -132,6 +132,7 @@
 
 * PACKAGES
 ** recentf
+Recently opened files.
 #+BEGIN_SRC elisp
 
   (use-package recentf
@@ -142,6 +143,7 @@
 #+END_SRC
 
 ** ivy
+Simple tools for minibuffer completion.
 #+BEGIN_SRC elisp
 
   (use-package ivy
@@ -155,6 +157,7 @@
 #+END_SRC
 
 ** magit
+Git inside of Emacs.
 #+BEGIN_SRC elisp
 
   (use-package magit
@@ -162,7 +165,7 @@
 
 #+END_SRC
 
-** eshell
+** TODO eshell
 #+BEGIN_SRC elisp
 
   (use-package eshell
@@ -173,6 +176,7 @@
 #+END_SRC
 
 ** projectile
+Project interaction library for Emacs
 #+BEGIN_SRC elisp
 
   (use-package projectile
@@ -188,6 +192,7 @@
 #+END_SRC
 
 ** neotree
+A Emacs tree plugin like NerdTree for Vim.
 #+BEGIN_SRC elisp
 
   (use-package neotree
@@ -198,13 +203,13 @@
     (setq neo-theme 'ascii
           neo-smart-open t
           neo-window-width 25
-          neo-window-fixed-size -1
-          neo-show-hidden-files t)
+          neo-window-fixed-size -1)
     )
 
 #+END_SRC
 
 ** which-key
+Displays the key bindings.
 #+BEGIN_SRC elisp
 
   (use-package which-key
@@ -215,6 +220,7 @@
 #+END_SRC
 
 ** crux
+Useful interactive commands.
 #+BEGIN_SRC elisp
 
   (use-package crux
@@ -231,6 +237,7 @@
 #+END_SRC
 
 ** dashboard
+An extensible emacs startup screen.
 #+BEGIN_SRC elisp
 
 (use-package dashboard
@@ -246,6 +253,7 @@
 #+END_SRC
 
 ** doom-themes
+Doom Emacs theme pack
 #+BEGIN_SRC elisp
 
   (use-package doom-themes
@@ -256,6 +264,7 @@
 #+END_SRC
 
 ** company
+text completion framework for Emacs.
 #+BEGIN_SRC elisp
 
   (use-package company
@@ -272,6 +281,7 @@
 #+END_SRC
 
 ** company-quickhelp
+Company popups.
 #+BEGIN_SRC elisp
 
   (use-package company-quickhelp
@@ -282,6 +292,7 @@
 #+END_SRC
 
 ** git-gutter
+Show inserted, modified or deleted lines.
 #+BEGIN_SRC elisp
 
   (use-package git-gutter
@@ -295,6 +306,7 @@
 #+END_SRC
 
 ** centered-window
+Centers the text of the window
 #+BEGIN_SRC elisp
 
   (use-package centered-window
@@ -303,6 +315,7 @@
 #+END_SRC
 
 ** hl-todo
+Highlight words like TODO, FIXME, NOTE, DONE
 #+BEGIN_SRC elisp
 
 (use-package hl-todo
@@ -321,6 +334,7 @@
 #+END_SRC
 
 ** rainbow-delimiters
+Highlights delimiters
 #+BEGIN_SRC elisp
 
   (use-package rainbow-delimiters
@@ -330,7 +344,8 @@
 
 #+END_SRC
 
-** format
+** format-all
+Format code.
 #+BEGIN_SRC elisp
 
   (use-package format-all
@@ -339,6 +354,7 @@
 #+END_SRC
 
 ** emmet
+Expanded feature set.
 #+BEGIN_SRC elisp
 
   (use-package emmet-mode
@@ -349,13 +365,13 @@
 #+END_SRC
 
 ** gnuplot
+Running gnuplot files from within the GNU Emacs editor.
 #+BEGIN_SRC elisp
 
   (use-package gnuplot
     )
 
 #+END_SRC
-
 
 * ORG-MODE
 #+BEGIN_SRC elisp

@@ -112,8 +112,7 @@
   (setq neo-theme 'ascii
         neo-smart-open t
         neo-window-width 25
-        neo-window-fixed-size -1
-        neo-show-hidden-files t)
+        neo-window-fixed-size -1)
   )
 
 (use-package which-key

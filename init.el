@@ -1,4 +1,19 @@
 ;; 
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;; ----------------------------------------------------------------------------
+;; 
 ;;         ##    .#              
 ;; /     ###############          Luis E. Galindo Amaya
 ;; ######     ,#     /####        https://galindosoft.neocities.org
@@ -8,7 +23,8 @@
 ;;      #,  ,##      ##         
 ;;     #####         ##         
 ;;                   / 
-;;
+;; 
+;; ----------------------------------------------------------------------------
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org"   . "https://orgmode.org/elpa/")
@@ -26,37 +42,33 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(setq-default cursor-type 'bar)         ;Tipo del cursor
-(setq-default tab-width 4)              ;Tamaño del tab
-(setq-default indent-tabs-mode nil)     ;Desactivar tabs
+(setq-default 
+ cursor-type 'bar                  ;Tipo del cursor
+ tab-width 4                       ;Tamaño del tab
+ indent-tabs-mode nil              ;Desactivar tabs
+ scroll-step 1                     ;Smooth scrolling
+ inhibit-startup-screen t          ;Hide startup screen
+ use-dialog-box nil                ;Disable the use of dialog boxes
+ )
 
-(setq scroll-step 1)                    ;Smooth scrolling
-(setq inhibit-startup-screen t)         ;Hide startup screen
-(setq use-dialog-box nil)               ;Disable the use of dialog boxes
+(set-fringe-mode 10)               ;Espaciado
+(column-number-mode t)             ;Numero de columna en el modeline
+(line-number-mode t)               ;Numero de fila en el modeline
+(scroll-bar-mode -1)               ;Scroll bars visibles
+(display-time-mode -1)             ;Mostrar la hora
+(display-battery-mode -1)          ;Mostrar batteria
+(delete-selection-mode 1)          ;Typed text replaces the selection
+(tool-bar-mode -1)                 ;Barra de herramientas visisles
+(menu-bar-mode -1)                 ;Menu de herramientas visible
+(global-hl-line-mode 1)            ;Cambiar el color de la line actual
+(global-auto-revert-mode 1)        ;Reload file changes on disk
 
-(global-hl-line-mode 1)                 ;Cambiar el color de la line actual
-(global-auto-revert-mode 1)             ;Reload file changes on disk
-
-(set-fringe-mode 10)                    ;Espaciado
-(tool-bar-mode -1)                      ;Barra de herramientas visisles
-(menu-bar-mode -1)                      ;Menu de herramientas visible
-(column-number-mode t)                  ;Numero de columna en el modeline
-(line-number-mode t)                    ;Numero de fila en el modeline
-(scroll-bar-mode -1)                    ;Scroll bars visibles
-(display-time-mode -1)                  ;Mostrar la hora
-(display-battery-mode -1)               ;Mostrar batteria
-(delete-selection-mode 1)               ;Typed text replaces the selection
-
+;;Usar solo y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(set-frame-parameter                    ;frame visible
- (selected-frame) 'undecorated t) 
-
-(set-frame-parameter                    ;fondo trasparente
- (selected-frame) 'alpha '(95 95))
-
-(add-to-list                            ;transparencia del borde
- 'default-frame-alist '(alpha 85 85))
+;;Frame visible
+(set-frame-parameter
+ (selected-frame) 'undecorated t)
 
 (setq initial-major-mode 'fundamental-mode)
 (setq initial-scratch-message nil)
@@ -70,13 +82,14 @@
 (customize-set-variable 'tramp-backup-directory-alist
                         backup-directory-alist)
 
-(use-package gcmh                       ;Using garbage magic hack.
+;; Using garbage magic hack.
+(use-package gcmh
   :config
+  ;; Setting garbage collection threshold
+  (setq gc-cons-threshold 402653184
+        gc-cons-percentage 0.6)
   (gcmh-mode 1)
   )
-
-(setq gc-cons-threshold 402653184       ;Setting garbage collection threshold
-      gc-cons-percentage 0.6)
 
 (use-package recentf
   :config
@@ -136,7 +149,8 @@
   (setq dashboard-startup-banner "~/.emacs.d/res/nu_35.txt")
   (setq dashboard-center-content t
         dashboard-items '((recents  . 10)
-                          (bookmarks . 10)))
+                          ;; (bookmarks . 10)
+                          ))
 
   (dashboard-setup-startup-hook)
   )
@@ -266,7 +280,7 @@
   (add-to-list 'company-backends 'company-web-html)
   )
 
-;; CUSTOM -----------------------------------------------------
+;; CUSTOM ---------------------------------------------------------------------
 
 (setq org-babel-python-command "python3"
 

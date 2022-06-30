@@ -8,6 +8,22 @@
 * TITLE
 #+BEGIN_SRC elisp
 
+  ;; 
+  ;;         ##    .#              
+  ;; /     ###############          Luis E. Galindo Amaya
+  ;; ######     ,#     /####        https://galindosoft.neocities.org
+  ;; (##       #          #######   https://github.com/Galindo-lab
+  ;;         #        ##     #    
+  ;;       (      ## ####         
+  ;;      #,  ,##      ##         
+  ;;     #####         ##         
+  ;;                   / 
+  ;; 
+
+#+END_SRC
+
+#+BEGIN_SRC elisp :tangle no
+
   ;;
   ;;             #####    #####
   ;;          ####################
@@ -60,7 +76,7 @@
   (setq use-dialog-box nil)               ;Disable the use of dialog boxes
 
   (global-hl-line-mode 1)                 ;Cambiar el color de la line actual
-  (global-auto-revert-mode 1)             ;Reverts the buffer when its visited file changes on disk
+  (global-auto-revert-mode 1)             ;Reload file changes on disk
 
   (set-fringe-mode 10)                    ;Espaciado
   (tool-bar-mode -1)                      ;Barra de herramientas visisles
@@ -77,7 +93,7 @@
 #+END_SRC
 
 ** frame
-#+BEGIN_SRC elisp :tangle no
+#+BEGIN_SRC elisp
 
   (set-frame-parameter                    ;frame visible
    (selected-frame) 'undecorated t) 
@@ -162,16 +178,6 @@ Git inside of Emacs.
 
   (use-package magit
   )
-
-#+END_SRC
-
-** TODO eshell
-#+BEGIN_SRC elisp
-
-  (use-package eshell
-    :bind
-    ("C-x t" . eshell)
-    )
 
 #+END_SRC
 
@@ -407,7 +413,20 @@ Running gnuplot files from within the GNU Emacs editor.
 
 #+END_SRC
 
-* PROGRAMMING MODES
+* PROGRAMMING MODE
+** markdown
+#+BEGIN_SRC elisp
+
+  (use-package markdown-mode
+    :init
+    (setq markdown-command "multimarkdown")
+  
+    :mode
+    ("README\\.md\\'" . gfm-mode)
+    )
+
+#+END_SRC
+
 ** python
 #+BEGIN_SRC elisp
 

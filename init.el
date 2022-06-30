@@ -1,17 +1,13 @@
-;;
-;;             #####    #####
-;;          ####################
-;;  ###  *###      ###     (######
-;; @######                    #######    ##
-;;    ,          #               ########
-;;             #           ##@      ##
-;;           #        *# ######
-;;          #      ####    ####
-;;        *###*####         ###
-;;        ######             ##
-;;                           #
 ;; 
-;;      https://github.com/Galindo-lab
+;;         ##    .#              
+;; /     ###############          Luis E. Galindo Amaya
+;; ######     ,#     /####        https://galindosoft.neocities.org
+;; (##       #          #######   https://github.com/Galindo-lab
+;;         #        ##     #    
+;;       (      ## ####         
+;;      #,  ,##      ##         
+;;     #####         ##         
+;;                   / 
 ;;
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -39,7 +35,7 @@
 (setq use-dialog-box nil)               ;Disable the use of dialog boxes
 
 (global-hl-line-mode 1)                 ;Cambiar el color de la line actual
-(global-auto-revert-mode 1)             ;Reverts the buffer when its visited file changes on disk
+(global-auto-revert-mode 1)             ;Reload file changes on disk
 
 (set-fringe-mode 10)                    ;Espaciado
 (tool-bar-mode -1)                      ;Barra de herramientas visisles
@@ -52,6 +48,15 @@
 (delete-selection-mode 1)               ;Typed text replaces the selection
 
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(set-frame-parameter                    ;frame visible
+ (selected-frame) 'undecorated t) 
+
+(set-frame-parameter                    ;fondo trasparente
+ (selected-frame) 'alpha '(95 95))
+
+(add-to-list                            ;transparencia del borde
+ 'default-frame-alist '(alpha 85 85))
 
 (setq initial-major-mode 'fundamental-mode)
 (setq initial-scratch-message nil)
@@ -88,11 +93,6 @@
 
 (use-package magit
 )
-
-(use-package eshell
-  :bind
-  ("C-x t" . eshell)
-  )
 
 (use-package projectile
   :config
@@ -228,6 +228,14 @@
   (:map org-mode-map
         ("<M-return>" . org-toggle-latex-fragment))
 
+  )
+
+(use-package markdown-mode
+  :init
+  (setq markdown-command "multimarkdown")
+
+  :mode
+  ("README\\.md\\'" . gfm-mode)
   )
 
 (use-package anaconda-mode

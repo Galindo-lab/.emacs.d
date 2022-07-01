@@ -215,6 +215,9 @@
 (use-package gnuplot
   )
 
+(use-package rainbow-mode
+)
+
 (use-package org
   :hook
   (org-mode . (lambda ()

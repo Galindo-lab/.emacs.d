@@ -402,6 +402,15 @@ Running gnuplot files from within the GNU Emacs editor.
 
 #+END_SRC
 
+** rainbow-mode
+Sets background color to strings that match color names
+#+BEGIN_SRC elisp
+
+  (use-package rainbow-mode
+  )
+
+#+END_SRC
+
 * ORG-MODE
 #+BEGIN_SRC elisp
 

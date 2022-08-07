@@ -294,3 +294,17 @@
       (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
 
       )
+
+
+(use-package telephone-line
+  :config
+  (setq telephone-line-primary-left-separator 'telephone-line-flat
+        telephone-line-secondary-left-separator 'telephone-line-flat
+        telephone-line-primary-right-separator 'telephone-line-flat
+        telephone-line-secondary-right-separator 'telephone-line-flat)
+  (telephone-line-mode 1)
+  )
+
+
+
+(setq org-html-htmlize-output-type 'nil)

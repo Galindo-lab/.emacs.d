@@ -106,7 +106,7 @@
 #+END_SRC
 
 ** frame border
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :tangle none
 
   ;;Frame visible
   (set-frame-parameter
@@ -304,6 +304,7 @@ text completion framework for Emacs.
           company-tooltip-limit 10
           company-tooltip-align-annotations t
           company-tooltip-flip-when-above t)
+    (add-to-list 'company-backends 'company-clang)
     (global-company-mode)
     )
 
@@ -426,38 +427,72 @@ A new implementation of Powerline for Emacs
 
 #+END_SRC
 
+** yasnippet
+#+BEGIN_SRC elisp
+  (use-package yasnippet
+    :config
+    (setq yas-snippet-dirs '("~/.emacs.d/yasnippet/"))
+    (yas-global-mode 1)
+    )
+#+END_SRC
 * ORG-MODE
 #+BEGIN_SRC elisp
 
-  (use-package org
-    :hook
-    (org-mode . (lambda ()
-                  (org-indent-mode t)
-                  (org-content 2)))
+    (use-package org
+      :hook
+      (org-mode . (lambda ()
+                    (org-indent-mode t)
+                    (org-content 2)
+                    (org-startup-truncated)
+                    ))
 
+      :config
+      (setq org-support-shift-select t
+            org-preview-latex-default-process 'dvisvgm
+            org-html-htmlize-output-type `nil
+            org-src-tab-acts-natively t
+            org-format-latex-options
+            (plist-put org-format-latex-options :scale 1.5))
+
+      (org-babel-do-load-languages
+       'org-babel-load-languages '((emacs-lisp . t)
+                                   (python . t)
+                                   (latex . t)
+                                   (ditaa . t)
+                                   (maxima . t)
+                                   (octave . t)
+                                   (plantuml . t)))
+
+      (setq org-html-htmlize-output-type 'nil)
+
+      :bind
+      (:map org-mode-map
+            ("<M-return>" . org-toggle-latex-fragment))
+
+      )
+
+#+END_SRC
+
+* ESHELL
+#+BEGIN_SRC elisp
+
+  (use-package eshell
     :config
-    (setq org-support-shift-select t
-          org-preview-latex-default-process 'dvisvgm
-          org-html-htmlize-output-type `nil
-          org-src-tab-acts-natively t
-          org-format-latex-options
-          (plist-put org-format-latex-options :scale 1.5))
+    (setq eshell-prompt-function
+          (lambda ()
+            (concat
+             (format-time-string "[%H:%M]" (current-time))
+             (if (magit-get-current-branch)
+                 (concat "[git:" (magit-get-current-branch) "]" )
+               "")
+             " "
+             (abbreviate-file-name (eshell/pwd))
+             "\n"
+             " > "
+             )))
 
-    (org-babel-do-load-languages
-     'org-babel-load-languages '((emacs-lisp . t)
-                                 (python . t)
-                                 (latex . t)
-                                 (ditaa . t)
-                                 (maxima . t)
-                                 (octave . t)
-                                 (plantuml . t)))
-
-    (setq org-html-htmlize-output-type 'nil)
-
-    :bind
-    (:map org-mode-map
-          ("<M-return>" . org-toggle-latex-fragment))
-
+    (setq eshell-prompt-regexp " > ")   ; or "└─> "
+    (setq eshell-prompt-string " > ")   ; or "└─> "
     )
 
 #+END_SRC
@@ -512,6 +547,21 @@ A new implementation of Powerline for Emacs
     (add-to-list 'company-backends 'company-web-html)
     )
 
+#+END_SRC
+
+** c/c++
+#+BEGIN_SRC elisp :tangle none
+  (use-package cc-mode
+    :init
+    )
+
+  (use-package company-clang
+    :init
+    (require 'rx)
+
+    :after
+    (company)
+    )
 #+END_SRC
 
 * CUSTOM

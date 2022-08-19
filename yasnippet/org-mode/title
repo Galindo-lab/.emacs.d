@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: title
+# key: <t
+# --
+
+#+TITLE:  $0
+
+#+AUTHOR: Luis Eduardo Galindo Amaya (1274895)
+#+DATE:   $1
+
+#+MACRO: tagline    Práctica $2
+#+MACRO: asignatura Organización de Computadoras (331)
+#+MACRO: docente    Arturo Arreola Alvarez
+
+#+include: "../includes/titlepage-test.org"
+#+OPTIONS: num:1

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: uml
+# key: <uml
+# --
+#+NAME: $1
+#+BEGIN_SRC plantuml :file ./$1.png
+!theme plain
+skinparam classAttributeIconSize 0
+$2
+#+END_SRC

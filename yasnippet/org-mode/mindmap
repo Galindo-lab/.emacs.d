@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: mindmap
+# key: <mindmap
+# --
+
+#+name: $1
+#+BEGIN_SRC plantuml :file ./$2.png
+@startmindmap
+!theme plain
+
+@endmindmap
+#+END_SRC

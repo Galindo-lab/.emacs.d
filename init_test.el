@@ -125,7 +125,8 @@
   (setq neo-theme 'ascii
         neo-smart-open t
         neo-window-width 25
-        neo-window-fixed-size -1)
+        neo-window-fixed-size -1
+        neo-window-position 'right)
   )
 
 (use-package which-key

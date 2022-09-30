@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: plantuml-ditaa-diagram
+# key: <dd
+# --
+
+#+name: $1
+#+BEGIN_SRC plantuml :file $1.png
+@startditaa ditaa(--no-shadows,--no-separation )
+$2
+@endditaa
+#+END_SRC

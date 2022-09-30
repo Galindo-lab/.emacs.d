@@ -1,16 +1,12 @@
 # -*- mode: snippet -*-
-# name: title
+# name: title 
 # key: <t
 # --
 
-#+TITLE:  $0
-
+#+TITLE:  $1
 #+AUTHOR: Luis Eduardo Galindo Amaya (1274895)
-#+DATE:   $1
+#+DATE:   `(format-time-string "%d-%m-%Y")`
 
-#+MACRO: tagline    Práctica $2
-#+MACRO: asignatura Organización de Computadoras (331)
-#+MACRO: docente    Arturo Arreola Alvarez
-
-#+include: "../includes/titlepage-test.org"
-#+OPTIONS: num:1
+#+MACRO:  tagline  `(file-name-sans-extension (buffer-name))`
+#+INCLUDE: "../includes/template.org"
+#+OPTIONS: ^:nil

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: codels
+# key: <codels
+# --
+
+{{{lstlisting(${1})}}}

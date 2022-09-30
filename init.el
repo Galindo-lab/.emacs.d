@@ -121,7 +121,10 @@
   (setq neo-theme 'ascii
         neo-smart-open t
         neo-window-width 25
-        neo-window-fixed-size -1)
+        neo-window-fixed-size -1
+        neo-autorefresh t
+        ;; neo-window-position 'right
+        )
   )
 
 (use-package which-key
@@ -158,7 +161,7 @@
 
 (use-package company
   :config
-  (setq company-idle-delay 0
+  (setq company-idle-delay 0.5
         company-minimum-prefix-length 2
         company-show-numbers t
         company-tooltip-limit 10
@@ -224,38 +227,7 @@
         telephone-line-mode 1)
   )
 
-(use-package org
-  :hook
-  (org-mode . (lambda ()
-                (org-indent-mode t)
-                (org-content 2)
-                (toggle-truncate-lines)
-                ))
 
-  :config
-  (setq org-support-shift-select t
-        org-preview-latex-default-process 'dvisvgm
-        org-html-htmlize-output-type `nil
-        org-src-tab-acts-natively t
-        org-format-latex-options
-        (plist-put org-format-latex-options :scale 1.5))
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages '((emacs-lisp . t)
-                               (python . t)
-                               (latex . t)
-                               (ditaa . t)
-                               (maxima . t)
-                               (octave . t)
-                               (plantuml . t)))
-
-  (setq org-html-htmlize-output-type 'nil)
-
-  :bind
-  (:map org-mode-map
-        ("<M-return>" . org-toggle-latex-fragment))
-
-  )
 
 (use-package eshell
   :config
@@ -314,10 +286,16 @@
 
 ;; CUSTOM ---------------------------------------------------------------------
 
+
+
 (setq org-babel-python-command "python3"
 
-      default-frame-alist 
-      '((font . "Source Code Pro-10"))
+      ;; default-frame-alist 
+      ;; '(
+      ;;   ;; (font . "Source Code Pro-10")
+      ;;   ;; (font . "Fira Code Regular-10")
+      ;;   (font . "Monoid Regular-10")
+      ;;   )
 
       org-plantuml-jar-path 
       (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
@@ -339,3 +317,96 @@
                )
              )
   )
+
+;; (use-package vterm
+;;   :init
+;;   (defvar vterm-install t))
+
+
+;; (use-package tron-legacy-theme
+;;   :config
+;;   (setq tron-legacy-theme-vivid-cursor t)
+;;   (load-theme 'tron-legacy t))
+
+
+;; (use-package sublime-themes
+;;   :config
+;;    (load-theme 'dorsey)
+;;   )
+
+;; ---------------------------------------
+;; load elscreen
+;; ---------------------------------------
+
+;; (add-to-list 'load-path (expand-file-name "~/elisp"))
+
+;; (use-package tabbar
+;;   :config
+;;   (tabbar-mode 1)
+;;   (setq 'tabbar-use-images nil))
+
+
+;; (use-package awesome-tab
+;;   :load-path "./elisp/awesome-tab"
+;;   :config
+;;   (awesome-tab-mode t))
+
+;; (use-package elscreen
+;;   :config
+;;   (setq elscreen-tab-display-kill-screen nil)
+;;   (setq elscreen-tab-display-control nil)
+;;   (elscreen-start))
+
+(use-package imenu-list)
+
+(use-package lua-mode)
+
+(use-package ess)
+
+(use-package nasm-mode
+  :mode "\\.asm\\'"
+  :init
+  )
+
+;; (use-package js2-mode
+;;   :mode
+;;   (("\\.js\\'" . js2-mode))
+;;   )
+
+(use-package org
+  :hook
+  (org-mode . (lambda ()
+                (org-indent-mode t)
+                (org-content 2)
+                (toggle-truncate-lines)
+                ))
+
+  :config
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-support-shift-select t
+        org-preview-latex-default-process 'dvisvgm
+        org-html-htmlize-output-type `nil
+        org-src-tab-acts-natively t
+        org-format-latex-options
+        (plist-put org-format-latex-options :scale 1.5))
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((emacs-lisp . t)
+                               (python . t)
+                               (latex . t)
+                               (ditaa . t)
+                               (maxima . t)
+                               (octave . t)
+                               (plantuml . t)
+                               (shell . t)))
+
+  (setq org-html-htmlize-output-type 'nil)
+
+  :bind
+  (:map org-mode-map
+        ("<M-return>" . org-toggle-latex-fragment))
+
+  )
+
+
+

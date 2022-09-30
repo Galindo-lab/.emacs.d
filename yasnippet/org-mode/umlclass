@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: umlclass
+# key: <umlclass
+# --
+
+class $1 {
+ $2
+}

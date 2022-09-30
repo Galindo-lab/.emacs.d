@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: boxed
+# key: <boxed
+# --
+
+#+BEGIN_mdframed
+
+#+END_mdframed

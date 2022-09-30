@@ -231,7 +231,8 @@ A Emacs tree plugin like NerdTree for Vim.
     (setq neo-theme 'ascii
           neo-smart-open t
           neo-window-width 25
-          neo-window-fixed-size -1)
+          neo-window-fixed-size -1
+          neo-autorefresh t)
     )
 
 #+END_SRC
@@ -435,41 +436,51 @@ A new implementation of Powerline for Emacs
     (yas-global-mode 1)
     )
 #+END_SRC
+
+** imenu-list
+#+BEGIN_SRC elisp
+  (use-package imenu-list)
+#+END_SRC
+
 * ORG-MODE
 #+BEGIN_SRC elisp
 
-    (use-package org
-      :hook
-      (org-mode . (lambda ()
-                    (org-indent-mode t)
-                    (org-content 2)
-                    (org-startup-truncated)
-                    ))
+  (use-package org
+    :hook
+    (org-mode . (lambda ()
+                  ;; (org-indent-mode t)
+                  (org-content 2)
+                  (org-startup-truncated)
+                  (toggle-truncate-lines)
+                  ))
 
-      :config
-      (setq org-support-shift-select t
-            org-preview-latex-default-process 'dvisvgm
-            org-html-htmlize-output-type `nil
-            org-src-tab-acts-natively t
-            org-format-latex-options
-            (plist-put org-format-latex-options :scale 1.5))
+    :config
+    (setq org-confirm-babel-evaluate nil)
 
-      (org-babel-do-load-languages
-       'org-babel-load-languages '((emacs-lisp . t)
-                                   (python . t)
-                                   (latex . t)
-                                   (ditaa . t)
-                                   (maxima . t)
-                                   (octave . t)
-                                   (plantuml . t)))
+    (setq org-support-shift-select t
+          org-preview-latex-default-process 'dvisvgm
+          org-html-htmlize-output-type `nil
+          org-src-tab-acts-natively t
+          org-format-latex-options
+          (plist-put org-format-latex-options :scale 1.5))
 
-      (setq org-html-htmlize-output-type 'nil)
+    (org-babel-do-load-languages
+     'org-babel-load-languages '((emacs-lisp . t)
+                                 (python . t)
+                                 (latex . t)
+                                 (ditaa . t)
+                                 (maxima . t)
+                                 (octave . t)
+                                 (plantuml . t)
+                                 (shell . t)))
 
-      :bind
-      (:map org-mode-map
-            ("<M-return>" . org-toggle-latex-fragment))
+    (setq org-html-htmlize-output-type 'nil)
 
-      )
+    :bind
+    (:map org-mode-map
+          ("<M-return>" . org-toggle-latex-fragment))
+
+    )
 
 #+END_SRC
 
@@ -564,6 +575,21 @@ A new implementation of Powerline for Emacs
     )
 #+END_SRC
 
+** lua
+#+BEGIN_SRC elisp
+  (use-package lua-mode)
+#+END_SRC
+
+** R/ESS
+#+BEGIN_SRC elisp
+  (use-package ess)
+#+END_SRC
+
+** nasm
+#+BEGIN_SRC elisp
+(use-package nasm-mode
+  :mode "\\.asm\\'")
+#+END_SRC
 * CUSTOM
 #+BEGIN_SRC elisp
 
@@ -571,12 +597,14 @@ A new implementation of Powerline for Emacs
 
   (setq org-babel-python-command "python3"
 
-        default-frame-alist 
+        default-frame-alist
         '((font . "Source Code Pro-10"))
 
-        org-plantuml-jar-path 
+        org-plantuml-jar-path
         (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
 
         )
+
+  (desktop-save-mode 1)
 
 #+END_SRC

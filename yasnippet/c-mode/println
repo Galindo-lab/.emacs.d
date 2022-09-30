@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: println
+# key: println
+# --
+
+printf("$1\n");

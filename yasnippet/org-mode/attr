@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: attr
+# key: <attr
+# --
+
+
+#+ATTR_HTML:
+#+ATTR_LATEX:
+

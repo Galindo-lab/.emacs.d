@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: str
+# key: str
+# --
+
+$1 db '$1', 0xA, 0x0

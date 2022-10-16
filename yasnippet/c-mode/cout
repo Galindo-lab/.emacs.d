@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: println
-# key: println
+# name: cout
+# key: cout
 # --
 
 printf("$1\n");

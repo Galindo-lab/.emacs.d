@@ -442,48 +442,6 @@ A new implementation of Powerline for Emacs
   (use-package imenu-list)
 #+END_SRC
 
-* ORG-MODE
-#+BEGIN_SRC elisp
-
-  (use-package org
-    :hook
-    (org-mode . (lambda ()
-                  ;; (org-indent-mode t)
-                  (org-content 2)
-                  (org-startup-truncated)
-                  (toggle-truncate-lines)
-                  ))
-
-    :config
-    (setq org-confirm-babel-evaluate nil)
-
-    (setq org-support-shift-select t
-          org-preview-latex-default-process 'dvisvgm
-          org-html-htmlize-output-type `nil
-          org-src-tab-acts-natively t
-          org-format-latex-options
-          (plist-put org-format-latex-options :scale 1.5))
-
-    (org-babel-do-load-languages
-     'org-babel-load-languages '((emacs-lisp . t)
-                                 (python . t)
-                                 (latex . t)
-                                 (ditaa . t)
-                                 (maxima . t)
-                                 (octave . t)
-                                 (plantuml . t)
-                                 (shell . t)))
-
-    (setq org-html-htmlize-output-type 'nil)
-
-    :bind
-    (:map org-mode-map
-          ("<M-return>" . org-toggle-latex-fragment))
-
-    )
-
-#+END_SRC
-
 * ESHELL
 #+BEGIN_SRC elisp
 
@@ -515,7 +473,7 @@ A new implementation of Powerline for Emacs
   (use-package markdown-mode
     :init
     (setq markdown-command "multimarkdown")
-  
+
     :mode
     ("README\\.md\\'" . gfm-mode)
     )
@@ -593,7 +551,7 @@ A new implementation of Powerline for Emacs
 * CUSTOM
 #+BEGIN_SRC elisp
 
-  ;; CUSTOM ---------------------------------------------------------------------
+  ;; CUSTOM 
 
   (setq org-babel-python-command "python3"
 
@@ -606,5 +564,49 @@ A new implementation of Powerline for Emacs
         )
 
   (desktop-save-mode 1)
+
+#+END_SRC
+
+* ORG-MODE
+#+BEGIN_SRC elisp
+
+  ;; ORG-MODE
+
+  (use-package org
+    :hook
+    (org-mode . (lambda ()
+                  (org-indent-mode t)
+                  (org-content 2)
+                  (org-startup-truncated)
+                  ;; (toggle-truncate-lines)
+                  ))
+
+    :config
+    (setq org-confirm-babel-evaluate nil)
+
+    (setq org-support-shift-select t
+          org-preview-latex-default-process 'dvisvgm
+          org-html-htmlize-output-type `nil
+          org-src-tab-acts-natively t
+          org-format-latex-options
+          (plist-put org-format-latex-options :scale 1.5))
+
+    (org-babel-do-load-languages
+     'org-babel-load-languages '((emacs-lisp . t)
+                                 (python . t)
+                                 (latex . t)
+                                 (ditaa . t)
+                                 (maxima . t)
+                                 (octave . t)
+                                 (plantuml . t)
+                                 (shell . t)))
+
+    (setq org-html-htmlize-output-type 'nil)
+
+    :bind
+    (:map org-mode-map
+          ("<M-return>" . org-toggle-latex-fragment))
+
+    )
 
 #+END_SRC

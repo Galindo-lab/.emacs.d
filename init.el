@@ -51,7 +51,7 @@
  use-dialog-box nil                ;Disable the use of dialog boxes
  )
 
-(set-fringe-mode 10)               ;Espaciado
+;; (set-fringe-mode 10)               ;Espaciado
 (column-number-mode t)             ;Numero de columna en el modeline
 (line-number-mode t)               ;Numero de fila en el modeline
 (scroll-bar-mode -1)               ;Scroll bars visibles
@@ -156,7 +156,8 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-opera t)
+  ;; (load-theme 'doom-opera t)
+  (load-theme 'doom-laserwave t)
   )
 
 (use-package company
@@ -378,7 +379,8 @@
   (org-mode . (lambda ()
                 (org-indent-mode t)
                 (org-content 2)
-                (toggle-truncate-lines)
+                ;; (org-wea)
+                ;; (toggle-truncate-lines)
                 ))
 
   :config
@@ -408,5 +410,17 @@
 
   )
 
+(set-default 'truncate-lines -1)
 
 
+
+(defun my-reverse-region (beg end)
+ "Reverse characters between BEG and END."
+ (interactive "r")
+ (let ((region (buffer-substring beg end)))
+   (delete-region beg end)
+   (insert (nreverse region))))
+
+  ;;Fondo trasparente
+  (set-frame-parameter
+   (selected-frame) 'alpha '(95 95))

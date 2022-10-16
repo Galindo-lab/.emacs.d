@@ -3,4 +3,4 @@
 # key: print
 # --
 
-print("$1\n",$2);
+printf("$1\n",$2);

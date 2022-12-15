@@ -1,4 +1,4 @@
-;; 
+;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
@@ -11,24 +11,25 @@
 ;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+;;
 ;; ----------------------------------------------------------------------------
-;; 
-;;         ##    .#              
+;;
+;;         ##    .#
 ;; /     ###############          Luis E. Galindo Amaya
 ;; ######     ,#     /####        https://galindosoft.neocities.org
 ;; (##       #          #######   https://github.com/Galindo-lab
-;;         #        ##     #    
-;;       (      ## ####         
-;;      #,  ,##      ##         
-;;     #####         ##         
-;;                   / 
-;; 
+;;         #        ##     #
+;;       (      ## ####
+;;      #,  ,##      ##
+;;     #####         ##
+;;                   /
+;;
 ;; ----------------------------------------------------------------------------
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org"   . "https://orgmode.org/elpa/")
-                         ("elpa"  . "https://elpa.gnu.org/packages/")))
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("org"   . "https://orgmode.org/elpa/")
+        ("elpa"  . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
@@ -42,54 +43,7 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(use-package emacs
-  :config
-  (setq-default
-   cursor-type 'bar                  ;Tipo del cursor
-   tab-width 4                       ;Tamaño del tab
-   indent-tabs-mode nil              ;Desactivar tabs
-   scroll-step 1                     ;Smooth scrolling
-   inhibit-startup-screen t          ;Hide startup screen
-   use-dialog-box nil                ;Disable the use of dialog boxes
-   )
-
-  ;;(set-fringe-mode 10)             ;Espaciado
-  (column-number-mode t)             ;Numero de columna en el modeline
-  (line-number-mode t)               ;Numero de fila en el modeline
-  (scroll-bar-mode -1)               ;Scroll bars visibles
-  (display-time-mode -1)             ;Mostrar la hora
-  (display-battery-mode -1)          ;Mostrar batteria
-  (delete-selection-mode 1)          ;Typed text replaces the selection
-  (tool-bar-mode -1)                 ;Barra de herramientas visisles
-  (menu-bar-mode -1)                 ;Menu de herramientas visible
-  (global-hl-line-mode 1)            ;Cambiar el color de la line actual
-  (global-auto-revert-mode 1)        ;Reload file changes on disk
-
-  ;;Usar solo y-or-n
-  (defalias 'yes-or-no-p 'y-or-n-p)
-
-  (setq initial-major-mode 'fundamental-mode)
-  (setq initial-scratch-message nil)
-
-  (setq custom-file "~/.emacs.d/custom.el")
-  (load custom-file)
-
-  (add-to-list 'backup-directory-alist
-               (cons "." "~/.emacs.d/backups/"))
-
-  (customize-set-variable 'tramp-backup-directory-alist
-                          backup-directory-alist)
-
-  :bind
-  ("<f5>" . recompile)
-
-  :hook
-  (text-mode-hook . auto-fill-mode)
-  )
-
-(setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))
-
-(setq-default 
+(setq-default
  cursor-type 'bar                  ;Tipo del cursor
  tab-width 4                       ;Tamaño del tab
  indent-tabs-mode nil              ;Desactivar tabs
@@ -99,6 +53,18 @@
  )
 
 (set-default 'truncate-lines -1)
+
+;; (set-fringe-mode 10)               ;Espaciado
+(column-number-mode t)             ;Numero de columna en el modeline
+(line-number-mode t)               ;Numero de fila en el modeline
+(scroll-bar-mode -1)               ;Scroll bars visibles
+(display-time-mode -1)             ;Mostrar la hora
+(display-battery-mode -1)          ;Mostrar batteria
+(delete-selection-mode 1)          ;Typed text replaces the selection
+(tool-bar-mode -1)                 ;Barra de herramientas visisles
+(menu-bar-mode -1)                 ;Menu de herramientas visible
+;; (global-hl-line-mode 1)            ;Cambiar el color de la line actual
+(global-auto-revert-mode 1)        ;Reload file changes on disk
 
 ;;Usar solo y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -115,14 +81,21 @@
 (customize-set-variable 'tramp-backup-directory-alist
                         backup-directory-alist)
 
-;; Using garbage magic hack.
+;; (use-package gcmh
+;;   :config
+;;   (gcmh-mode 1)
+;;   (gcmh-idle-delay 5)
+;;   (gcmh-high-cons-threshold (* 256 1024 1024))
+;;   (gc-cons-percentage 0.2))
+
+
+;; ;; Using garbage magic hack.
 (use-package gcmh
   :config
   ;; Setting garbage collection threshold
   (setq gc-cons-threshold 402653184
         gc-cons-percentage 0.6)
-  (gcmh-mode 1)
-  )
+  (gcmh-mode 1)   )
 
 (use-package recentf
   :config
@@ -138,7 +111,7 @@
   )
 
 (use-package magit
-)
+  )
 
 (use-package projectile
   :config
@@ -182,7 +155,8 @@
 (use-package dashboard
   :config
   ;; (setq dashboard-startup-banner "~/.emacs.d/res/nu_35.txt")
-  (setq dashboard-startup-banner "~/.emacs.d/res/ak.txt")
+  ;; (setq dashboard-startup-banner "~/.emacs.d/res/nu_35.txt")
+  ;; (setq dashboard-startup-banner "~/.emacs.d/res/aa2.png")
   (setq dashboard-center-content t
         dashboard-items '((recents  . 10)
                           ;; (bookmarks . 10)
@@ -191,9 +165,11 @@
   (dashboard-setup-startup-hook)
   )
 
+
+
 (use-package company
   :config
-  (setq company-idle-delay 0
+  (setq company-idle-delay 0.5
         company-minimum-prefix-length 2
         company-show-numbers t
         company-tooltip-limit 10
@@ -210,6 +186,9 @@
 
 (use-package git-gutter
   :ensure t
+
+  ;; :config
+  ;; (global-git-gutter-mode +1)
   )
 
 (use-package centered-window
@@ -226,11 +205,6 @@
 
   :config
   (setq hl-todo-mode 1)
-  )
-
-(use-package rainbow-delimiters
-  :hook
-  (prog-mode-hook . rainbow-delimiters-mode)
   )
 
 (use-package format-all
@@ -266,11 +240,6 @@
 
 (use-package lorem-ipsum)
 
-(use-package rainbow-delimiters
-  :hook
-  ((prog-mode . rainbow-delimiters-mode))
-  )
-
 (use-package eshell
   :config
   (setq eshell-prompt-function
@@ -305,10 +274,10 @@
   )
 
 (use-package company-anaconda
-  :init 
+  :init
   (require 'rx)
 
-  :after 
+  :after
   (company)
 
   :config
@@ -340,10 +309,16 @@
     (delete-region beg end)
     (insert (nreverse region))))
 
+;; CUSTOM
+
 (setq org-babel-python-command "python3"
       org-plantuml-jar-path
       (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
       )
+
+;; (desktop-save-mode 1)
+;; default-frame-alist
+;; '((font . "Source Code Pro-10"))
 
 (use-package eshell
   :config
@@ -360,18 +335,27 @@
            " > "
            )))
 
-  (setq eshell-prompt-regexp " > ")   ; or " > "
-  (setq eshell-prompt-string " > ")   ; or " > "
+  (setq eshell-prompt-regexp " > ")   ; or "└─> "
+  (setq eshell-prompt-string " > ")   ; or "└─> "
   )
 
+;; ORG-MODE
+
 (use-package org
-  :hook
-  (org-mode . (lambda ()
-                (org-indent-mode t)
-                (org-content 2)
-                ))
+
+  ;; :hook
+  ;; (org-mode . (lambda ()
+  ;;               (org-indent-mode t)
+  ;;               (org-content 2)
+  ;;               ))
+
+  ;; :hook
+  ;; (org-mode-hook . visual-line-mode)
 
   :config
+  ;; (with-eval-after-load 'org
+  ;;   (add-hook 'org-mode-hook #'visual-line-mode))
+  
   (setq org-confirm-babel-evaluate nil)
   (setq org-support-shift-select t
         org-preview-latex-default-process 'dvisvgm
@@ -398,6 +382,82 @@
 
   )
 
+
+
+
+(use-package emacs
+  :bind
+  ("<f5>"   . recompile))
+
+
+;; (load-theme 'whiteboard)
+
+(use-package rainbow-delimiters
+  :hook
+  ((prog-mode . rainbow-delimiters-mode))
+  )
+
+
+
+  ;; ;;Fondo trasparente
+  ;; (set-frame-parameter
+  ;;  (selected-frame) 'alpha '(95 95))
+  
+  ;; ;;Transparencia del borde
+  ;; (add-to-list
+  ;;  'default-frame-alist '(alpha 95 95))
+
+
+
+  ;; (pixel-scroll-precision-mode 1)	        ; Precision scrolling
+
+  (setq read-process-output-max (* 1024 1024))  ; Increase the amount of data which Emacs reads from the process
+
+(use-package writeroom-mode)
+
+
+
+
 (use-package modus-themes
   :config
-  (load-theme 'modus-operandi t))
+  (load-theme 'modus-operandi))
+
+
+;; (use-package almost-mono-themes
+;;   :config
+;;   ;; (load-theme 'almost-mono-black t)
+;;   ;; (load-theme 'almost-mono-gray t)
+;;   ;; (load-theme 'almost-mono-cream t)
+;;   (load-theme 'almost-mono-white t))
+
+;; (set-face-bold-p 'bold nil)
+;; (mapc
+;;   (lambda (face)
+;;     (set-face-attribute face nil :weight 'normal :underline nil))
+;;   (face-list))
+
+;; (use-package doom-themes
+;;   :config
+;;   ;; (load-theme 'doom-laserwave t)
+;;   ;; (load-theme 'doom-opera t)
+;;   ;; (load-theme 'doom-acario-light)
+;;   (load-theme 'doom-opera-light t)
+;;   )
+
+
+
+;; (use-package stimmung-themes
+;;   :config (stimmung-themes-load-light))
+
+;; (use-package monotropic-theme
+;;   :config
+;;   (load-theme 'monotropic)
+;;   )
+
+
+;; (load-theme 'juait)
+ ;; (set-frame-parameter
+ ;;   (selected-frame) 'undecorated t) 
+
+
+(setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))

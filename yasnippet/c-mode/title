@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: title
+# key: title
+# --
+
+// AUTHOR: Luis Eduardo Galindo Amaya
+//   DATE: `(format-time-string "%d-%m-%Y")`
+//   DESC: $1

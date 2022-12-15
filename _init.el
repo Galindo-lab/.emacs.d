@@ -42,53 +42,6 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(use-package emacs
-  :config
-  (setq-default
-   cursor-type 'bar                  ;Tipo del cursor
-   tab-width 4                       ;Tamaño del tab
-   indent-tabs-mode nil              ;Desactivar tabs
-   scroll-step 1                     ;Smooth scrolling
-   inhibit-startup-screen t          ;Hide startup screen
-   use-dialog-box nil                ;Disable the use of dialog boxes
-   )
-
-  ;;(set-fringe-mode 10)             ;Espaciado
-  (column-number-mode t)             ;Numero de columna en el modeline
-  (line-number-mode t)               ;Numero de fila en el modeline
-  (scroll-bar-mode -1)               ;Scroll bars visibles
-  (display-time-mode -1)             ;Mostrar la hora
-  (display-battery-mode -1)          ;Mostrar batteria
-  (delete-selection-mode 1)          ;Typed text replaces the selection
-  (tool-bar-mode -1)                 ;Barra de herramientas visisles
-  (menu-bar-mode -1)                 ;Menu de herramientas visible
-  (global-hl-line-mode 1)            ;Cambiar el color de la line actual
-  (global-auto-revert-mode 1)        ;Reload file changes on disk
-
-  ;;Usar solo y-or-n
-  (defalias 'yes-or-no-p 'y-or-n-p)
-
-  (setq initial-major-mode 'fundamental-mode)
-  (setq initial-scratch-message nil)
-
-  (setq custom-file "~/.emacs.d/custom.el")
-  (load custom-file)
-
-  (add-to-list 'backup-directory-alist
-               (cons "." "~/.emacs.d/backups/"))
-
-  (customize-set-variable 'tramp-backup-directory-alist
-                          backup-directory-alist)
-
-  :bind
-  ("<f5>" . recompile)
-
-  :hook
-  (text-mode-hook . auto-fill-mode)
-  )
-
-(setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))
-
 (setq-default 
  cursor-type 'bar                  ;Tipo del cursor
  tab-width 4                       ;Tamaño del tab
@@ -98,7 +51,17 @@
  use-dialog-box nil                ;Disable the use of dialog boxes
  )
 
-(set-default 'truncate-lines -1)
+(set-fringe-mode 0)               ;Espaciado
+(column-number-mode t)             ;Numero de columna en el modeline
+(line-number-mode t)               ;Numero de fila en el modeline
+(scroll-bar-mode -1)               ;Scroll bars visibles
+(display-time-mode -1)             ;Mostrar la hora
+(display-battery-mode -1)          ;Mostrar batteria
+(delete-selection-mode 1)          ;Typed text replaces the selection
+(tool-bar-mode -1)                 ;Barra de herramientas visisles
+(menu-bar-mode -1)                 ;Menu de herramientas visible
+(global-hl-line-mode 1)            ;Cambiar el color de la line actual
+(global-auto-revert-mode 1)        ;Reload file changes on disk
 
 ;;Usar solo y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -159,7 +122,9 @@
         neo-smart-open t
         neo-window-width 25
         neo-window-fixed-size -1
-        neo-autorefresh t)
+        neo-autorefresh t
+        ;; neo-window-position 'right
+        )
   )
 
 (use-package which-key
@@ -182,7 +147,7 @@
 (use-package dashboard
   :config
   ;; (setq dashboard-startup-banner "~/.emacs.d/res/nu_35.txt")
-  (setq dashboard-startup-banner "~/.emacs.d/res/ak.txt")
+     (setq dashboard-startup-banner "~/.emacs.d/res/ak.txt")
   (setq dashboard-center-content t
         dashboard-items '((recents  . 10)
                           ;; (bookmarks . 10)
@@ -191,9 +156,10 @@
   (dashboard-setup-startup-hook)
   )
 
+
 (use-package company
   :config
-  (setq company-idle-delay 0
+  (setq company-idle-delay 0.5
         company-minimum-prefix-length 2
         company-show-numbers t
         company-tooltip-limit 10
@@ -210,6 +176,9 @@
 
 (use-package git-gutter
   :ensure t
+
+  ;; :config
+  ;; (global-git-gutter-mode +1)
   )
 
 (use-package centered-window
@@ -234,6 +203,7 @@
   )
 
 (use-package format-all
+  :init
   )
 
 (use-package emmet-mode
@@ -256,20 +226,7 @@
         telephone-line-mode 1)
   )
 
-(use-package yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/.emacs.d/yasnippet/"))
-  (yas-global-mode 1)
-  )
 
-(use-package imenu-list)
-
-(use-package lorem-ipsum)
-
-(use-package rainbow-delimiters
-  :hook
-  ((prog-mode . rainbow-delimiters-mode))
-  )
 
 (use-package eshell
   :config
@@ -326,49 +283,104 @@
   (add-to-list 'company-backends 'company-web-html)
   )
 
+;; CUSTOM ---------------------------------------------------------------------
+
+
+
+(setq org-babel-python-command "python3"
+
+      ;; default-frame-alist 
+      ;; '(
+      ;;   ;; (font . "Source Code Pro-10")
+      ;;   ;; (font . "Fira Code Regular-10")
+      ;;   (font . "Monoid Regular-10")
+      ;;   )
+
+      org-plantuml-jar-path 
+      (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
+
+      )
+
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/yasnippet/"))
+  (yas-global-mode 1)
+  )
+
+
+(use-package cc-mode
+  :bind
+  ("<f5>"   . recompile)
+  :config
+  ;; (add-hook 'c-mode-common-hook
+  ;;           (lambda ()
+  ;;             (message "aaaaaaaaaaaa")
+  ;;             )
+  ;;           )
+  )
+
+;; (use-package vterm
+;;   :init
+;;   (defvar vterm-install t))
+
+
+;; (use-package tron-legacy-theme
+;;   :config
+;;   (setq tron-legacy-theme-vivid-cursor t)
+;;   (load-theme 'tron-legacy t))
+
+
+;; (use-package sublime-themes
+;;   :config
+;;    (load-theme 'dorsey)
+;;   )
+
+;; ---------------------------------------
+;; load elscreen
+;; ---------------------------------------
+
+;; (add-to-list 'load-path (expand-file-name "~/elisp"))
+
+;; (use-package tabbar
+;;   :config
+;;   (tabbar-mode 1)
+;;   (setq 'tabbar-use-images nil))
+
+
+;; (use-package awesome-tab
+;;   :load-path "./elisp/awesome-tab"
+;;   :config
+;;   (awesome-tab-mode t))
+
+;; (use-package elscreen
+;;   :config
+;;   (setq elscreen-tab-display-kill-screen nil)
+;;   (setq elscreen-tab-display-control nil)
+;;   (elscreen-start))
+
+(use-package imenu-list)
+
 (use-package lua-mode)
 
 (use-package ess)
 
 (use-package nasm-mode
-  :mode "\\.asm\\'")
-
-(defun reverse-region (beg end)
-  "Reverse characters between BEG and END."
-  (interactive "r")
-  (let ((region (buffer-substring beg end)))
-    (delete-region beg end)
-    (insert (nreverse region))))
-
-(setq org-babel-python-command "python3"
-      org-plantuml-jar-path
-      (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
-      )
-
-(use-package eshell
-  :config
-  (setq eshell-prompt-function
-        (lambda ()
-          (concat
-           (format-time-string "[%H:%M]" (current-time))
-           (if (magit-get-current-branch)
-               (concat "[git:" (magit-get-current-branch) "]" )
-             "")
-           " "
-           (abbreviate-file-name (eshell/pwd))
-           "\n"
-           " > "
-           )))
-
-  (setq eshell-prompt-regexp " > ")   ; or " > "
-  (setq eshell-prompt-string " > ")   ; or " > "
+  :mode "\\.asm\\'"
+  :init
   )
+
+;; (use-package js2-mode
+;;   :mode
+;;   (("\\.js\\'" . js2-mode))
+;;   )
 
 (use-package org
   :hook
   (org-mode . (lambda ()
                 (org-indent-mode t)
                 (org-content 2)
+                ;; (org-wea)
+                ;; (toggle-truncate-lines)
                 ))
 
   :config
@@ -398,6 +410,28 @@
 
   )
 
-(use-package modus-themes
+(set-default 'truncate-lines -1)
+
+
+
+(defun my-reverse-region (beg end)
+ "Reverse characters between BEG and END."
+ (interactive "r")
+ (let ((region (buffer-substring beg end)))
+   (delete-region beg end)
+   (insert (nreverse region))))
+
+;; Fondo trasparente
+(set-frame-parameter
+ (selected-frame) 'alpha '(95 95))
+
+
+(use-package lorem-ipsum)
+
+
+
+(use-package doom-themes
   :config
-  (load-theme 'modus-operandi t))
+  ;; (load-theme 'doom-opera t)
+  (load-theme 'doom-laserwave t)
+  )

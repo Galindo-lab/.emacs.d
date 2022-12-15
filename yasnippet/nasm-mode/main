@@ -3,13 +3,11 @@
 # key: main
 # --
 
-;;
 ;;   AUTHOR: Luis Eduardo Galindo Amaya
-;;     DATE: `(format-time-string "%d-%m-%Y")`
+;;     DATE: `(format-time-string "%d-%m-%Y"`)
 ;; ASSEMBLE: 
 ;;     LINK:     
 ;;      RUN:
-;;
 
 section .data
 
@@ -18,9 +16,9 @@ section .bss
 section .text
 global _start
 
-_start:
-
-    ;; TERMINAR PROGRAMA
+_start:$1
+    
+    ; TERMINAR PROGRAMA
 	mov eax, 1
 	mov ebx, 0
 	int 80h

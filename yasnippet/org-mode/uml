@@ -2,7 +2,9 @@
 # name: uml
 # key: <uml
 # --
-#+NAME: $1
+
+$1
+#+NAME: 
 #+BEGIN_SRC plantuml :file ./$1.png
 !theme plain
 skinparam classAttributeIconSize 0

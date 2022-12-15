@@ -1,8 +1,8 @@
 
-#+TITLE: GNU/Emacs Config
-#+AUTHOR: Luis E. Galindo Amaya
+#+TITLE: GNU/EMACS CONFIG
+#+AUTHOR: LUIS E. GALINDO AMAYA
+#+DESCRIPTION: GALINDO PERSONAL EMACS CONFIG.
 
-#+DESCRIPTION: Galindo personal Emacs config.
 #+PROPERTY: header-args :tangle init.el
 
 * LICENCE
@@ -41,7 +41,7 @@
   ;; ----------------------------------------------------------------------------
 
 #+END_SRC
-                             
+
 * PACKAGES
 #+BEGIN_SRC elisp
 
@@ -64,11 +64,64 @@
 #+END_SRC
 
 * SETTINGS
+** emacs
+#+BEGIN_SRC elisp
+  (use-package emacs
+    :config
+    (setq-default
+     cursor-type 'bar                  ;Tipo del cursor
+     tab-width 4                       ;Tamaño del tab
+     indent-tabs-mode nil              ;Desactivar tabs
+     scroll-step 1                     ;Smooth scrolling
+     inhibit-startup-screen t          ;Hide startup screen
+     use-dialog-box nil                ;Disable the use of dialog boxes
+     )
+
+    ;;(set-fringe-mode 10)             ;Espaciado
+    (column-number-mode t)             ;Numero de columna en el modeline
+    (line-number-mode t)               ;Numero de fila en el modeline
+    (scroll-bar-mode -1)               ;Scroll bars visibles
+    (display-time-mode -1)             ;Mostrar la hora
+    (display-battery-mode -1)          ;Mostrar batteria
+    (delete-selection-mode 1)          ;Typed text replaces the selection
+    (tool-bar-mode -1)                 ;Barra de herramientas visisles
+    (menu-bar-mode -1)                 ;Menu de herramientas visible
+    (global-hl-line-mode 1)            ;Cambiar el color de la line actual
+    (global-auto-revert-mode 1)        ;Reload file changes on disk
+
+    ;;Usar solo y-or-n
+    (defalias 'yes-or-no-p 'y-or-n-p)
+
+    (setq initial-major-mode 'fundamental-mode)
+    (setq initial-scratch-message nil)
+
+    (setq custom-file "~/.emacs.d/custom.el")
+    (load custom-file)
+
+    (add-to-list 'backup-directory-alist
+                 (cons "." "~/.emacs.d/backups/"))
+
+    (customize-set-variable 'tramp-backup-directory-alist
+                            backup-directory-alist)
+
+    :bind
+    ("<f5>" . recompile)
+
+    :hook
+    (text-mode-hook . auto-fill-mode)
+    )
+#+END_SRC
+
+** emacs server
+#+begin_src elisp
+  (setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))
+#+end_src
+
 ** global defaults
 [[https://stackoverflow.com/a/18173666][¿Para qué es setq-default?]]
 
 #+BEGIN_SRC elisp
-  
+
   (setq-default 
    cursor-type 'bar                  ;Tipo del cursor
    tab-width 4                       ;Tamaño del tab
@@ -78,10 +131,12 @@
    use-dialog-box nil                ;Disable the use of dialog boxes
    )
 
+  (set-default 'truncate-lines -1)
+
 #+END_SRC
 
 ** global modes
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :tangle none
 
   (set-fringe-mode 10)               ;Espaciado
   (column-number-mode t)             ;Numero de columna en el modeline
@@ -135,7 +190,7 @@
 
 #+END_SRC
 
-** custom.el file
+** custom.el f|ile
 #+BEGIN_SRC elisp
 
   (setq custom-file "~/.emacs.d/custom.el")
@@ -261,6 +316,7 @@ Useful interactive commands.
     ("C-x M-c" . crux-capitalize-region)
     ("C-c k"   . crux-kill-other-buffers)
     ("C-c t"   . crux-visit-term-buffer)
+    ("C-c r"   . crux-rename-file-and-buffer)
     )
 
 #+END_SRC
@@ -271,24 +327,14 @@ An extensible emacs startup screen.
 
   (use-package dashboard
     :config
-    (setq dashboard-startup-banner "~/.emacs.d/res/nu_35.txt")
+    ;; (setq dashboard-startup-banner "~/.emacs.d/res/nu_35.txt")
+    (setq dashboard-startup-banner "~/.emacs.d/res/ak.txt")
     (setq dashboard-center-content t
           dashboard-items '((recents  . 10)
                             ;; (bookmarks . 10)
                             ))
 
     (dashboard-setup-startup-hook)
-    )
-
-#+END_SRC
-
-** doom-themes
-Doom Emacs theme pack
-#+BEGIN_SRC elisp
-
-  (use-package doom-themes
-    :config
-    (load-theme 'doom-opera t)
     )
 
 #+END_SRC
@@ -328,13 +374,12 @@ Show inserted, modified or deleted lines.
 
   (use-package git-gutter
     :ensure t
-
-    ;; :config
-    ;; (global-git-gutter-mode +1)
     )
 
 
 #+END_SRC
+
+#+RESULTS:
 
 ** centered-window
 Centers the text of the window
@@ -442,6 +487,19 @@ A new implementation of Powerline for Emacs
   (use-package imenu-list)
 #+END_SRC
 
+** lorem-ipsum
+#+BEGIN_SRC elisp
+  (use-package lorem-ipsum)
+#+END_SRC
+
+** rainbow-delimiters
+#+begin_src elisp
+  (use-package rainbow-delimiters
+    :hook
+    ((prog-mode . rainbow-delimiters-mode))
+    )
+#+end_src
+
 * ESHELL
 #+BEGIN_SRC elisp
 
@@ -520,8 +578,10 @@ A new implementation of Powerline for Emacs
 
 ** c/c++
 #+BEGIN_SRC elisp :tangle none
+
   (use-package cc-mode
-    :init
+    :bind  
+    ("<f5>"   . recompile)
     )
 
   (use-package company-clang
@@ -531,59 +591,90 @@ A new implementation of Powerline for Emacs
     :after
     (company)
     )
+
 #+END_SRC
 
 ** lua
 #+BEGIN_SRC elisp
+
   (use-package lua-mode)
+
 #+END_SRC
 
 ** R/ESS
 #+BEGIN_SRC elisp
+
   (use-package ess)
+
 #+END_SRC
 
 ** nasm
 #+BEGIN_SRC elisp
+
 (use-package nasm-mode
   :mode "\\.asm\\'")
+
 #+END_SRC
 * CUSTOM
+** reverse-region
 #+BEGIN_SRC elisp
+  (defun reverse-region (beg end)
+    "Reverse characters between BEG and END."
+    (interactive "r")
+    (let ((region (buffer-substring beg end)))
+      (delete-region beg end)
+      (insert (nreverse region))))
+#+END_SRC
 
-  ;; CUSTOM 
+** extras
+#+BEGIN_SRC elisp 
 
   (setq org-babel-python-command "python3"
-
-        default-frame-alist
-        '((font . "Source Code Pro-10"))
-
         org-plantuml-jar-path
         (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
-
         )
 
-  (desktop-save-mode 1)
+#+END_SRC
+
+#+RESULTS:
+: t
+
+* ESHELL
+#+BEGIN_SRC elisp
+
+  (use-package eshell
+    :config
+    (setq eshell-prompt-function
+          (lambda ()
+            (concat
+             (format-time-string "[%H:%M]" (current-time))
+             (if (magit-get-current-branch)
+                 (concat "[git:" (magit-get-current-branch) "]" )
+               "")
+             " "
+             (abbreviate-file-name (eshell/pwd))
+             "\n"
+             " > "
+             )))
+
+    (setq eshell-prompt-regexp " > ")   ; or " > "
+    (setq eshell-prompt-string " > ")   ; or " > "
+    )
 
 #+END_SRC
 
 * ORG-MODE
 #+BEGIN_SRC elisp
 
-  ;; ORG-MODE
-
   (use-package org
     :hook
     (org-mode . (lambda ()
                   (org-indent-mode t)
                   (org-content 2)
-                  (org-startup-truncated)
-                  ;; (toggle-truncate-lines)
                   ))
 
     :config
     (setq org-confirm-babel-evaluate nil)
-
     (setq org-support-shift-select t
           org-preview-latex-default-process 'dvisvgm
           org-html-htmlize-output-type `nil
@@ -609,4 +700,20 @@ A new implementation of Powerline for Emacs
 
     )
 
+#+END_SRC
+
+* THEMES
+** modus-themes
+#+begin_src elisp
+  (use-package modus-themes
+    :config
+    (load-theme 'modus-operandi t))
+#+end_src
+
+** doom-themes
+Doom Emacs theme pack, 
+#+BEGIN_SRC elisp :tangle none
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-opera t))
 #+END_SRC

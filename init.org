@@ -5,43 +5,6 @@
 
 #+PROPERTY: header-args :tangle init.el
 
-* LICENCE
-#+BEGIN_SRC elisp
-  ;; 
-  ;; This program is free software; you can redistribute it and/or modify
-  ;; it under the terms of the GNU General Public License as published by
-  ;; the Free Software Foundation, either version 3 of the License, or
-  ;; (at your option) any later version.
-  ;;
-  ;; This program is distributed in the hope that it will be useful,
-  ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ;; GNU General Public License for more details.
-  ;;
-  ;; You should have received a copy of the GNU General Public License
-  ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#+END_SRC
-
-* TITLE
-#+BEGIN_SRC elisp
-
-  ;; ----------------------------------------------------------------------------
-  ;; 
-  ;;         ##    .#              
-  ;; /     ###############          Luis E. Galindo Amaya
-  ;; ######     ,#     /####        https://galindosoft.neocities.org
-  ;; (##       #          #######   https://github.com/Galindo-lab
-  ;;         #        ##     #    
-  ;;       (      ## ####         
-  ;;      #,  ,##      ##         
-  ;;     #####         ##         
-  ;;                   / 
-  ;; 
-  ;; ----------------------------------------------------------------------------
-
-#+END_SRC
-
 * PACKAGES
 #+BEGIN_SRC elisp
 
@@ -77,7 +40,7 @@
      use-dialog-box nil                ;Disable the use of dialog boxes
      )
 
-    ;;(set-fringe-mode 10)             ;Espaciado
+    (set-fringe-mode 10)             ;Espaciado
     (column-number-mode t)             ;Numero de columna en el modeline
     (line-number-mode t)               ;Numero de fila en el modeline
     (scroll-bar-mode -1)               ;Scroll bars visibles
@@ -86,7 +49,7 @@
     (delete-selection-mode 1)          ;Typed text replaces the selection
     (tool-bar-mode -1)                 ;Barra de herramientas visisles
     (menu-bar-mode -1)                 ;Menu de herramientas visible
-    (global-hl-line-mode 1)            ;Cambiar el color de la line actual
+    (global-hl-line-mode -1)            ;Cambiar el color de la line actual
     (global-auto-revert-mode 1)        ;Reload file changes on disk
 
     ;;Usar solo y-or-n
@@ -327,8 +290,6 @@ An extensible emacs startup screen.
 
   (use-package dashboard
     :config
-    ;; (setq dashboard-startup-banner "~/.emacs.d/res/nu_35.txt")
-    (setq dashboard-startup-banner "~/.emacs.d/res/ak.txt")
     (setq dashboard-center-content t
           dashboard-items '((recents  . 10)
                             ;; (bookmarks . 10)
@@ -501,7 +462,7 @@ A new implementation of Powerline for Emacs
 #+end_src
 
 * ESHELL
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :tangle none
 
   (use-package eshell
     :config
@@ -615,30 +576,6 @@ A new implementation of Powerline for Emacs
   :mode "\\.asm\\'")
 
 #+END_SRC
-* CUSTOM
-** reverse-region
-#+BEGIN_SRC elisp
-  (defun reverse-region (beg end)
-    "Reverse characters between BEG and END."
-    (interactive "r")
-    (let ((region (buffer-substring beg end)))
-      (delete-region beg end)
-      (insert (nreverse region))))
-#+END_SRC
-
-** extras
-#+BEGIN_SRC elisp 
-
-  (setq org-babel-python-command "python3"
-        org-plantuml-jar-path
-        (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
-        )
-
-#+END_SRC
-
-#+RESULTS:
-: t
-
 * ESHELL
 #+BEGIN_SRC elisp
 
@@ -717,3 +654,27 @@ Doom Emacs theme pack,
     :config
     (load-theme 'doom-opera t))
 #+END_SRC
+* CUSTOM
+** reverse-region
+#+BEGIN_SRC elisp
+  (defun reverse-region (beg end)
+    "Reverse characters between BEG and END."
+    (interactive "r")
+    (let ((region (buffer-substring beg end)))
+      (delete-region beg end)
+      (insert (nreverse region))))
+#+END_SRC
+
+** extras
+#+BEGIN_SRC elisp 
+
+  (setq org-babel-python-command "python3"
+        org-plantuml-jar-path
+        (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
+        )
+
+#+END_SRC
+
+#+RESULTS:
+: t
+

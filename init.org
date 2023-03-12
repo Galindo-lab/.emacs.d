@@ -153,7 +153,7 @@
 
 #+END_SRC
 
-** custom.el f|ile
+** custom.el file
 #+BEGIN_SRC elisp
 
   (setq custom-file "~/.emacs.d/custom.el")
@@ -162,6 +162,7 @@
 #+END_SRC
 
 * BACKUPS
+** settings
 #+BEGIN_SRC elisp
 
   (add-to-list 'backup-directory-alist
@@ -173,6 +174,7 @@
 #+END_SRC
 
 * STARTUP PERFORMANCE
+** gcmh
 #+BEGIN_SRC elisp
 
   ;; Using garbage magic hack.
@@ -461,29 +463,14 @@ A new implementation of Powerline for Emacs
     )
 #+end_src
 
-* ESHELL
-#+BEGIN_SRC elisp :tangle none
-
-  (use-package eshell
+** plantuml
+#+begin_src elisp
+  (use-package plantuml-mode
     :config
-    (setq eshell-prompt-function
-          (lambda ()
-            (concat
-             (format-time-string "[%H:%M]" (current-time))
-             (if (magit-get-current-branch)
-                 (concat "[git:" (magit-get-current-branch) "]" )
-               "")
-             " "
-             (abbreviate-file-name (eshell/pwd))
-             "\n"
-             " > "
-             )))
-
-    (setq eshell-prompt-regexp " > ")   ; or "└─> "
-    (setq eshell-prompt-string " > ")   ; or "└─> "
+    (setq plantuml-jar-path "~/.emacs.d/plantuml-1.2023.1.jar")
+    (setq plantuml-default-exec-mode 'jar)
     )
-
-#+END_SRC
+#+end_src
 
 * PROGRAMMING MODE
 ** markdown
@@ -571,13 +558,13 @@ A new implementation of Powerline for Emacs
 
 ** nasm
 #+BEGIN_SRC elisp
-
 (use-package nasm-mode
   :mode "\\.asm\\'")
-
 #+END_SRC
+
 * ESHELL
-#+BEGIN_SRC elisp
+** settings
+#+BEGIN_SRC elisp :tangle none
 
   (use-package eshell
     :config
@@ -601,13 +588,14 @@ A new implementation of Powerline for Emacs
 #+END_SRC
 
 * ORG-MODE
+** base
 #+BEGIN_SRC elisp
-
   (use-package org
     :hook
     (org-mode . (lambda ()
                   (org-indent-mode t)
                   (org-content 2)
+                  (visual-line-mode)
                   ))
 
     :config
@@ -636,24 +624,38 @@ A new implementation of Powerline for Emacs
           ("<M-return>" . org-toggle-latex-fragment))
 
     )
-
 #+END_SRC
+
+** settings
+#+begin_src elisp
+(setq org-babel-python-command "python3"
+      org-plantuml-jar-path
+      (expand-file-name "~/.emacs.d/plantuml-1.2023.1.jar")
+      )
+
+(setq org-latex-pdf-process
+      '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+
+(setq org-latex-caption-above nil)
+#+end_src
 
 * THEMES
 ** modus-themes
 #+begin_src elisp
   (use-package modus-themes
     :config
-    (load-theme 'modus-operandi t))
+    ;; (load-theme 'modus-operandi t)
+    (load-theme 'modus-vivendi t)
+    )
 #+end_src
 
 ** doom-themes
-Doom Emacs theme pack, 
 #+BEGIN_SRC elisp :tangle none
   (use-package doom-themes
     :config
     (load-theme 'doom-opera t))
 #+END_SRC
+
 * CUSTOM
 ** reverse-region
 #+BEGIN_SRC elisp
@@ -665,16 +667,24 @@ Doom Emacs theme pack,
       (insert (nreverse region))))
 #+END_SRC
 
-** extras
-#+BEGIN_SRC elisp 
 
-  (setq org-babel-python-command "python3"
-        org-plantuml-jar-path
-        (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
-        )
+** COMMENT reverse-region
+#+begin_src elisp
+  (defun reverse-word ()
+    "Reverse the word at point."
+    (interactive)
+    (let ((word (thing-at-point 'word)))
+      (if word
+          (let ((word-reversed (reverse (string-to-list word))))
+            (delete-region (point) (progn (forward-word) (point)))
+            (insert (apply #'string word-reversed)))
+        (error "No word at point"))))
+#+end_src
 
-#+END_SRC
-
-#+RESULTS:
-: t
-
+** COMMENT convert-to-hex
+#+begin_src elisp
+  (defun convert-to-hex (num)
+  "Convert NUM to hexadecimal and insert it into the current buffer."
+  (interactive "nEnter number to convert: ")
+  (insert (format "%x" num)))
+#+end_src

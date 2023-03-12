@@ -1,12 +1,12 @@
 # -*- mode: snippet -*-
 # name: uml
 # key: <uml
+# expand-env: ((yas-indent-line 'fixed)(yas-wrap-around-region 'nil))
 # --
 
-$1
-#+NAME: 
-#+BEGIN_SRC plantuml :file ./$1.png
+#+name: $1
+#+begin_src plantuml :file ./$1.png
 !theme plain
-skinparam classAttributeIconSize 0
-$2
-#+END_SRC
+skinparam classattributeiconsize 0
+  $0
+#+end_src

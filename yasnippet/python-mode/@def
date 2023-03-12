@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: @def
+# key: @def
+# --
+
+def ${1:__init__}(self$2):$0

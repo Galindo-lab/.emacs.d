@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: template
+# key: <t
+# --
+
+!theme plain
+title $0

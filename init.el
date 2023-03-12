@@ -241,6 +241,12 @@
   ((prog-mode . rainbow-delimiters-mode))
   )
 
+(use-package plantuml-mode
+  :config
+  (setq plantuml-jar-path "~/.emacs.d/plantuml-1.2023.1.jar")
+  (setq plantuml-default-exec-mode 'jar)
+  )
+
 (use-package markdown-mode
   :init
   (setq markdown-command "multimarkdown")
@@ -284,42 +290,12 @@
 (use-package nasm-mode
   :mode "\\.asm\\'")
 
-(defun reverse-region (beg end)
-  "Reverse characters between BEG and END."
-  (interactive "r")
-  (let ((region (buffer-substring beg end)))
-    (delete-region beg end)
-    (insert (nreverse region))))
-
-(setq org-babel-python-command "python3"
-      org-plantuml-jar-path
-      (expand-file-name "~/Programas/platinuml/plantuml-1.2022.2.jar")
-      )
-
-(use-package eshell
-  :config
-  (setq eshell-prompt-function
-        (lambda ()
-          (concat
-           (format-time-string "[%H:%M]" (current-time))
-           (if (magit-get-current-branch)
-               (concat "[git:" (magit-get-current-branch) "]" )
-             "")
-           " "
-           (abbreviate-file-name (eshell/pwd))
-           "\n"
-           " > "
-           )))
-
-  (setq eshell-prompt-regexp " > ")   ; or " > "
-  (setq eshell-prompt-string " > ")   ; or " > "
-  )
-
 (use-package org
   :hook
   (org-mode . (lambda ()
                 (org-indent-mode t)
                 (org-content 2)
+                (visual-line-mode)
                 ))
 
   :config
@@ -349,6 +325,25 @@
 
   )
 
+(setq org-babel-python-command "python3"
+      org-plantuml-jar-path
+      (expand-file-name "~/.emacs.d/plantuml-1.2023.1.jar")
+      )
+
+(setq org-latex-pdf-process
+      '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+
+(setq org-latex-caption-above nil)
+
 (use-package modus-themes
   :config
-  (load-theme 'modus-operandi t))
+  ;; (load-theme 'modus-operandi t)
+  (load-theme 'modus-vivendi t)
+  )
+
+(defun reverse-region (beg end)
+  "Reverse characters between BEG and END."
+  (interactive "r")
+  (let ((region (buffer-substring beg end)))
+    (delete-region beg end)
+    (insert (nreverse region))))

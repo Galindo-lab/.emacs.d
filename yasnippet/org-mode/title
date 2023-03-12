@@ -3,10 +3,11 @@
 # key: <t
 # --
 
-#+TITLE:  $1
-#+AUTHOR: Luis Eduardo Galindo Amaya (1274895)
-#+DATE:   `(format-time-string "%d-%m-%Y")`
+#+TITLE:  `(file-name-sans-extension (buffer-name))`
+#+AUTHOR: `(user-full-name)`
+#+DATE:   `(format-time-string "%Y-%m-%d")`
+# --
 
-#+MACRO:  tagline  `(file-name-sans-extension (buffer-name))`
-#+INCLUDE: "../includes/template.org"
-#+OPTIONS: ^:nil
+#+OPTIONS: toc:nil ^:nil title:nil
+
+$0

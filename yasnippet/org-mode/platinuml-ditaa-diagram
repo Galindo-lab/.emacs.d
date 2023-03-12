@@ -1,11 +1,10 @@
 # -*- mode: snippet -*-
 # name: plantuml-ditaa-diagram
 # key: <dd
+# expand-env: ((yas-indent-line 'fixed)(yas-wrap-around-region 'nil))
 # --
-
 #+name: $1
-#+BEGIN_SRC plantuml :file $1.png
-@startditaa ditaa(--no-shadows,--no-separation )
-$2
-@endditaa
-#+END_SRC
+#+begin_src plantuml :file $1.png
+ditaa(--no-shadows,--no-separation, scale=1)
+$0
+#+end_src

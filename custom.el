@@ -9,7 +9,7 @@
  '(ispell-dictionary "castellano8")
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(modus-themes white-theme basic-theme lsp-ivy juait-theme monotropic-theme stimmung-themes almost-mono-themes writeroom-mode elisp-mode emacs-lisp-mode emacs-lisp lorem-ipsum nasm-mode lsp-mode lsp eglot js2-mode ess lua-mode imenu-list lsp-java tabbar elscreen vterm tron-legacy-theme tron-theme tron-theme\.el sublime-themes c-mode yasnippet company-clang telephone-line rainbow-mode markdown-mode company-web company-anaconda anaconda-mode gnuplot emmet-mode format-all rainbow-delimiters hl-todo centered-window git-gutter company-quickhelp company doom-themes dashboard crux which-key neotree projectile magit ivy gcmh use-package))
+   '(plantuml-mode vlf-mode rjsx-mode indium oc-bibtex ox-bibtex modus-themes white-theme basic-theme lsp-ivy juait-theme monotropic-theme stimmung-themes almost-mono-themes writeroom-mode elisp-mode emacs-lisp-mode emacs-lisp lorem-ipsum nasm-mode lsp-mode lsp eglot js2-mode ess lua-mode imenu-list lsp-java tabbar elscreen vterm tron-legacy-theme tron-theme tron-theme\.el sublime-themes c-mode yasnippet company-clang telephone-line rainbow-mode markdown-mode company-web company-anaconda anaconda-mode gnuplot emmet-mode format-all rainbow-delimiters hl-todo centered-window git-gutter company-quickhelp company doom-themes dashboard crux which-key neotree projectile magit ivy gcmh use-package))
  '(semantic-mode t)
  '(tool-bar-mode nil)
  '(tramp-backup-directory-alist '(("." . "~/.emacs.d/backups/"))))

@@ -2,5 +2,4 @@
 # name: inline equation
 # key: <ieq
 # --
-
-\\($1\\)
+\\($0\\)

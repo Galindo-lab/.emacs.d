@@ -1,12 +1,13 @@
 # -*- mode: snippet -*-
 # name: mindmap
 # key: <mindmap
+# expand-env: ((yas-indent-line 'fixed)(yas-wrap-around-region 'nil))
 # --
 
 #+name: $1
-#+BEGIN_SRC plantuml :file ./$2.png
+#+begin_src plantuml :file ./$2.png
 @startmindmap
 !theme plain
 
 @endmindmap
-#+END_SRC
+#+end_src

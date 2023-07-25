@@ -98,8 +98,8 @@
 
 #+END_SRC
 
-** global modes
-#+BEGIN_SRC elisp :tangle none
+** COMMENT global modes
+#+BEGIN_SRC elisp
 
   (set-fringe-mode 10)               ;Espaciado
   (column-number-mode t)             ;Numero de columna en el modeline
@@ -123,8 +123,8 @@
 
 #+END_SRC
 
-** frame border
-#+BEGIN_SRC elisp :tangle none
+** COMMENT frame border
+#+BEGIN_SRC elisp 
 
   ;;Frame visible
   (set-frame-parameter
@@ -133,15 +133,15 @@
 #+END_SRC
 
 ** transparency
-#+BEGIN_SRC elisp :tangle no
+#+BEGIN_SRC elisp
 
   ;;Fondo trasparente
   (set-frame-parameter
-   (selected-frame) 'alpha '(95 95))
-  
+   (selected-frame) 'alpha '(100 100))
+
   ;;Transparencia del borde
   (add-to-list
-   'default-frame-alist '(alpha 85 85))
+   'default-frame-alist '(alpha 95 95))
 
 #+END_SRC
 
@@ -152,6 +152,12 @@
   (setq initial-scratch-message nil)
 
 #+END_SRC
+
+** column ruler
+#+begin_src elisp
+  (setq-default display-fill-column-indicator-column 72)
+  (global-display-fill-column-indicator-mode 1)
+#+end_src
 
 ** custom.el file
 #+BEGIN_SRC elisp
@@ -286,7 +292,7 @@ Useful interactive commands.
 
 #+END_SRC
 
-** dashboard
+** COMMENT dashboard
 An extensible emacs startup screen.
 #+BEGIN_SRC elisp
 
@@ -472,6 +478,10 @@ A new implementation of Powerline for Emacs
     )
 #+end_src
 
+** zen-mode
+#+begin_src elisp
+  (use-package zen-mode)
+#+end_src
 * PROGRAMMING MODE
 ** markdown
 #+BEGIN_SRC elisp
@@ -524,8 +534,8 @@ A new implementation of Powerline for Emacs
 
 #+END_SRC
 
-** c/c++
-#+BEGIN_SRC elisp :tangle none
+** COMMENT c/c++
+#+BEGIN_SRC elisp
 
   (use-package cc-mode
     :bind  
@@ -551,9 +561,7 @@ A new implementation of Powerline for Emacs
 
 ** R/ESS
 #+BEGIN_SRC elisp
-
   (use-package ess)
-
 #+END_SRC
 
 ** nasm
@@ -562,9 +570,14 @@ A new implementation of Powerline for Emacs
   :mode "\\.asm\\'")
 #+END_SRC
 
+** racket 
+#+begin_src elisp
+(use-package racket-mode)
+#+end_src
+
 * ESHELL
-** settings
-#+BEGIN_SRC elisp :tangle none
+** COMMENT settings
+#+BEGIN_SRC elisp
 
   (use-package eshell
     :config
@@ -628,15 +641,15 @@ A new implementation of Powerline for Emacs
 
 ** settings
 #+begin_src elisp
-(setq org-babel-python-command "python3"
-      org-plantuml-jar-path
-      (expand-file-name "~/.emacs.d/plantuml-1.2023.1.jar")
-      )
+  (setq org-babel-python-command "python3"
+        org-plantuml-jar-path
+        (expand-file-name "~/.emacs.d/plantuml-1.2023.1.jar")
+        )
 
-(setq org-latex-pdf-process
-      '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+  ;; (setq org-latex-pdf-process
+  ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
-(setq org-latex-caption-above nil)
+  (setq org-latex-caption-above nil)
 #+end_src
 
 * THEMES
@@ -649,8 +662,8 @@ A new implementation of Powerline for Emacs
     )
 #+end_src
 
-** doom-themes
-#+BEGIN_SRC elisp :tangle none
+** COMMENT doom-themes
+#+BEGIN_SRC elisp
   (use-package doom-themes
     :config
     (load-theme 'doom-opera t))

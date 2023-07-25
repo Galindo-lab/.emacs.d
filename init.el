@@ -75,8 +75,19 @@
 ;;Usar solo y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;;Fondo trasparente
+(set-frame-parameter
+ (selected-frame) 'alpha '(100 100))
+
+;;Transparencia del borde
+(add-to-list
+ 'default-frame-alist '(alpha 95 95))
+
 (setq initial-major-mode 'fundamental-mode)
 (setq initial-scratch-message nil)
+
+(setq-default display-fill-column-indicator-column 72)
+(global-display-fill-column-indicator-mode 1)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
@@ -149,16 +160,6 @@
   ("C-c k"   . crux-kill-other-buffers)
   ("C-c t"   . crux-visit-term-buffer)
   ("C-c r"   . crux-rename-file-and-buffer)
-  )
-
-(use-package dashboard
-  :config
-  (setq dashboard-center-content t
-        dashboard-items '((recents  . 10)
-                          ;; (bookmarks . 10)
-                          ))
-
-  (dashboard-setup-startup-hook)
   )
 
 (use-package company
@@ -247,6 +248,8 @@
   (setq plantuml-default-exec-mode 'jar)
   )
 
+(use-package zen-mode)
+
 (use-package markdown-mode
   :init
   (setq markdown-command "multimarkdown")
@@ -290,6 +293,8 @@
 (use-package nasm-mode
   :mode "\\.asm\\'")
 
+(use-package racket-mode)
+
 (use-package org
   :hook
   (org-mode . (lambda ()
@@ -330,8 +335,8 @@
       (expand-file-name "~/.emacs.d/plantuml-1.2023.1.jar")
       )
 
-(setq org-latex-pdf-process
-      '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+;; (setq org-latex-pdf-process
+;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
 (setq org-latex-caption-above nil)
 

@@ -75,19 +75,13 @@
 ;;Usar solo y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;;Fondo trasparente
-(set-frame-parameter
- (selected-frame) 'alpha '(100 100))
-
-;;Transparencia del borde
-(add-to-list
- 'default-frame-alist '(alpha 95 95))
-
 (setq initial-major-mode 'fundamental-mode)
 (setq initial-scratch-message nil)
 
-(setq-default display-fill-column-indicator-column 72)
+(setq-default display-fill-column-indicator-column 80)
 (global-display-fill-column-indicator-mode 1)
+
+(tab-bar-mode)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
@@ -298,9 +292,9 @@
 (use-package org
   :hook
   (org-mode . (lambda ()
-                (org-indent-mode t)
+                ;; (org-indent-mode t)
                 (org-content 2)
-                (visual-line-mode)
+                ;; (visual-line-mode)
                 ))
 
   :config
@@ -340,11 +334,13 @@
 
 (setq org-latex-caption-above nil)
 
-(use-package modus-themes
-  :config
-  ;; (load-theme 'modus-operandi t)
-  (load-theme 'modus-vivendi t)
-  )
+(use-package doom-themes
+    :config
+    ;; (load-theme 'doom-opera t)
+;;    (load-theme 'doom-solarized-dark)     
+  ;; (load-theme 'doom-sourcerer)
+  (load-theme 'doom-plain-dark)
+    )
 
 (defun reverse-region (beg end)
   "Reverse characters between BEG and END."

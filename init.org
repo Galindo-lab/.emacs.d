@@ -1,8 +1,6 @@
 
-#+TITLE: GNU/EMACS CONFIG
-#+AUTHOR: LUIS E. GALINDO AMAYA
-#+DESCRIPTION: GALINDO PERSONAL EMACS CONFIG.
-
+#+TITLE:    GNU/EMACS CONFIG
+#+AUTHOR:   LUIS E. GALINDO AMAYA
 #+PROPERTY: header-args :tangle init.el
 
 * PACKAGES
@@ -132,7 +130,7 @@
 
 #+END_SRC
 
-** transparency
+** COMMENT transparency
 #+BEGIN_SRC elisp
 
   ;;Fondo trasparente
@@ -155,8 +153,13 @@
 
 ** column ruler
 #+begin_src elisp
-  (setq-default display-fill-column-indicator-column 72)
+  (setq-default display-fill-column-indicator-column 80)
   (global-display-fill-column-indicator-mode 1)
+#+end_src
+
+** tab bar
+#+begin_src elisp
+  (tab-bar-mode)
 #+end_src
 
 ** custom.el file
@@ -606,9 +609,9 @@ A new implementation of Powerline for Emacs
   (use-package org
     :hook
     (org-mode . (lambda ()
-                  (org-indent-mode t)
+                  ;; (org-indent-mode t)
                   (org-content 2)
-                  (visual-line-mode)
+                  ;; (visual-line-mode)
                   ))
 
     :config
@@ -653,7 +656,7 @@ A new implementation of Powerline for Emacs
 #+end_src
 
 * THEMES
-** modus-themes
+** COMMENT modus-themes
 #+begin_src elisp
   (use-package modus-themes
     :config
@@ -662,12 +665,19 @@ A new implementation of Powerline for Emacs
     )
 #+end_src
 
-** COMMENT doom-themes
+** doom-themes
 #+BEGIN_SRC elisp
-  (use-package doom-themes
-    :config
-    (load-theme 'doom-opera t))
+    (use-package doom-themes
+      :config
+      ;; (load-theme 'doom-opera t)
+  ;;    (load-theme 'doom-solarized-dark)     
+    ;; (load-theme 'doom-sourcerer)
+    (load-theme 'doom-plain-dark)
+      )
 #+END_SRC
+
+#+RESULTS:
+: t
 
 * CUSTOM
 ** reverse-region

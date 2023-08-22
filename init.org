@@ -4,12 +4,15 @@
 #+PROPERTY: header-args :tangle init.el
 
 * PACKAGES
-#+BEGIN_SRC elisp
-
+** package-archives 
+#+begin_src elisp
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                            ("org"   . "https://orgmode.org/elpa/")
                            ("elpa"  . "https://elpa.gnu.org/packages/")))
+#+end_src
 
+** package-initialize
+#+BEGIN_SRC elisp
   (package-initialize)
 
   (unless package-archive-contents
@@ -18,11 +21,13 @@
   ;; Inicializar 'use-package' para plataformas no unix
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
-
-  (require 'use-package)
-  (setq use-package-always-ensure t)
-
 #+END_SRC
+
+** use-package
+#+begin_src elisp
+(require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src
 
 * SETTINGS
 ** emacs
@@ -96,50 +101,11 @@
 
 #+END_SRC
 
-** COMMENT global modes
-#+BEGIN_SRC elisp
-
-  (set-fringe-mode 10)               ;Espaciado
-  (column-number-mode t)             ;Numero de columna en el modeline
-  (line-number-mode t)               ;Numero de fila en el modeline
-  (scroll-bar-mode -1)               ;Scroll bars visibles
-  (display-time-mode -1)             ;Mostrar la hora
-  (display-battery-mode -1)          ;Mostrar batteria
-  (delete-selection-mode 1)          ;Typed text replaces the selection
-  (tool-bar-mode -1)                 ;Barra de herramientas visisles
-  (menu-bar-mode -1)                 ;Menu de herramientas visible
-  (global-hl-line-mode 1)            ;Cambiar el color de la line actual
-  (global-auto-revert-mode 1)        ;Reload file changes on disk
-
-#+END_SRC
-
 ** yes or no
 #+BEGIN_SRC elisp
 
   ;;Usar solo y-or-n
   (defalias 'yes-or-no-p 'y-or-n-p)
-
-#+END_SRC
-
-** COMMENT frame border
-#+BEGIN_SRC elisp 
-
-  ;;Frame visible
-  (set-frame-parameter
-   (selected-frame) 'undecorated t) 
-
-#+END_SRC
-
-** COMMENT transparency
-#+BEGIN_SRC elisp
-
-  ;;Fondo trasparente
-  (set-frame-parameter
-   (selected-frame) 'alpha '(100 100))
-
-  ;;Transparencia del borde
-  (add-to-list
-   'default-frame-alist '(alpha 95 95))
 
 #+END_SRC
 
@@ -167,6 +133,45 @@
 
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file)
+
+#+END_SRC
+
+** COMMENT transparency
+#+BEGIN_SRC elisp
+
+  ;;Fondo trasparente
+  (set-frame-parameter
+   (selected-frame) 'alpha '(100 100))
+
+  ;;Transparencia del borde
+  (add-to-list
+   'default-frame-alist '(alpha 95 95))
+
+#+END_SRC
+
+** COMMENT frame border
+#+BEGIN_SRC elisp 
+
+  ;;Frame visible
+  (set-frame-parameter
+   (selected-frame) 'undecorated t) 
+
+#+END_SRC
+
+** COMMENT global modes
+#+BEGIN_SRC elisp
+
+  (set-fringe-mode 10)               ;Espaciado
+  (column-number-mode t)             ;Numero de columna en el modeline
+  (line-number-mode t)               ;Numero de fila en el modeline
+  (scroll-bar-mode -1)               ;Scroll bars visibles
+  (display-time-mode -1)             ;Mostrar la hora
+  (display-battery-mode -1)          ;Mostrar batteria
+  (delete-selection-mode 1)          ;Typed text replaces the selection
+  (tool-bar-mode -1)                 ;Barra de herramientas visisles
+  (menu-bar-mode -1)                 ;Menu de herramientas visible
+  (global-hl-line-mode 1)            ;Cambiar el color de la line actual
+  (global-auto-revert-mode 1)        ;Reload file changes on disk
 
 #+END_SRC
 
@@ -291,22 +296,6 @@ Useful interactive commands.
     ("C-c k"   . crux-kill-other-buffers)
     ("C-c t"   . crux-visit-term-buffer)
     ("C-c r"   . crux-rename-file-and-buffer)
-    )
-
-#+END_SRC
-
-** COMMENT dashboard
-An extensible emacs startup screen.
-#+BEGIN_SRC elisp
-
-  (use-package dashboard
-    :config
-    (setq dashboard-center-content t
-          dashboard-items '((recents  . 10)
-                            ;; (bookmarks . 10)
-                            ))
-
-    (dashboard-setup-startup-hook)
     )
 
 #+END_SRC
@@ -478,6 +467,7 @@ A new implementation of Powerline for Emacs
     :config
     (setq plantuml-jar-path "~/.emacs.d/plantuml-1.2023.1.jar")
     (setq plantuml-default-exec-mode 'jar)
+    (setq plantuml-output-type "png")
     )
 #+end_src
 
@@ -485,6 +475,50 @@ A new implementation of Powerline for Emacs
 #+begin_src elisp
   (use-package zen-mode)
 #+end_src
+
+** COMMENT org-bullets
+#+begin_src elisp
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode))
+#+end_src
+
+** COMMENT dashboard
+An extensible emacs startup screen.
+#+BEGIN_SRC elisp
+
+  (use-package dashboard
+    :config
+    (setq dashboard-center-content t
+          dashboard-items '((recents  . 10)
+                            ;; (bookmarks . 10)
+                            ))
+
+    (dashboard-setup-startup-hook)
+    )
+
+#+END_SRC
+
+* COMMENT EVIL
+** undo-fu
+#+begin_src elisp
+(use-package undo-fu)
+#+end_src
+
+** evil-mode
+#+begin_src elisp
+(use-package evil
+  :demand t
+  :bind (("<escape>" . keyboard-escape-quit))
+  :init
+  ;; allows for using cgn
+  ;; (setq evil-search-module 'evil-search)
+  (setq evil-want-keybinding nil)
+  ;; no vim insert bindings
+  (setq evil-undo-system 'undo-fu)
+  :config
+  (evil-mode 1))
+#+end_src
+
 * PROGRAMMING MODE
 ** markdown
 #+BEGIN_SRC elisp
@@ -537,24 +571,6 @@ A new implementation of Powerline for Emacs
 
 #+END_SRC
 
-** COMMENT c/c++
-#+BEGIN_SRC elisp
-
-  (use-package cc-mode
-    :bind  
-    ("<f5>"   . recompile)
-    )
-
-  (use-package company-clang
-    :init
-    (require 'rx)
-
-    :after
-    (company)
-    )
-
-#+END_SRC
-
 ** lua
 #+BEGIN_SRC elisp
 
@@ -577,6 +593,24 @@ A new implementation of Powerline for Emacs
 #+begin_src elisp
 (use-package racket-mode)
 #+end_src
+
+** COMMENT c/c++
+#+BEGIN_SRC elisp
+
+  (use-package cc-mode
+    :bind  
+    ("<f5>"   . recompile)
+    )
+
+  (use-package company-clang
+    :init
+    (require 'rx)
+
+    :after
+    (company)
+    )
+
+#+END_SRC
 
 * ESHELL
 ** COMMENT settings
@@ -646,26 +680,20 @@ A new implementation of Powerline for Emacs
 #+begin_src elisp
   (setq org-babel-python-command "python3"
         org-plantuml-jar-path
-        (expand-file-name "~/.emacs.d/plantuml-1.2023.1.jar")
+        (expand-file-name "~/.emacs.d/plantuml-1.2023.10.jar")
         )
-
-  ;; (setq org-latex-pdf-process
-  ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
   (setq org-latex-caption-above nil)
 #+end_src
 
-* THEMES
-** COMMENT modus-themes
+** org-latex-pdf-process
 #+begin_src elisp
-  (use-package modus-themes
-    :config
-    ;; (load-theme 'modus-operandi t)
-    (load-theme 'modus-vivendi t)
-    )
+  (setq org-latex-pdf-process
+        '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 #+end_src
 
-** doom-themes
+* THEMES
+** COMMENT doom-themes
 #+BEGIN_SRC elisp
     (use-package doom-themes
       :config
@@ -679,6 +707,15 @@ A new implementation of Powerline for Emacs
 #+RESULTS:
 : t
 
+** modus-themes
+#+begin_src elisp
+  (use-package modus-themes
+    :config
+    ;; (load-theme 'modus-operandi t)
+    (load-theme 'modus-vivendi t)
+    )
+#+end_src
+
 * CUSTOM
 ** reverse-region
 #+BEGIN_SRC elisp
@@ -689,7 +726,6 @@ A new implementation of Powerline for Emacs
       (delete-region beg end)
       (insert (nreverse region))))
 #+END_SRC
-
 
 ** COMMENT reverse-region
 #+begin_src elisp
@@ -711,3 +747,4 @@ A new implementation of Powerline for Emacs
   (interactive "nEnter number to convert: ")
   (insert (format "%x" num)))
 #+end_src
+

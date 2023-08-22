@@ -240,6 +240,7 @@
   :config
   (setq plantuml-jar-path "~/.emacs.d/plantuml-1.2023.1.jar")
   (setq plantuml-default-exec-mode 'jar)
+  (setq plantuml-output-type "png")
   )
 
 (use-package zen-mode)
@@ -326,21 +327,19 @@
 
 (setq org-babel-python-command "python3"
       org-plantuml-jar-path
-      (expand-file-name "~/.emacs.d/plantuml-1.2023.1.jar")
+      (expand-file-name "~/.emacs.d/plantuml-1.2023.10.jar")
       )
-
-;; (setq org-latex-pdf-process
-;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
 (setq org-latex-caption-above nil)
 
-(use-package doom-themes
-    :config
-    ;; (load-theme 'doom-opera t)
-;;    (load-theme 'doom-solarized-dark)     
-  ;; (load-theme 'doom-sourcerer)
-  (load-theme 'doom-plain-dark)
-    )
+(setq org-latex-pdf-process
+      '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+
+(use-package modus-themes
+  :config
+  ;; (load-theme 'modus-operandi t)
+  (load-theme 'modus-vivendi t)
+  )
 
 (defun reverse-region (beg end)
   "Reverse characters between BEG and END."

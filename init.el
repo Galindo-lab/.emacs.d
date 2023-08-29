@@ -12,7 +12,7 @@
   (package-install 'use-package))
 
 (require 'use-package)
-(setq use-package-always-ensure t)
+  (setq use-package-always-ensure t)
 
 (use-package emacs
   :config
@@ -81,8 +81,6 @@
 (setq-default display-fill-column-indicator-column 80)
 (global-display-fill-column-indicator-mode 1)
 
-(tab-bar-mode)
-
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
@@ -132,7 +130,7 @@
   ("C-x j" . neotree-toggle)
 
   :config
-  (setq neo-theme 'ascii
+  (setq neo-theme 'icons
         neo-smart-open t
         neo-window-width 25
         neo-window-fixed-size -1
@@ -177,9 +175,6 @@
   :ensure t
   )
 
-(use-package centered-window
-  )
-
 (use-package hl-todo
   :custom-face
   (hl-todo ((t (:inherit hl-todo :italic t))))
@@ -212,15 +207,6 @@
 (use-package rainbow-mode
   )
 
-(use-package telephone-line
-  :config
-  (setq telephone-line-primary-left-separator 'telephone-line-flat
-        telephone-line-secondary-left-separator 'telephone-line-flat
-        telephone-line-primary-right-separator 'telephone-line-flat
-        telephone-line-secondary-right-separator 'telephone-line-flat
-        telephone-line-mode 1)
-  )
-
 (use-package yasnippet
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/yasnippet/"))
@@ -244,6 +230,9 @@
   )
 
 (use-package zen-mode)
+
+(use-package all-the-icons
+  :if (display-graphic-p))
 
 (use-package markdown-mode
   :init
@@ -335,10 +324,21 @@
 (setq org-latex-pdf-process
       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
-(use-package modus-themes
+(use-package doom-themes
   :config
-  ;; (load-theme 'modus-operandi t)
-  (load-theme 'modus-vivendi t)
+  (load-theme 'doom-one)
+  ;;(load-theme 'doom-opera t)
+  ;;(load-theme 'doom-solarized-dark)     
+  ;;(load-theme 'doom-sourcerer)
+  ;;(load-theme 'doom-plain-dark)
+  )
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-vcs-max-length 12)
+  (setq doom-modeline-battery t)
+  (setq doom-modeline-time t)
   )
 
 (defun reverse-region (beg end)

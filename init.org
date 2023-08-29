@@ -123,11 +123,6 @@
   (global-display-fill-column-indicator-mode 1)
 #+end_src
 
-** tab bar
-#+begin_src elisp
-  (tab-bar-mode)
-#+end_src
-
 ** custom.el file
 #+BEGIN_SRC elisp
 
@@ -135,6 +130,15 @@
   (load custom-file)
 
 #+END_SRC
+
+** COMMENT tab-bar-mode
+#+begin_src elisp
+  (tab-bar-mode -1)
+  ;; (keymap-set ctl-x-map "t" nil)
+  ;; (setq tab-prefix-map nil)
+  ;; (makunbound 'tab-prefix-map)
+  ;; (unload-feature 'tab-bar)
+#+end_src
 
 ** COMMENT transparency
 #+BEGIN_SRC elisp
@@ -262,7 +266,7 @@ A Emacs tree plugin like NerdTree for Vim.
     ("C-x j" . neotree-toggle)
 
     :config
-    (setq neo-theme 'ascii
+    (setq neo-theme 'icons
           neo-smart-open t
           neo-window-width 25
           neo-window-fixed-size -1
@@ -342,7 +346,7 @@ Show inserted, modified or deleted lines.
 
 #+RESULTS:
 
-** centered-window
+** COMMENT centered-window
 Centers the text of the window
 #+BEGIN_SRC elisp
 
@@ -419,21 +423,6 @@ Sets background color to strings that match color names
 
 #+END_SRC
 
-** telephone-line
-A new implementation of Powerline for Emacs
-#+BEGIN_SRC elisp
-
-  (use-package telephone-line
-    :config
-    (setq telephone-line-primary-left-separator 'telephone-line-flat
-          telephone-line-secondary-left-separator 'telephone-line-flat
-          telephone-line-primary-right-separator 'telephone-line-flat
-          telephone-line-secondary-right-separator 'telephone-line-flat
-          telephone-line-mode 1)
-    )
-
-#+END_SRC
-
 ** yasnippet
 #+BEGIN_SRC elisp
   (use-package yasnippet
@@ -476,6 +465,12 @@ A new implementation of Powerline for Emacs
   (use-package zen-mode)
 #+end_src
 
+** all-the-icons
+#+begin_src elisp
+  (use-package all-the-icons
+    :if (display-graphic-p))
+#+end_src
+
 ** COMMENT org-bullets
 #+begin_src elisp
   (use-package org-bullets
@@ -498,13 +493,13 @@ An extensible emacs startup screen.
 
 #+END_SRC
 
-* COMMENT EVIL
-** undo-fu
+* EVIL
+** COMMENT undo-fu
 #+begin_src elisp
 (use-package undo-fu)
 #+end_src
 
-** evil-mode
+** COMMENT evil-mode
 #+begin_src elisp
 (use-package evil
   :demand t
@@ -693,21 +688,22 @@ An extensible emacs startup screen.
 #+end_src
 
 * THEMES
-** COMMENT doom-themes
+** doom-themes
 #+BEGIN_SRC elisp
-    (use-package doom-themes
-      :config
-      ;; (load-theme 'doom-opera t)
-  ;;    (load-theme 'doom-solarized-dark)     
-    ;; (load-theme 'doom-sourcerer)
-    (load-theme 'doom-plain-dark)
-      )
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-one)
+    ;;(load-theme 'doom-opera t)
+    ;;(load-theme 'doom-solarized-dark)     
+    ;;(load-theme 'doom-sourcerer)
+    ;;(load-theme 'doom-plain-dark)
+    )
 #+END_SRC
 
 #+RESULTS:
 : t
 
-** modus-themes
+** COMMENT modus-themes
 #+begin_src elisp
   (use-package modus-themes
     :config
@@ -716,6 +712,32 @@ An extensible emacs startup screen.
     )
 #+end_src
 
+* MODELINE
+** doom-modeline
+#+begin_src elisp
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-vcs-max-length 12)
+    (setq doom-modeline-battery t)
+    (setq doom-modeline-time t)
+    )
+#+end_src
+
+** COMMENT telephone-line
+A new implementation of Powerline for Emacs
+#+BEGIN_SRC elisp
+
+  (use-package telephone-line
+    :config
+    (setq telephone-line-primary-left-separator 'telephone-line-flat
+          telephone-line-secondary-left-separator 'telephone-line-flat
+          telephone-line-primary-right-separator 'telephone-line-flat
+          telephone-line-secondary-right-separator 'telephone-line-flat
+          telephone-line-mode 1)
+    )
+
+#+END_SRC
 * CUSTOM
 ** reverse-region
 #+BEGIN_SRC elisp

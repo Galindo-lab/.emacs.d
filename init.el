@@ -84,6 +84,10 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+;;Frame visible
+(set-frame-parameter
+ (selected-frame) 'undecorated t)
+
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
 
@@ -130,11 +134,13 @@
   ("C-x j" . neotree-toggle)
 
   :config
-  (setq neo-theme 'icons
-        neo-smart-open t
-        neo-window-width 25
-        neo-window-fixed-size -1
-        neo-autorefresh t)
+  (setq 
+   ;neo-theme 'icons
+   neo-theme 'arrow
+   neo-smart-open t
+   neo-window-width 30
+   neo-window-fixed-size -1
+   neo-autorefresh t)
   )
 
 (use-package which-key
@@ -231,9 +237,6 @@
 
 (use-package zen-mode)
 
-(use-package all-the-icons
-  :if (display-graphic-p))
-
 (use-package markdown-mode
   :init
   (setq markdown-command "multimarkdown")
@@ -278,6 +281,8 @@
   :mode "\\.asm\\'")
 
 (use-package racket-mode)
+
+(use-package vterm)
 
 (use-package org
   :hook
@@ -324,22 +329,28 @@
 (setq org-latex-pdf-process
       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
-(use-package doom-themes
+(use-package modus-themes
   :config
-  (load-theme 'doom-one)
-  ;;(load-theme 'doom-opera t)
-  ;;(load-theme 'doom-solarized-dark)     
-  ;;(load-theme 'doom-sourcerer)
-  ;;(load-theme 'doom-plain-dark)
+  ;; (load-theme 'modus-operandi t)
+  ;; (load-theme 'modus-vivendi t)        
+  (load-theme 'modus-vivendi-deuteranopia t)
   )
 
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
+(use-package telephone-line
   :config
-  (setq doom-modeline-vcs-max-length 12)
-  (setq doom-modeline-battery t)
-  (setq doom-modeline-time t)
+  (setq telephone-line-primary-left-separator 'telephone-line-flat
+        telephone-line-secondary-left-separator 'telephone-line-flat
+        telephone-line-primary-right-separator 'telephone-line-flat
+        telephone-line-secondary-right-separator 'telephone-line-flat
+        telephone-line-mode 1)
   )
+
+(defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer 
+          (delq (current-buffer) 
+                (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun reverse-region (beg end)
   "Reverse characters between BEG and END."

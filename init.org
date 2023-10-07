@@ -1,6 +1,8 @@
 
-#+TITLE:    GNU/EMACS CONFIG
-#+AUTHOR:   LUIS E. GALINDO AMAYA
+#+TITLE:  GNU/Emacs init
+#+AUTHOR: Galindo
+#+DATE:   2023-08-29
+
 #+PROPERTY: header-args :tangle init.el
 
 * PACKAGES
@@ -131,6 +133,15 @@
 
 #+END_SRC
 
+** frame border
+#+BEGIN_SRC elisp 
+
+  ;;Frame visible
+  (set-frame-parameter
+   (selected-frame) 'undecorated t) 
+
+#+END_SRC
+
 ** COMMENT tab-bar-mode
 #+begin_src elisp
   (tab-bar-mode -1)
@@ -150,15 +161,6 @@
   ;;Transparencia del borde
   (add-to-list
    'default-frame-alist '(alpha 95 95))
-
-#+END_SRC
-
-** COMMENT frame border
-#+BEGIN_SRC elisp 
-
-  ;;Frame visible
-  (set-frame-parameter
-   (selected-frame) 'undecorated t) 
 
 #+END_SRC
 
@@ -266,11 +268,13 @@ A Emacs tree plugin like NerdTree for Vim.
     ("C-x j" . neotree-toggle)
 
     :config
-    (setq neo-theme 'icons
-          neo-smart-open t
-          neo-window-width 25
-          neo-window-fixed-size -1
-          neo-autorefresh t)
+    (setq 
+     ;neo-theme 'icons
+     neo-theme 'arrow
+     neo-smart-open t
+     neo-window-width 30
+     neo-window-fixed-size -1
+     neo-autorefresh t)
     )
 
 #+END_SRC
@@ -345,15 +349,6 @@ Show inserted, modified or deleted lines.
 #+END_SRC
 
 #+RESULTS:
-
-** COMMENT centered-window
-Centers the text of the window
-#+BEGIN_SRC elisp
-
-  (use-package centered-window
-    )
-
-#+END_SRC
 
 ** hl-todo
 Highlight words like TODO, FIXME, NOTE, DONE
@@ -465,7 +460,16 @@ Sets background color to strings that match color names
   (use-package zen-mode)
 #+end_src
 
-** all-the-icons
+** COMMENT centered-window
+Centers the text of the window
+#+BEGIN_SRC elisp
+
+  (use-package centered-window
+    )
+
+#+END_SRC
+
+** COMMENT all-the-icons
 #+begin_src elisp
   (use-package all-the-icons
     :if (display-graphic-p))
@@ -492,27 +496,6 @@ An extensible emacs startup screen.
     )
 
 #+END_SRC
-
-* EVIL
-** COMMENT undo-fu
-#+begin_src elisp
-(use-package undo-fu)
-#+end_src
-
-** COMMENT evil-mode
-#+begin_src elisp
-(use-package evil
-  :demand t
-  :bind (("<escape>" . keyboard-escape-quit))
-  :init
-  ;; allows for using cgn
-  ;; (setq evil-search-module 'evil-search)
-  (setq evil-want-keybinding nil)
-  ;; no vim insert bindings
-  (setq evil-undo-system 'undo-fu)
-  :config
-  (evil-mode 1))
-#+end_src
 
 * PROGRAMMING MODE
 ** markdown
@@ -607,10 +590,13 @@ An extensible emacs startup screen.
 
 #+END_SRC
 
-* ESHELL
-** COMMENT settings
+* SHELLS
+** vterm
+#+begin_src elisp
+  (use-package vterm)
+#+end_src
+** COMMENT eshell
 #+BEGIN_SRC elisp
-
   (use-package eshell
     :config
     (setq eshell-prompt-function
@@ -629,7 +615,6 @@ An extensible emacs startup screen.
     (setq eshell-prompt-regexp " > ")   ; or " > "
     (setq eshell-prompt-string " > ")   ; or " > "
     )
-
 #+END_SRC
 
 * ORG-MODE
@@ -688,7 +673,7 @@ An extensible emacs startup screen.
 #+end_src
 
 * THEMES
-** doom-themes
+** COMMENT doom-themes
 #+BEGIN_SRC elisp
   (use-package doom-themes
     :config
@@ -703,17 +688,18 @@ An extensible emacs startup screen.
 #+RESULTS:
 : t
 
-** COMMENT modus-themes
+** modus-themes
 #+begin_src elisp
   (use-package modus-themes
     :config
     ;; (load-theme 'modus-operandi t)
-    (load-theme 'modus-vivendi t)
+    ;; (load-theme 'modus-vivendi t)        
+    (load-theme 'modus-vivendi-deuteranopia t)
     )
 #+end_src
 
 * MODELINE
-** doom-modeline
+** COMMENT doom-modeline
 #+begin_src elisp
   (use-package doom-modeline
     :init (doom-modeline-mode 1)
@@ -724,7 +710,7 @@ An extensible emacs startup screen.
     )
 #+end_src
 
-** COMMENT telephone-line
+** telephone-line
 A new implementation of Powerline for Emacs
 #+BEGIN_SRC elisp
 
@@ -739,6 +725,15 @@ A new implementation of Powerline for Emacs
 
 #+END_SRC
 * CUSTOM
+** kill-other-buffers
+#+begin_src elisp
+  (defun kill-other-buffers ()
+      "Kill all other buffers."
+      (interactive)
+      (mapc 'kill-buffer 
+            (delq (current-buffer) 
+                  (remove-if-not 'buffer-file-name (buffer-list)))))
+#+end_src
 ** reverse-region
 #+BEGIN_SRC elisp
   (defun reverse-region (beg end)

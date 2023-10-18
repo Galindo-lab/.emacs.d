@@ -12,7 +12,7 @@
   (package-install 'use-package))
 
 (require 'use-package)
-  (setq use-package-always-ensure t)
+(setq use-package-always-ensure t)
 
 (use-package emacs
   :config
@@ -52,6 +52,10 @@
   (customize-set-variable 'tramp-backup-directory-alist
                           backup-directory-alist)
 
+  ;; mover a los hooks
+  (add-hook 'prog-mode-hook 'hl-line-mode)
+  ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
   :bind
   ("<f5>" . recompile)
 
@@ -61,7 +65,7 @@
 
 (setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))
 
-(setq-default 
+(setq-default
  cursor-type 'bar                  ;Tipo del cursor
  tab-width 4                       ;Tamaño del tab
  indent-tabs-mode nil              ;Desactivar tabs
@@ -83,10 +87,6 @@
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
-
-;;Frame visible
-(set-frame-parameter
- (selected-frame) 'undecorated t)
 
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
@@ -117,7 +117,7 @@
   )
 
 (use-package magit
-)
+  )
 
 (use-package projectile
   :config
@@ -134,9 +134,9 @@
   ("C-x j" . neotree-toggle)
 
   :config
-  (setq 
-   ;neo-theme 'icons
-   neo-theme 'arrow
+  (setq
+                                        ;neo-theme 'icons
+   neo-theme 'ascii
    neo-smart-open t
    neo-window-width 30
    neo-window-fixed-size -1
@@ -252,10 +252,10 @@
   )
 
 (use-package company-anaconda
-  :init 
+  :init
   (require 'rx)
 
-  :after 
+  :after
   (company)
 
   :config
@@ -332,7 +332,7 @@
 (use-package modus-themes
   :config
   ;; (load-theme 'modus-operandi t)
-  ;; (load-theme 'modus-vivendi t)        
+  ;; (load-theme 'modus-vivendi t)
   (load-theme 'modus-vivendi-deuteranopia t)
   )
 
@@ -345,12 +345,14 @@
         telephone-line-mode 1)
   )
 
+(use-package fireplace)
+
 (defun kill-other-buffers ()
-    "Kill all other buffers."
-    (interactive)
-    (mapc 'kill-buffer 
-          (delq (current-buffer) 
-                (remove-if-not 'buffer-file-name (buffer-list)))))
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer
+        (delq (current-buffer)
+              (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun reverse-region (beg end)
   "Reverse characters between BEG and END."

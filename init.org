@@ -34,50 +34,54 @@
 * SETTINGS
 ** emacs
 #+BEGIN_SRC elisp
-  (use-package emacs
-    :config
-    (setq-default
-     cursor-type 'bar                  ;Tipo del cursor
-     tab-width 4                       ;Tamaño del tab
-     indent-tabs-mode nil              ;Desactivar tabs
-     scroll-step 1                     ;Smooth scrolling
-     inhibit-startup-screen t          ;Hide startup screen
-     use-dialog-box nil                ;Disable the use of dialog boxes
-     )
+    (use-package emacs
+      :config
+      (setq-default
+       cursor-type 'bar                  ;Tipo del cursor
+       tab-width 4                       ;Tamaño del tab
+       indent-tabs-mode nil              ;Desactivar tabs
+       scroll-step 1                     ;Smooth scrolling
+       inhibit-startup-screen t          ;Hide startup screen
+       use-dialog-box nil                ;Disable the use of dialog boxes
+       )
 
-    (set-fringe-mode 10)             ;Espaciado
-    (column-number-mode t)             ;Numero de columna en el modeline
-    (line-number-mode t)               ;Numero de fila en el modeline
-    (scroll-bar-mode -1)               ;Scroll bars visibles
-    (display-time-mode -1)             ;Mostrar la hora
-    (display-battery-mode -1)          ;Mostrar batteria
-    (delete-selection-mode 1)          ;Typed text replaces the selection
-    (tool-bar-mode -1)                 ;Barra de herramientas visisles
-    (menu-bar-mode -1)                 ;Menu de herramientas visible
-    (global-hl-line-mode -1)            ;Cambiar el color de la line actual
-    (global-auto-revert-mode 1)        ;Reload file changes on disk
+      (set-fringe-mode 10)             ;Espaciado
+      (column-number-mode t)             ;Numero de columna en el modeline
+      (line-number-mode t)               ;Numero de fila en el modeline
+      (scroll-bar-mode -1)               ;Scroll bars visibles
+      (display-time-mode -1)             ;Mostrar la hora
+      (display-battery-mode -1)          ;Mostrar batteria
+      (delete-selection-mode 1)          ;Typed text replaces the selection
+      (tool-bar-mode -1)                 ;Barra de herramientas visisles
+      (menu-bar-mode -1)                 ;Menu de herramientas visible
+      (global-hl-line-mode -1)            ;Cambiar el color de la line actual
+      (global-auto-revert-mode 1)        ;Reload file changes on disk
 
-    ;;Usar solo y-or-n
-    (defalias 'yes-or-no-p 'y-or-n-p)
+      ;;Usar solo y-or-n
+      (defalias 'yes-or-no-p 'y-or-n-p)
 
-    (setq initial-major-mode 'fundamental-mode)
-    (setq initial-scratch-message nil)
+      (setq initial-major-mode 'fundamental-mode)
+      (setq initial-scratch-message nil)
 
-    (setq custom-file "~/.emacs.d/custom.el")
-    (load custom-file)
+      (setq custom-file "~/.emacs.d/custom.el")
+      (load custom-file)
 
-    (add-to-list 'backup-directory-alist
-                 (cons "." "~/.emacs.d/backups/"))
+      (add-to-list 'backup-directory-alist
+                   (cons "." "~/.emacs.d/backups/"))
 
-    (customize-set-variable 'tramp-backup-directory-alist
-                            backup-directory-alist)
+      (customize-set-variable 'tramp-backup-directory-alist
+                              backup-directory-alist)
 
-    :bind
-    ("<f5>" . recompile)
+      ;; mover a los hooks
+      (add-hook 'prog-mode-hook 'hl-line-mode)
+      ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
-    :hook
-    (text-mode-hook . auto-fill-mode)
-    )
+      :bind
+      ("<f5>" . recompile)
+
+      :hook
+      (text-mode-hook . auto-fill-mode)
+      )
 #+END_SRC
 
 ** emacs server
@@ -133,7 +137,7 @@
 
 #+END_SRC
 
-** frame border
+** COMMENT frame border
 #+BEGIN_SRC elisp 
 
   ;;Frame visible
@@ -270,7 +274,7 @@ A Emacs tree plugin like NerdTree for Vim.
     :config
     (setq 
      ;neo-theme 'icons
-     neo-theme 'arrow
+     neo-theme 'ascii
      neo-smart-open t
      neo-window-width 30
      neo-window-fixed-size -1
@@ -673,6 +677,16 @@ An extensible emacs startup screen.
 #+end_src
 
 * THEMES
+** modus-themes
+#+begin_src elisp
+  (use-package modus-themes
+    :config
+    ;; (load-theme 'modus-operandi t)
+    ;; (load-theme 'modus-vivendi t)        
+    (load-theme 'modus-vivendi-deuteranopia t)
+    )
+#+end_src
+
 ** COMMENT doom-themes
 #+BEGIN_SRC elisp
   (use-package doom-themes
@@ -688,28 +702,7 @@ An extensible emacs startup screen.
 #+RESULTS:
 : t
 
-** modus-themes
-#+begin_src elisp
-  (use-package modus-themes
-    :config
-    ;; (load-theme 'modus-operandi t)
-    ;; (load-theme 'modus-vivendi t)        
-    (load-theme 'modus-vivendi-deuteranopia t)
-    )
-#+end_src
-
 * MODELINE
-** COMMENT doom-modeline
-#+begin_src elisp
-  (use-package doom-modeline
-    :init (doom-modeline-mode 1)
-    :config
-    (setq doom-modeline-vcs-max-length 12)
-    (setq doom-modeline-battery t)
-    (setq doom-modeline-time t)
-    )
-#+end_src
-
 ** telephone-line
 A new implementation of Powerline for Emacs
 #+BEGIN_SRC elisp
@@ -724,6 +717,23 @@ A new implementation of Powerline for Emacs
     )
 
 #+END_SRC
+** COMMENT doom-modeline
+#+begin_src elisp
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-vcs-max-length 12)
+    (setq doom-modeline-battery t)
+    (setq doom-modeline-time t)
+    )
+#+end_src
+
+* EASTER-EGGS
+** fireplace
+#+begin_src elisp
+  (use-package fireplace)
+#+end_src
+  
 * CUSTOM
 ** kill-other-buffers
 #+begin_src elisp

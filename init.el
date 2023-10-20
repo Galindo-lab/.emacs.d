@@ -1,5 +1,5 @@
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org"   . "https://orgmode.org/elpa/")
+                         ;; ("org"   . "https://orgmode.org/elpa/")
                          ("elpa"  . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
@@ -360,3 +360,11 @@
   (let ((region (buffer-substring beg end)))
     (delete-region beg end)
     (insert (nreverse region))))
+
+
+;; (use-package citar
+;;   :custom
+;;   (citar-bibliography '("~/bib/references.bib"))
+;;   :hook
+;;   (LaTeX-mode . citar-capf-setup)
+;;   (org-mode . citar-capf-setup))

@@ -461,7 +461,6 @@ Sets background color to strings that match color names
 #+begin_src elisp
   (use-package zen-mode)
 #+end_src
-
 ** COMMENT centered-window
 Centers the text of the window
 #+BEGIN_SRC elisp
@@ -672,6 +671,14 @@ An extensible emacs startup screen.
 #+begin_src elisp
   (setq org-latex-pdf-process
         '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+#+end_src
+
+** org-ref
+#+begin_src elisp
+  (use-package org-ref
+    :config
+    (setq bibtex-completion-bibliography '("~/bib/references.bib"))
+    )
 #+end_src
 
 * THEMES

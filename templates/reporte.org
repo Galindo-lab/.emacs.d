@@ -1,0 +1,14 @@
+
+#+LANGUAGE: es
+
+#+latex_header: \input{~/.emacs.d/templates/modern.sty}
+
+#+macro: code        @@latex:\lstinputlisting{$1}@@
+#+macro: cite        @@latex:\cite{$1}@@
+#+macro: autocite    @@latex:\autocite{$1}@@
+#+macro: pagebreak   @@latex:\pagebreak@@
+#+macro: titlepage   @@latex:\modentitlepage{$1}@@
+#+macro: datasection @@latex:\datasection{$1}@@
+#+macro: printbibliography @@latex:\printbibliography[heading=none]@@
+
+#+latex: \makeatletter

@@ -25,7 +25,7 @@
    use-dialog-box nil                ;Disable the use of dialog boxes
    )
 
-  (set-fringe-mode 10)             ;Espaciado
+  ;;(set-fringe-mode 10)             ;Espaciado
   (column-number-mode t)             ;Numero de columna en el modeline
   (line-number-mode t)               ;Numero de fila en el modeline
   (scroll-bar-mode -1)               ;Scroll bars visibles

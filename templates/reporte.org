@@ -3,6 +3,7 @@
 
 #+latex_header: \input{~/.emacs.d/templates/modern.sty}
 
+#+macro: toc         @@latex:\tableofcontents@@
 #+macro: code        @@latex:\lstinputlisting{$1}@@
 #+macro: cite        @@latex:\cite{$1}@@
 #+macro: autocite    @@latex:\autocite{$1}@@

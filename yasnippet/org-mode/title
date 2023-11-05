@@ -5,6 +5,12 @@
 
 #+TITLE:  `(file-name-sans-extension (buffer-name))`
 #+AUTHOR: `(user-full-name)`
-#+DATE:   `(format-time-string "%Y-%m-%d")`
+#+DATE:   `(format-time-string "%A, %d %B %Y")`
+
+# -----
+#+SUBTITLE: Funciones, Procedimientos Almacenados y Triggers
+#+OPTIONS: toc:nil ^:nil title:t num:2
+#+LANGUAGE: es
+# -----
 
 $0

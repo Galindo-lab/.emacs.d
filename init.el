@@ -1,5 +1,5 @@
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ;; ("org"   . "https://orgmode.org/elpa/")
+                         ("org"   . "https://orgmode.org/elpa/")
                          ("elpa"  . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
@@ -12,7 +12,7 @@
   (package-install 'use-package))
 
 (require 'use-package)
-(setq use-package-always-ensure t)
+  (setq use-package-always-ensure t)
 
 (use-package emacs
   :config
@@ -25,7 +25,7 @@
    use-dialog-box nil                ;Disable the use of dialog boxes
    )
 
-  ;;(set-fringe-mode 10)             ;Espaciado
+  (set-fringe-mode 10)             ;Espaciado
   (column-number-mode t)             ;Numero de columna en el modeline
   (line-number-mode t)               ;Numero de fila en el modeline
   (scroll-bar-mode -1)               ;Scroll bars visibles
@@ -65,7 +65,7 @@
 
 (setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))
 
-(setq-default
+(setq-default 
  cursor-type 'bar                  ;Tipo del cursor
  tab-width 4                       ;Tamaño del tab
  indent-tabs-mode nil              ;Desactivar tabs
@@ -117,7 +117,7 @@
   )
 
 (use-package magit
-  )
+)
 
 (use-package projectile
   :config
@@ -134,8 +134,8 @@
   ("C-x j" . neotree-toggle)
 
   :config
-  (setq
-                                        ;neo-theme 'icons
+  (setq 
+   ;neo-theme 'icons
    neo-theme 'ascii
    neo-smart-open t
    neo-window-width 30
@@ -237,6 +237,9 @@
 
 (use-package zen-mode)
 
+(use-package centered-window
+  )
+
 (use-package markdown-mode
   :init
   (setq markdown-command "multimarkdown")
@@ -252,10 +255,10 @@
   )
 
 (use-package company-anaconda
-  :init
+  :init 
   (require 'rx)
 
-  :after
+  :after 
   (company)
 
   :config
@@ -281,6 +284,8 @@
   :mode "\\.asm\\'")
 
 (use-package racket-mode)
+
+(use-package haskell-mode)
 
 (use-package vterm)
 
@@ -329,12 +334,30 @@
 (setq org-latex-pdf-process
       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
-(use-package modus-themes
+(use-package org-ref
   :config
-  ;; (load-theme 'modus-operandi t)
-  ;; (load-theme 'modus-vivendi t)
-  (load-theme 'modus-vivendi-deuteranopia t)
+  (setq bibtex-completion-bibliography '("~/bib/references.bib"))
   )
+
+(use-package doom-themes
+  :config
+  ;;(load-theme 'doom-one)
+  (load-theme 'doom-opera t)
+  ;;(load-theme 'doom-solarized-dark)     
+  ;;(load-theme 'doom-sourcerer)
+  ;;(load-theme 'doom-plain-dark)
+  )
+
+(defun doom-toggle-theme ()
+  "Alterna entre dos temas personalizados en Emacs."
+  (interactive)
+  (if (eq (car custom-enabled-themes) 'doom-opera-light)
+      (progn
+        (disable-theme 'doom-opera-light)
+        (load-theme 'doom-opera t))
+    (progn
+      (disable-theme 'doom-opera)
+      (load-theme 'doom-opera-light t))))
 
 (use-package telephone-line
   :config
@@ -348,11 +371,11 @@
 (use-package fireplace)
 
 (defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer
-        (delq (current-buffer)
-              (remove-if-not 'buffer-file-name (buffer-list)))))
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer 
+          (delq (current-buffer) 
+                (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun reverse-region (beg end)
   "Reverse characters between BEG and END."
@@ -360,11 +383,3 @@
   (let ((region (buffer-substring beg end)))
     (delete-region beg end)
     (insert (nreverse region))))
-
-
-;; (use-package citar
-;;   :custom
-;;   (citar-bibliography '("~/bib/references.bib"))
-;;   :hook
-;;   (LaTeX-mode . citar-capf-setup)
-;;   (org-mode . citar-capf-setup))

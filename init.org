@@ -23,10 +23,12 @@
     (package-install 'use-package))
 #+END_SRC
 
+#+RESULTS:
+
 ** use-package
 #+begin_src elisp
-(require 'use-package)
-  (setq use-package-always-ensure t)
+  (require 'use-package)
+    (setq use-package-always-ensure t)
 #+end_src
 
 * SETTINGS
@@ -461,7 +463,7 @@ Sets background color to strings that match color names
 #+begin_src elisp
   (use-package zen-mode)
 #+end_src
-** COMMENT centered-window
+** centered-window
 Centers the text of the window
 #+BEGIN_SRC elisp
 
@@ -573,6 +575,11 @@ An extensible emacs startup screen.
 (use-package racket-mode)
 #+end_src
 
+** haskell
+#+begin_src elisp
+(use-package haskell-mode)
+#+end_src
+
 ** COMMENT c/c++
 #+BEGIN_SRC elisp
 
@@ -682,7 +689,7 @@ An extensible emacs startup screen.
 #+end_src
 
 * THEMES
-** modus-themes
+** COMMENT modus-themes
 #+begin_src elisp
   (use-package modus-themes
     :config
@@ -692,20 +699,31 @@ An extensible emacs startup screen.
     )
 #+end_src
 
-** COMMENT doom-themes
+** doom-themes
 #+BEGIN_SRC elisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-one)
-    ;;(load-theme 'doom-opera t)
+    ;;(load-theme 'doom-one)
+    (load-theme 'doom-opera t)
     ;;(load-theme 'doom-solarized-dark)     
     ;;(load-theme 'doom-sourcerer)
     ;;(load-theme 'doom-plain-dark)
     )
 #+END_SRC
 
-#+RESULTS:
-: t
+*** toggle themes
+#+begin_src elisp
+  (defun doom-toggle-theme ()
+    "Alterna entre dos temas personalizados en Emacs."
+    (interactive)
+    (if (eq (car custom-enabled-themes) 'doom-opera-light)
+        (progn
+          (disable-theme 'doom-opera-light)
+          (load-theme 'doom-opera t))
+      (progn
+        (disable-theme 'doom-opera)
+        (load-theme 'doom-opera-light t))))
+#+end_src
 
 * MODELINE
 ** telephone-line

@@ -294,6 +294,8 @@
   (org-mode . (lambda ()
                 ;; (org-indent-mode t)
                 (org-content 2)
+                (turn-on-auto-fill)
+                (centered-window-mode)
                 ;; (visual-line-mode)
                 ))
 
@@ -304,7 +306,8 @@
         org-html-htmlize-output-type `nil
         org-src-tab-acts-natively t
         org-format-latex-options
-        (plist-put org-format-latex-options :scale 1.5))
+        ;; (plist-put org-format-latex-options :scale 1.5)
+        )
 
   (org-babel-do-load-languages
    'org-babel-load-languages '((emacs-lisp . t)
@@ -339,25 +342,23 @@
   (setq bibtex-completion-bibliography '("~/bib/references.bib"))
   )
 
-(use-package doom-themes
+(use-package modus-themes
   :config
-  ;;(load-theme 'doom-one)
-  (load-theme 'doom-opera t)
-  ;;(load-theme 'doom-solarized-dark)     
-  ;;(load-theme 'doom-sourcerer)
-  ;;(load-theme 'doom-plain-dark)
+  ;; (load-theme 'modus-operandi t)
+  ;; (load-theme 'modus-vivendi t)        
+  (load-theme 'modus-vivendi-deuteranopia t)
   )
 
-(defun doom-toggle-theme ()
+(defun toggle-theme ()
   "Alterna entre dos temas personalizados en Emacs."
   (interactive)
   (if (eq (car custom-enabled-themes) 'doom-opera-light)
       (progn
-        (disable-theme 'doom-opera-light)
-        (load-theme 'doom-opera t))
+        (disable-theme 'modus-operandi-deuteranopia)
+        (load-theme 'modus-vivendi-deuteranopia t))
     (progn
-      (disable-theme 'doom-opera)
-      (load-theme 'doom-opera-light t))))
+      (disable-theme 'modus-vivendi-deuteranopia)
+      (load-theme 'modus-operandi-deuteranopia t))))
 
 (use-package telephone-line
   :config

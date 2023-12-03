@@ -1,0 +1,43 @@
+#+latex_header: \usepackage[top=1in,bottom=1in,papersize={8.5in,11in}]{geometry}
+#+latex_header: \usepackage[spanish, mexico]{babel}
+#+latex_header: \usepackage[backend=biber, style=apa]{biblatex}
+#+latex_header: \bibliography{./fuentes.bib}
+#+latex_header: \usepackage{listings}
+
+#+latex_header: \lstdefinestyle{mystyle}{
+#+latex_header:   basicstyle=\ttfamily,
+#+latex_header:   numbers=left,
+#+latex_header:   showspaces=false,
+#+latex_header:   frame=single,
+#+latex_header:   showspaces=false,
+#+latex_header:   showstringspaces=false, 
+#+latex_header:   showtabs=false, 
+#+latex_header:   numberstyle=\tiny,
+#+latex_header:   aboveskip=25pt
+#+latex_header:   %% aboveskip=\parskip
+#+latex_header: }
+
+#+latex_header: \lstset{
+#+latex_header:   style=mystyle,
+#+latex_header:   literate={á}{{\'a}}1
+#+latex_header:   {é}{{\'e}}1
+#+latex_header:   {í}{{\'{\i}}}1
+#+latex_header:   {ó}{{\'o}}1
+#+latex_header:   {ú}{{\'u}}1
+#+latex_header:   {Á}{{\'A}}1
+#+latex_header:   {É}{{\'E}}1
+#+latex_header:   {Í}{{\'I}}1
+#+latex_header:   {Ó}{{\'O}}1
+#+latex_header:   {Ú}{{\'U}}1
+#+latex_header:   {ü}{{\"u}}1
+#+latex_header:   {Ü}{{\"U}}1
+#+latex_header:   {ñ}{{\~n}}1
+#+latex_header:   {Ñ}{{\~N}}1
+#+latex_header:   {¿}{{?``}}1
+#+latex_header:   {¡}{{!``}}1
+#+latex_header: }
+
+#+macro: code @@latex:\lstinputlisting{}@@
+#+macro: cite @@latex:\cite{}@@
+#+macro: autocite @@latex:\autocite{}@@
+#+MACRO: test (eval (setq org-latex-listings t))

@@ -88,6 +88,10 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+;;Frame visible
+(set-frame-parameter
+ (selected-frame) 'undecorated t)
+
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
 
@@ -294,8 +298,6 @@
   (org-mode . (lambda ()
                 ;; (org-indent-mode t)
                 (org-content 2)
-                (turn-on-auto-fill)
-                (centered-window-mode)
                 ;; (visual-line-mode)
                 ))
 
@@ -306,8 +308,7 @@
         org-html-htmlize-output-type `nil
         org-src-tab-acts-natively t
         org-format-latex-options
-        ;; (plist-put org-format-latex-options :scale 1.5)
-        )
+        (plist-put org-format-latex-options :scale 1.5))
 
   (org-babel-do-load-languages
    'org-babel-load-languages '((emacs-lisp . t)
@@ -337,28 +338,25 @@
 (setq org-latex-pdf-process
       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
-(use-package org-ref
+(use-package doom-themes
   :config
-  (setq bibtex-completion-bibliography '("~/bib/references.bib"))
+  ;;(load-theme 'doom-one)
+  (load-theme 'doom-opera t)
+  ;;(load-theme 'doom-solarized-dark)     
+  ;;(load-theme 'doom-sourcerer)
+  ;;(load-theme 'doom-plain-dark)
   )
 
-(use-package modus-themes
-  :config
-  ;; (load-theme 'modus-operandi t)
-  ;; (load-theme 'modus-vivendi t)        
-  (load-theme 'modus-vivendi-deuteranopia t)
-  )
-
-(defun toggle-theme ()
+(defun doom-toggle-theme ()
   "Alterna entre dos temas personalizados en Emacs."
   (interactive)
   (if (eq (car custom-enabled-themes) 'doom-opera-light)
       (progn
-        (disable-theme 'modus-operandi-deuteranopia)
-        (load-theme 'modus-vivendi-deuteranopia t))
+        (disable-theme 'doom-opera-light)
+        (load-theme 'doom-opera t))
     (progn
-      (disable-theme 'modus-vivendi-deuteranopia)
-      (load-theme 'modus-operandi-deuteranopia t))))
+      (disable-theme 'doom-opera)
+      (load-theme 'doom-opera-light t))))
 
 (use-package telephone-line
   :config

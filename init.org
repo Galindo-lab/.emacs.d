@@ -137,7 +137,7 @@
 
 #+END_SRC
 
-** COMMENT frame border
+** frame border
 #+BEGIN_SRC elisp 
 
   ;;Frame visible
@@ -146,9 +146,9 @@
 
 #+END_SRC
 
-** COMMENT tab-bar-mode
+** tab-bar-mode
 #+begin_src elisp
-  (tab-bar-mode -1)
+  (tab-bar-mode 1)
   ;; (keymap-set ctl-x-map "t" nil)
   ;; (setq tab-prefix-map nil)
   ;; (makunbound 'tab-prefix-map)
@@ -266,21 +266,20 @@ Project interaction library for Emacs
 ** neotree
 A Emacs tree plugin like NerdTree for Vim.
 #+BEGIN_SRC elisp
-
   (use-package neotree
     :bind
     ("C-x j" . neotree-toggle)
 
     :config
     (setq 
-     ;neo-theme 'icons
+     neo-window-width 42
      neo-theme 'ascii
      neo-smart-open t
-     neo-window-width 30
      neo-window-fixed-size -1
-     neo-autorefresh t)
+     neo-autorefresh t
+     neo-window-position 'right
+     )
     )
-
 #+END_SRC
 
 ** which-key
@@ -501,6 +500,13 @@ An extensible emacs startup screen.
 #+END_SRC
 
 * PROGRAMMING MODE
+** prog-mode
+#+begin_src elisp
+  (use-package prog-mode
+    :hook (prog-mode . display-line-numbers-mode)
+  )
+#+end_src
+
 ** markdown
 #+BEGIN_SRC elisp
 
@@ -577,7 +583,14 @@ An extensible emacs startup screen.
 
 ** haskell
 #+begin_src elisp
-(use-package haskell-mode)
+  (use-package haskell-mode)
+#+end_src
+
+** prolog
+#+begin_src elisp
+  (use-package prolog-mode
+    :mode "\\.pl\\'"
+  )
 #+end_src
 
 ** COMMENT c/c++
@@ -680,13 +693,6 @@ An extensible emacs startup screen.
         '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 #+end_src
 
-** org-ref
-#+begin_src elisp
-  (use-package org-ref
-    :config
-    (setq bibtex-completion-bibliography '("~/bib/references.bib"))
-    )
-#+end_src
 
 * THEMES
 ** COMMENT modus-themes

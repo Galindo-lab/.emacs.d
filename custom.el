@@ -14,7 +14,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#000000" "#3f3f3f"))
  '(objed-cursor-color "#C16069")
  '(package-selected-packages
-   '(haskell-mode doom-themes cmake-mode zen-mode yasnippet which-key vterm use-package telephone-line rainbow-mode rainbow-delimiters racket-mode projectile plantuml-mode org-ref neotree nasm-mode modus-themes markdown-mode magit lua-mode lorem-ipsum ivy imenu-list hl-todo gnuplot git-gutter gcmh format-all fireplace ess emmet-mode crux company-web company-quickhelp company-anaconda centered-window))
+   '(mercury-mode haskell-mode doom-themes cmake-mode zen-mode yasnippet which-key vterm use-package telephone-line rainbow-mode rainbow-delimiters racket-mode projectile plantuml-mode org-ref neotree nasm-mode modus-themes markdown-mode magit lua-mode lorem-ipsum ivy imenu-list hl-todo gnuplot git-gutter gcmh format-all fireplace ess emmet-mode crux company-web company-quickhelp company-anaconda centered-window))
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(tool-bar-mode nil)
@@ -48,5 +48,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Iosevka" :foundry "CYEL" :slant normal :weight bold :height 98 :width normal))))
+ '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 120 :width normal))))
  '(fringe ((t (:background "#000000")))))

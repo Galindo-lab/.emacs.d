@@ -34,60 +34,56 @@
 * SETTINGS
 ** emacs
 #+BEGIN_SRC elisp
-    (use-package emacs
-      :config
-      (setq-default
-       cursor-type 'bar                  ;Tipo del cursor
-       tab-width 4                       ;Tamaño del tab
-       indent-tabs-mode nil              ;Desactivar tabs
-       scroll-step 1                     ;Smooth scrolling
-       inhibit-startup-screen t          ;Hide startup screen
-       use-dialog-box nil                ;Disable the use of dialog boxes
-       )
+  (use-package emacs
+    :config
+    (setq-default
+     cursor-type 'bar                   
+     tab-width 4                        
+     indent-tabs-mode nil               
+     scroll-step 1                      
+     inhibit-startup-screen t           
+     use-dialog-box nil                 
+     display-fill-column-indicator-column 80 ;
+     )
 
-      (set-fringe-mode 10)             ;Espaciado
-      (column-number-mode t)             ;Numero de columna en el modeline
-      (line-number-mode t)               ;Numero de fila en el modeline
-      (scroll-bar-mode -1)               ;Scroll bars visibles
-      (display-time-mode -1)             ;Mostrar la hora
-      (display-battery-mode -1)          ;Mostrar batteria
-      (delete-selection-mode 1)          ;Typed text replaces the selection
-      (tool-bar-mode -1)                 ;Barra de herramientas visisles
-      (menu-bar-mode -1)                 ;Menu de herramientas visible
-      (global-hl-line-mode -1)            ;Cambiar el color de la line actual
-      (global-auto-revert-mode 1)        ;Reload file changes on disk
+    (set-fringe-mode 10)             
+    (column-number-mode t)           
+    (line-number-mode t)             
+    (scroll-bar-mode -1)               
+    (display-time-mode -1)             
+    (display-battery-mode -1)          
+    (delete-selection-mode 1)          
+    (tool-bar-mode -1)                 
+    (menu-bar-mode -1)                 
+    (global-hl-line-mode -1)           
+    (global-auto-revert-mode 1)        
 
-      ;;Usar solo y-or-n
-      (defalias 'yes-or-no-p 'y-or-n-p)
+    ;;Usar solo y-or-n
+    (defalias 'yes-or-no-p 'y-or-n-p)
 
-      (setq initial-major-mode 'fundamental-mode)
-      (setq initial-scratch-message nil)
+    (setq initial-major-mode 'fundamental-mode)
+    (setq initial-scratch-message nil)
 
-      (setq custom-file "~/.emacs.d/custom.el")
-      (load custom-file)
+    (setq custom-file "~/.emacs.d/custom.el")
+    (load custom-file)
 
-      (add-to-list 'backup-directory-alist
-                   (cons "." "~/.emacs.d/backups/"))
+    (add-to-list 'backup-directory-alist
+                 (cons "." "~/.emacs.d/backups/"))
 
-      (customize-set-variable 'tramp-backup-directory-alist
-                              backup-directory-alist)
+    (customize-set-variable 'tramp-backup-directory-alist
+                            backup-directory-alist)
 
-      ;; mover a los hooks
-      (add-hook 'prog-mode-hook 'hl-line-mode)
-      ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+    ;; mover a los hooks
+    (add-hook 'prog-mode-hook 'hl-line-mode)
+    ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
-      :bind
-      ("<f5>" . recompile)
+    :bind
+    ("<f5>" . recompile)
 
-      :hook
-      (text-mode-hook . auto-fill-mode)
-      )
+    :hook
+    (text-mode-hook . auto-fill-mode)
+    )
 #+END_SRC
-
-** emacs server
-#+begin_src elisp
-  (setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))
-#+end_src
 
 ** global defaults
 [[https://stackoverflow.com/a/18173666][¿Para qué es setq-default?]]
@@ -109,50 +105,44 @@
 
 ** yes or no
 #+BEGIN_SRC elisp
-
   ;;Usar solo y-or-n
   (defalias 'yes-or-no-p 'y-or-n-p)
-
 #+END_SRC
 
 ** scratch buffer
 #+BEGIN_SRC elisp
-
   (setq initial-major-mode 'fundamental-mode)
   (setq initial-scratch-message nil)
-
 #+END_SRC
-
-** column ruler
-#+begin_src elisp
-  (setq-default display-fill-column-indicator-column 80)
-  (global-display-fill-column-indicator-mode 1)
-#+end_src
 
 ** custom.el file
 #+BEGIN_SRC elisp
-
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file)
-
 #+END_SRC
 
 ** frame border
 #+BEGIN_SRC elisp 
-
-  ;;Frame visible
   (set-frame-parameter
    (selected-frame) 'undecorated t) 
-
 #+END_SRC
 
 ** tab-bar-mode
 #+begin_src elisp
   (tab-bar-mode 1)
-  ;; (keymap-set ctl-x-map "t" nil)
-  ;; (setq tab-prefix-map nil)
-  ;; (makunbound 'tab-prefix-map)
-  ;; (unload-feature 'tab-bar)
+#+end_src
+
+*** COMMENT extras
+#+begin_src elisp
+  (keymap-set ctl-x-map "t" nil)
+  (setq tab-prefix-map nil)
+  (makunbound 'tab-prefix-map)
+  (unload-feature 'tab-bar)
+#+end_src
+
+** COMMENT server dashboard
+#+begin_src elisp
+  (setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))
 #+end_src
 
 ** COMMENT transparency
@@ -503,7 +493,9 @@ An extensible emacs startup screen.
 ** prog-mode
 #+begin_src elisp
   (use-package prog-mode
-    :hook (prog-mode . display-line-numbers-mode)
+    :hook 
+    (prog-mode . display-line-numbers-mode)
+    (prog-mode . display-fill-column-indicator-mode)
   )
 #+end_src
 
@@ -695,16 +687,6 @@ An extensible emacs startup screen.
 
 
 * THEMES
-** COMMENT modus-themes
-#+begin_src elisp
-  (use-package modus-themes
-    :config
-    ;; (load-theme 'modus-operandi t)
-    ;; (load-theme 'modus-vivendi t)        
-    (load-theme 'modus-vivendi-deuteranopia t)
-    )
-#+end_src
-
 ** doom-themes
 #+BEGIN_SRC elisp
   (use-package doom-themes
@@ -729,6 +711,16 @@ An extensible emacs startup screen.
       (progn
         (disable-theme 'doom-opera)
         (load-theme 'doom-opera-light t))))
+#+end_src
+
+** COMMENT modus-themes
+#+begin_src elisp
+  (use-package modus-themes
+    :config
+    ;; (load-theme 'modus-operandi t)
+    ;; (load-theme 'modus-vivendi t)        
+    (load-theme 'modus-vivendi-deuteranopia t)
+    )
 #+end_src
 
 * MODELINE

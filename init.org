@@ -203,90 +203,56 @@
 #+END_SRC
 
 * PACKAGES
-** recentf
-Recently opened files.
+** magit
 #+BEGIN_SRC elisp
+  (use-package magit)
+#+END_SRC
 
+** recentf
+#+BEGIN_SRC elisp
   (use-package recentf
-    :config
-    (recentf-mode 1)
-    )
-
+    :config 
+    (recentf-mode 1))
 #+END_SRC
 
 ** ivy
 Simple tools for minibuffer completion.
 #+BEGIN_SRC elisp
-
   (use-package ivy
-    :init
+    :init   
     (ivy-mode 1)
 
-    :bind
-    ("C-x <" . ido-switch-buffer)
-    )
-
-#+END_SRC
-
-** magit
-Git inside of Emacs.
-#+BEGIN_SRC elisp
-
-  (use-package magit
-  )
-
-#+END_SRC
-
-** projectile
-Project interaction library for Emacs
-#+BEGIN_SRC elisp
-
-  (use-package projectile
-    :config
-    (projectile-mode +1)
-
-    :bind
-    (:map projectile-mode-map
-          ("s-p"   . projectile-command-map)
-          ("C-c p" . projectile-command-map))
-    )
-
+    :bind   
+    ("C-x <" . ido-switch-buffer))
 #+END_SRC
 
 ** neotree
 A Emacs tree plugin like NerdTree for Vim.
 #+BEGIN_SRC elisp
   (use-package neotree
-    :bind
+    :bind    
     ("C-x j" . neotree-toggle)
 
-    :config
-    (setq 
-     neo-window-width 42
-     neo-theme 'ascii
-     neo-smart-open t
-     neo-window-fixed-size -1
-     neo-autorefresh t
-     neo-window-position 'right
-     )
-    )
+    :config  
+    (setq neo-window-width 42
+          neo-theme 'ascii
+          neo-smart-open t
+          neo-window-fixed-size -1
+          neo-autorefresh t
+          neo-window-position 'right))
 #+END_SRC
 
 ** which-key
 Displays the key bindings.
 #+BEGIN_SRC elisp
-
   (use-package which-key
     :config
-    (which-key-mode)
-    )
-
+    (which-key-mode))
 #+END_SRC
 
 ** crux
 Useful interactive commands.
 #+BEGIN_SRC elisp
-
   (use-package crux
     :bind
     ("C-c f"   . crux-recentf-find-file)
@@ -296,15 +262,11 @@ Useful interactive commands.
     ("C-x M-c" . crux-capitalize-region)
     ("C-c k"   . crux-kill-other-buffers)
     ("C-c t"   . crux-visit-term-buffer)
-    ("C-c r"   . crux-rename-file-and-buffer)
-    )
-
+    ("C-c r"   . crux-rename-file-and-buffer))
 #+END_SRC
 
 ** company
-text completion framework for Emacs.
 #+BEGIN_SRC elisp
-
   (use-package company
     :config
     (setq company-idle-delay 0
@@ -313,11 +275,22 @@ text completion framework for Emacs.
           company-tooltip-limit 10
           company-tooltip-align-annotations t
           company-tooltip-flip-when-above t)
-    (add-to-list 'company-backends 'company-clang)
-    (global-company-mode)
-    )
 
+    ;; (add-to-list 'company-backends 'company-clang)
+    (add-to-list 'company-backends 'company-capf)
+
+    (global-company-mode))
 #+END_SRC
+
+** lsp
+#+begin_src elisp
+  (use-package lsp-mode
+    :hook
+    (python-mode . lsp)
+    (prolog-mode . lsp)
+
+    :commands lsp)
+#+end_src
 
 ** company-quickhelp
 Company popups.
@@ -452,12 +425,23 @@ Sets background color to strings that match color names
 #+begin_src elisp
   (use-package zen-mode)
 #+end_src
-** centered-window
-Centers the text of the window
-#+BEGIN_SRC elisp
 
+** centered-window
+#+BEGIN_SRC elisp
   (use-package centered-window
-    )
+    :hook
+    (org-mode . centered-window-mode)
+    (prog-mode . centered-window-mode))
+#+END_SRC
+
+** COMMENT projectile
+#+BEGIN_SRC elisp
+  (use-package projectile
+    :config (projectile-mode +1)
+    :bind   (:map projectile-mode-map
+                  ("s-p"   . projectile-command-map)
+                  ("C-c p" . projectile-command-map)
+                  ))
 
 #+END_SRC
 
@@ -582,6 +566,8 @@ An extensible emacs startup screen.
 #+begin_src elisp
   (use-package prolog-mode
     :mode "\\.pl\\'"
+    :hook 
+    (prolog-mode . company-mode)
   )
 #+end_src
 
@@ -601,33 +587,6 @@ An extensible emacs startup screen.
     (company)
     )
 
-#+END_SRC
-
-* SHELLS
-** vterm
-#+begin_src elisp
-  (use-package vterm)
-#+end_src
-** COMMENT eshell
-#+BEGIN_SRC elisp
-  (use-package eshell
-    :config
-    (setq eshell-prompt-function
-          (lambda ()
-            (concat
-             (format-time-string "[%H:%M]" (current-time))
-             (if (magit-get-current-branch)
-                 (concat "[git:" (magit-get-current-branch) "]" )
-               "")
-             " "
-             (abbreviate-file-name (eshell/pwd))
-             "\n"
-             " > "
-             )))
-
-    (setq eshell-prompt-regexp " > ")   ; or " > "
-    (setq eshell-prompt-string " > ")   ; or " > "
-    )
 #+END_SRC
 
 * ORG-MODE
@@ -685,6 +644,32 @@ An extensible emacs startup screen.
         '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 #+end_src
 
+* SHELLS
+** vterm
+#+begin_src elisp
+  (use-package vterm)
+#+end_src
+** COMMENT eshell
+#+BEGIN_SRC elisp
+  (use-package eshell
+    :config
+    (setq eshell-prompt-function
+          (lambda ()
+            (concat
+             (format-time-string "[%H:%M]" (current-time))
+             (if (magit-get-current-branch)
+                 (concat "[git:" (magit-get-current-branch) "]" )
+               "")
+             " "
+             (abbreviate-file-name (eshell/pwd))
+             "\n"
+             " > "
+             )))
+
+    (setq eshell-prompt-regexp " > ")   ; or " > "
+    (setq eshell-prompt-string " > ")   ; or " > "
+    )
+#+END_SRC
 
 * THEMES
 ** doom-themes
@@ -765,6 +750,7 @@ A new implementation of Powerline for Emacs
             (delq (current-buffer) 
                   (remove-if-not 'buffer-file-name (buffer-list)))))
 #+end_src
+
 ** reverse-region
 #+BEGIN_SRC elisp
   (defun reverse-region (beg end)

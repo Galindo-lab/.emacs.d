@@ -107,7 +107,7 @@
   ("C-x j" . neotree-toggle)
 
   :config  
-  (setq neo-window-width 42
+  (setq neo-window-width 32
         neo-theme 'ascii
         neo-smart-open t
         neo-window-fixed-size -1
@@ -193,7 +193,7 @@
 
 (use-package plantuml-mode
   :config
-  (setq plantuml-jar-path "~/.emacs.d/plantuml-1.2023.1.jar")
+  (setq plantuml-jar-path "~/.emacs.d/plantuml.jar")
   (setq plantuml-default-exec-mode 'jar)
   (setq plantuml-output-type "png"))
 
@@ -301,6 +301,24 @@
 (use-package org-modern
   :hook
   (org-mode . org-modern-mode))
+
+(use-package org-roam
+  :custom
+  (org-roam-directory (file-truename "~/.emacs.d/roam/"))
+
+  :bind 
+  ("C-c n l" . org-roam-buffer-toggle)
+  ("C-c n f" . org-roam-node-find)
+  ("C-c n g" . org-roam-graph)
+  ("C-c n i" . org-roam-node-insert)
+  ("C-c n c" . org-roam-capture)
+
+  :config
+  (setq org-roam-node-display-template
+        (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+
+  (org-roam-db-autosync-mode)
+  (require 'org-roam-protocol))
 
 (use-package vterm)
 

@@ -1,6 +1,7 @@
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org"   . "https://orgmode.org/elpa/")
-                         ("elpa"  . "https://elpa.gnu.org/packages/")))
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("org"   . "https://orgmode.org/elpa/")
+        ("elpa"  . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
@@ -18,67 +19,49 @@
 
 (use-package emacs
   :config
-  (setq-default
-   cursor-type 'bar                   
-   tab-width 4                        
-   indent-tabs-mode nil               
-   scroll-step 1                      
-   inhibit-startup-screen t           
-   use-dialog-box nil                 
-   display-fill-column-indicator-column 80 ;
-   )
-
-  (set-fringe-mode 10)             
-  (column-number-mode t)           
-  (line-number-mode t)             
-  (scroll-bar-mode -1)               
-  (display-time-mode -1)             
-  (display-battery-mode -1)          
-  (delete-selection-mode 1)          
-  (tool-bar-mode -1)                 
-  (menu-bar-mode -1)                 
-  (global-hl-line-mode -1)           
-  (global-auto-revert-mode 1)        
-
-  ;;Usar solo y-or-n
   (defalias 'yes-or-no-p 'y-or-n-p)
+
+  (setq-default cursor-type 'bar)
+  (setq-default tab-width 4)
+  (setq-default indent-tabs-mode nil)
+  (setq-default scroll-step 1)
+  (setq-default inhibit-startup-screen t)
+  (setq-default use-dialog-box nil)
+  (setq-default display-fill-column-indicator-column 80)
+
+  (setq-default cursor-type 'bar)
+  (setq-default tab-width 4)
+  (setq-default indent-tabs-mode nil)
+  (setq-default scroll-step 1)
+  (setq-default inhibit-startup-screen t)
 
   (setq initial-major-mode 'fundamental-mode)
   (setq initial-scratch-message nil)
-
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file)
 
-  (add-to-list 'backup-directory-alist
-               (cons "." "~/.emacs.d/backups/"))
+  (add-to-list
+   'backup-directory-alist (cons "." "~/.emacs.d/backups/"))
 
-  (customize-set-variable 'tramp-backup-directory-alist
-                          backup-directory-alist)
+  (customize-set-variable
+   'tramp-backup-directory-alist backup-directory-alist)
 
-  ;; mover a los hooks
-  (add-hook 'prog-mode-hook 'hl-line-mode)
-  ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (set-default 'truncate-lines -1)
+  (set-fringe-mode 10)
+  (delete-selection-mode 1)
+  (column-number-mode t)
+  (line-number-mode t)
+  (global-auto-revert-mode 1)
+  (global-hl-line-mode 1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
 
   :bind
   ("<f5>" . recompile)
 
   :hook
-  (text-mode-hook . auto-fill-mode)
-  )
-
-(setq-default 
- cursor-type 'bar                  ;Tipo del cursor
- tab-width 4                       ;Tamaño del tab
- indent-tabs-mode nil              ;Desactivar tabs
- scroll-step 1                     ;Smooth scrolling
- inhibit-startup-screen t          ;Hide startup screen
- use-dialog-box nil                ;Disable the use of dialog boxes
- )
-
-(set-default 'truncate-lines -1)
-
-;;Usar solo y-or-n
-(defalias 'yes-or-no-p 'y-or-n-p)
+  (text-mode-hook . auto-fill-mode))
 
 (setq initial-major-mode 'fundamental-mode)
 (setq initial-scratch-message nil)
@@ -169,50 +152,36 @@
 
 (use-package company-quickhelp
   :config
-  (company-quickhelp-mode)
-  )
+  (company-quickhelp-mode))
 
-(use-package git-gutter
-  :ensure t
-  )
+(use-package git-gutter)
 
 (use-package hl-todo
   :custom-face
   (hl-todo ((t (:inherit hl-todo :italic t))))
 
   :hook
-  ((prog-mode . hl-todo-mode)
-   (yaml-mode . hl-todo-mode)
-   (org-mode . hl-todo-mode))
+  (prog-mode . hl-todo-mode)
+  (yaml-mode . hl-todo-mode)
+  (org-mode . hl-todo-mode)
 
   :config
-  (setq hl-todo-mode 1)
-  )
+  (setq hl-todo-mode 1))
 
-(use-package rainbow-delimiters
-  :hook
-  (prog-mode-hook . rainbow-delimiters-mode)
-  )
-
-(use-package format-all
-  )
+(use-package format-all)
 
 (use-package emmet-mode
   :hook
-  ((sgml-mode . emmet-mode))
-  )
+  (sgml-mode . emmet-mode))
 
-(use-package gnuplot
-  )
+(use-package gnuplot)
 
-(use-package rainbow-mode
-  )
+(use-package rainbow-mode)
 
 (use-package yasnippet
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/yasnippet/"))
-  (yas-global-mode 1)
-  )
+  (yas-global-mode 1))
 
 (use-package imenu-list)
 
@@ -220,15 +189,13 @@
 
 (use-package rainbow-delimiters
   :hook
-  ((prog-mode . rainbow-delimiters-mode))
-  )
+  (prog-mode . rainbow-delimiters-mode))
 
 (use-package plantuml-mode
   :config
   (setq plantuml-jar-path "~/.emacs.d/plantuml-1.2023.1.jar")
   (setq plantuml-default-exec-mode 'jar)
-  (setq plantuml-output-type "png")
-  )
+  (setq plantuml-output-type "png"))
 
 (use-package zen-mode)
 
@@ -240,22 +207,19 @@
 (use-package prog-mode
   :hook 
   (prog-mode . display-line-numbers-mode)
-  (prog-mode . display-fill-column-indicator-mode)
-)
+  (prog-mode . display-fill-column-indicator-mode))
 
 (use-package markdown-mode
   :init
   (setq markdown-command "multimarkdown")
 
   :mode
-  ("README\\.md\\'" . gfm-mode)
-  )
+  ("README\\.md\\'" . gfm-mode))
 
 (use-package anaconda-mode
   :hook
-  ((python-mode . anaconda-mode)
-   (python-mode . anaconda-eldoc-mode))
-  )
+  (python-mode . anaconda-mode)
+  (python-mode . anaconda-eldoc-mode))
 
 (use-package company-anaconda
   :init 
@@ -265,8 +229,7 @@
   (company)
 
   :config
-  (add-to-list 'company-backends 'company-anaconda)
-  )
+  (add-to-list 'company-backends 'company-anaconda))
 
 (use-package company-web
   :init
@@ -276,8 +239,7 @@
   (company)
 
   :config
-  (add-to-list 'company-backends 'company-web-html)
-  )
+  (add-to-list 'company-backends 'company-web-html))
 
 (use-package lua-mode)
 
@@ -293,64 +255,58 @@
 (use-package prolog-mode
   :mode "\\.pl\\'"
   :hook 
-  (prolog-mode . company-mode)
-)
+  (prolog-mode . company-mode))
 
 (use-package org
   :hook
   (org-mode . (lambda ()
-                ;; (org-indent-mode t)
-                (org-content 2)
                 ;; (visual-line-mode)
-                ))
+                ;; (org-indent-mode t)
+                (org-content 2)))
 
   :config
   (setq org-confirm-babel-evaluate nil)
-  (setq org-support-shift-select t
-        org-preview-latex-default-process 'dvisvgm
-        org-html-htmlize-output-type `nil
-        org-src-tab-acts-natively t
-        org-format-latex-options
+  (setq org-support-shift-select t)
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-html-htmlize-output-type `nil)
+  (setq org-src-tab-acts-natively t)
+  (setq org-html-htmlize-output-type 'nil)
+  (setq org-latex-caption-above nil)
+  (setq org-babel-python-command "python3")
+
+  (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 1.5))
 
-  (org-babel-do-load-languages
-   'org-babel-load-languages '((emacs-lisp . t)
-                               (python . t)
-                               (latex . t)
-                               (ditaa . t)
-                               (maxima . t)
-                               (octave . t)
-                               (plantuml . t)
-                               (shell . t)))
+  (setq org-plantuml-jar-path
+        (expand-file-name "~/.emacs.d/plantuml-1.2023.10.jar"))
 
-  (setq org-html-htmlize-output-type 'nil)
+  (setq org-latex-pdf-process
+        '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)
+     (latex . t)
+     (ditaa . t)
+     (maxima . t)
+     (octave . t)
+     (plantuml . t)
+     (shell . t)))
 
   :bind
   (:map org-mode-map
-        ("<M-return>" . org-toggle-latex-fragment))
+        ("<M-return>" . org-toggle-latex-fragment)))
 
-  )
-
-(setq org-babel-python-command "python3"
-      org-plantuml-jar-path
-      (expand-file-name "~/.emacs.d/plantuml-1.2023.10.jar")
-      )
-
-(setq org-latex-caption-above nil)
-
-(setq org-latex-pdf-process
-      '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+(use-package org-modern
+  :hook
+  (org-mode . org-modern-mode))
 
 (use-package vterm)
 
 (use-package doom-themes
   :config
-  ;;(load-theme 'doom-one)
-  (load-theme 'doom-opera t)
-  ;;(load-theme 'doom-solarized-dark)     
-  ;;(load-theme 'doom-sourcerer)
-  ;;(load-theme 'doom-plain-dark)
-  )
+  (load-theme 'doom-opera t))
 
 (defun doom-toggle-theme ()
   "Alterna entre dos temas personalizados en Emacs."
@@ -369,8 +325,7 @@
         telephone-line-secondary-left-separator 'telephone-line-flat
         telephone-line-primary-right-separator 'telephone-line-flat
         telephone-line-secondary-right-separator 'telephone-line-flat
-        telephone-line-mode 1)
-  )
+        telephone-line-mode 1))
 
 (use-package fireplace)
 

@@ -32,7 +32,7 @@
   (setq-default cursor-type 'bar)
   (setq-default tab-width 4)
   (setq-default indent-tabs-mode nil)
-  (setq-default scroll-step 1)
+  ;; (setq-default scroll-step 1)
   (setq-default inhibit-startup-screen t)
 
   (setq initial-major-mode 'fundamental-mode)

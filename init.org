@@ -32,6 +32,12 @@
 #+end_src
 
 * SETTINGS
+** emacs 29
+Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
+#+begin_src elisp
+  (setq create-lockfiles nil)
+#+end_src
+
 ** emacs
 #+BEGIN_SRC elisp
   (use-package emacs

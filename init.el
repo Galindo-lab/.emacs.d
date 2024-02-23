@@ -69,9 +69,6 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(set-frame-parameter
- (selected-frame) 'undecorated t)
-
 (tab-bar-mode 1)
 
 (add-to-list 'backup-directory-alist
@@ -340,7 +337,8 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-opera t))
+  ;; (load-theme 'doom-opera t)
+  (load-theme 'doom-one t))
 
 (defun doom-toggle-theme ()
   "Alterna entre dos temas personalizados en Emacs."

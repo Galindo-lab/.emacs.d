@@ -2,7 +2,6 @@
 #+TITLE:    GNU/Emacs
 #+AUTHOR:   Galindo
 #+PROPERTY: header-args :tangle init.el
-
 -----
 
 * PACKAGES
@@ -102,12 +101,6 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
   (load custom-file)
 #+END_SRC
 
-** frame border
-#+BEGIN_SRC elisp 
-  (set-frame-parameter
-   (selected-frame) 'undecorated t) 
-#+END_SRC
-
 ** tab-bar-mode
 #+begin_src elisp
   (tab-bar-mode 1)
@@ -120,6 +113,12 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
   (makunbound 'tab-prefix-map)
   (unload-feature 'tab-bar)
 #+end_src
+
+** COMMENT frame border
+#+BEGIN_SRC elisp 
+  (set-frame-parameter
+   (selected-frame) 'undecorated t) 
+#+END_SRC
 
 ** COMMENT server dashboard
 #+begin_src elisp
@@ -628,18 +627,12 @@ Useful interactive commands.
 #+END_SRC
 
 * THEMES
-** COMMENT tao-theme
-#+begin_src elisp
-  (use-package tao-theme
-    :config
-    (load-theme 'tao-yin t))
-#+end_src
-
 ** doom-themes
 #+BEGIN_SRC elisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-opera t))
+    ;; (load-theme 'doom-opera t)
+    (load-theme 'doom-one t))
 #+END_SRC
 
 *** toggle themes
@@ -654,6 +647,13 @@ Useful interactive commands.
       (progn
         (disable-theme 'doom-opera)
         (load-theme 'doom-opera-light t))))
+#+end_src
+
+** COMMENT tao-theme
+#+begin_src elisp
+  (use-package tao-theme
+    :config
+    (load-theme 'tao-yin t))
 #+end_src
 
 ** COMMENT modus-themes

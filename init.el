@@ -32,7 +32,7 @@
   (setq-default cursor-type 'bar)
   (setq-default tab-width 4)
   (setq-default indent-tabs-mode nil)
-  ;; (setq-default scroll-step 1)
+  (setq-default scroll-step 1)
   (setq-default inhibit-startup-screen t)
 
   (setq initial-major-mode 'fundamental-mode)
@@ -47,7 +47,7 @@
    'tramp-backup-directory-alist backup-directory-alist)
 
   (set-default 'truncate-lines -1)
-  (set-fringe-mode 10)
+  ;; (set-fringe-mode 10)
   (delete-selection-mode 1)
   (column-number-mode t)
   (line-number-mode t)
@@ -107,7 +107,7 @@
   ("C-x j" . neotree-toggle)
 
   :config  
-  (setq neo-window-width 32
+  (setq neo-window-width 42
         neo-theme 'ascii
         neo-smart-open t
         neo-window-fixed-size -1
@@ -204,7 +204,21 @@
   (org-mode . centered-window-mode)
   (prog-mode . centered-window-mode))
 
+(use-package golden-ratio
+  :ensure t
+  :hook
+  (after-init . golden-ratio-mode)
+  :custom
+  (golden-ratio-auto-scale t)
+  (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
+
+(use-package spacious-padding
+  :ensure t
+  :hook
+  (after-init . spacious-padding-mode))
+
 (use-package prog-mode
+  :ensure nil
   :hook 
   (prog-mode . display-line-numbers-mode)
   (prog-mode . display-fill-column-indicator-mode))
@@ -253,12 +267,12 @@
 (use-package haskell-mode)
 
 (use-package prolog-mode
-  :mode "\\.pl\\'"
-  :hook 
-  (prolog-mode . company-mode))
+  :ensure nil
+  :mode "\\.pl\\'")
 
 (use-package org
   :hook
+  (org-mode . auto-fill-mode)
   (org-mode . (lambda ()
                 ;; (visual-line-mode)
                 ;; (org-indent-mode t)
@@ -278,7 +292,7 @@
         (plist-put org-format-latex-options :scale 1.5))
 
   (setq org-plantuml-jar-path
-        (expand-file-name "~/.emacs.d/plantuml-1.2023.10.jar"))
+        (expand-file-name "~/.emacs.d/plantuml.jar"))
 
   (setq org-latex-pdf-process
         '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
@@ -305,6 +319,8 @@
 (use-package org-roam
   :custom
   (org-roam-directory (file-truename "~/.emacs.d/roam/"))
+  (setq org-roam-dailies-directory "~/.emacs.d/roam/journal/")
+
 
   :bind 
   ("C-c n l" . org-roam-buffer-toggle)

@@ -2,6 +2,7 @@
 #+TITLE:    GNU/Emacs
 #+AUTHOR:   Galindo
 #+PROPERTY: header-args :tangle init.el
+
 -----
 
 * PACKAGES
@@ -57,7 +58,7 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
     (setq-default cursor-type 'bar)
     (setq-default tab-width 4)
     (setq-default indent-tabs-mode nil)
-    ;; (setq-default scroll-step 1)
+    (setq-default scroll-step 1)
     (setq-default inhibit-startup-screen t)
 
     (setq initial-major-mode 'fundamental-mode)
@@ -72,7 +73,7 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
      'tramp-backup-directory-alist backup-directory-alist)
 
     (set-default 'truncate-lines -1)
-    (set-fringe-mode 10)
+    ;; (set-fringe-mode 10)
     (delete-selection-mode 1)
     (column-number-mode t)
     (line-number-mode t)
@@ -207,14 +208,13 @@ Simple tools for minibuffer completion.
 #+END_SRC
 
 ** neotree
-A Emacs tree plugin like NerdTree for Vim.
 #+BEGIN_SRC elisp
   (use-package neotree
     :bind    
     ("C-x j" . neotree-toggle)
 
     :config  
-    (setq neo-window-width 32
+    (setq neo-window-width 42
           neo-theme 'ascii
           neo-smart-open t
           neo-window-fixed-size -1
@@ -370,6 +370,28 @@ Useful interactive commands.
     (prog-mode . centered-window-mode))
 #+END_SRC
 
+** golden-ratio
+#+begin_src elisp
+  (use-package golden-ratio
+    :ensure t
+    :hook
+    (after-init . golden-ratio-mode)
+    :custom
+    (golden-ratio-auto-scale t)
+    (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
+#+end_src
+
+** spacius-padding
+#+begin_src elisp
+  (use-package spacious-padding
+    :ensure t
+    :hook
+    (after-init . spacious-padding-mode))
+#+end_src
+
+#+RESULTS:
+| spacious-padding-mode | org-persist-load-all | debian-ispell-set-default-dictionary | debian-ispell-set-startup-menu | x-wm-set-size-hint | tramp-register-archive-autoload-file-name-handler | magit-maybe-define-global-key-bindings | magit-auto-revert-mode--init-kludge | magit-startup-asserts | magit-version |
+
 ** COMMENT projectile
 #+BEGIN_SRC elisp
   (use-package projectile
@@ -404,6 +426,7 @@ Useful interactive commands.
 ** prog-mode
 #+begin_src elisp
   (use-package prog-mode
+    :ensure nil
     :hook 
     (prog-mode . display-line-numbers-mode)
     (prog-mode . display-fill-column-indicator-mode))
@@ -479,9 +502,8 @@ Useful interactive commands.
 ** prolog
 #+begin_src elisp
   (use-package prolog-mode
-    :mode "\\.pl\\'"
-    :hook 
-    (prolog-mode . company-mode))
+    :ensure nil
+    :mode "\\.pl\\'")
 #+end_src
 
 ** COMMENT c/c++
@@ -507,6 +529,7 @@ Useful interactive commands.
 #+BEGIN_SRC elisp
   (use-package org
     :hook
+    (org-mode . auto-fill-mode)
     (org-mode . (lambda ()
                   ;; (visual-line-mode)
                   ;; (org-indent-mode t)
@@ -526,11 +549,11 @@ Useful interactive commands.
           (plist-put org-format-latex-options :scale 1.5))
 
     (setq org-plantuml-jar-path
-          (expand-file-name "~/.emacs.d/plantuml-1.2023.10.jar"))
+          (expand-file-name "~/.emacs.d/plantuml.jar"))
 
     (setq org-latex-pdf-process
           '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
-    
+
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -559,6 +582,8 @@ Useful interactive commands.
   (use-package org-roam
     :custom
     (org-roam-directory (file-truename "~/.emacs.d/roam/"))
+    (setq org-roam-dailies-directory "~/.emacs.d/roam/journal/")
+
 
     :bind 
     ("C-c n l" . org-roam-buffer-toggle)
@@ -603,6 +628,13 @@ Useful interactive commands.
 #+END_SRC
 
 * THEMES
+** COMMENT tao-theme
+#+begin_src elisp
+  (use-package tao-theme
+    :config
+    (load-theme 'tao-yin t))
+#+end_src
+
 ** doom-themes
 #+BEGIN_SRC elisp
   (use-package doom-themes
@@ -630,8 +662,7 @@ Useful interactive commands.
     :config
     ;; (load-theme 'modus-operandi t)
     ;; (load-theme 'modus-vivendi t)        
-    (load-theme 'modus-vivendi-deuteranopia t)
-    )
+    (load-theme 'modus-vivendi-deuteranopia t))
 #+end_src
 
 * MODELINE

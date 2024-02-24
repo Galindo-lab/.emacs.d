@@ -71,6 +71,14 @@
 
 (tab-bar-mode 1)
 
+;;Fondo trasparente
+(set-frame-parameter
+ (selected-frame) 'alpha '(100 100))
+
+;;Transparencia del borde
+(add-to-list
+ 'default-frame-alist '(alpha 95 95))
+
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
 

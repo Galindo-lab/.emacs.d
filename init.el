@@ -71,14 +71,6 @@
 
 (tab-bar-mode 1)
 
-;;Fondo trasparente
-(set-frame-parameter
- (selected-frame) 'alpha '(100 100))
-
-;;Transparencia del borde
-(add-to-list
- 'default-frame-alist '(alpha 95 95))
-
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
 
@@ -222,11 +214,26 @@
   :hook
   (after-init . spacious-padding-mode))
 
+(use-package dashboard
+  :config
+  (setq dashboard-center-content t
+        dashboard-items '((recents  . 10)
+                          ;; (bookmarks . 10)
+                          ))
+
+  (dashboard-setup-startup-hook)
+  )
+
 (use-package prog-mode
   :ensure nil
   :hook 
   (prog-mode . display-line-numbers-mode)
   (prog-mode . display-fill-column-indicator-mode))
+
+(use-package latex-mode
+  :ensure nil
+  :hook
+  (latex-mode . auto-fill-mode))
 
 (use-package markdown-mode
   :init
@@ -294,7 +301,7 @@
   (setq org-babel-python-command "python3")
 
   (setq org-format-latex-options
-        (plist-put org-format-latex-options :scale 1.5))
+        (plist-put org-format-latex-options :scale 1))
 
   (setq org-plantuml-jar-path
         (expand-file-name "~/.emacs.d/plantuml.jar"))
@@ -346,7 +353,9 @@
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-opera t)
-  (load-theme 'doom-one t))
+  ;; (load-theme 'doom-one t)
+  (load-theme 'doom-tomorrow-night)
+  )
 
 (defun doom-toggle-theme ()
   "Alterna entre dos temas personalizados en Emacs."

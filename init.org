@@ -4,6 +4,13 @@
 #+PROPERTY: header-args :tangle init.el
 -----
 
+* Opcional
+- Corrector ortográfico ::
+  =sudo apt-get install aspell-es=
+  
+- Instalar plantuml ::
+  =wget https://sourceforge.net/projects/plantuml/files/plantuml.jar=
+  
 * PACKAGES
 ** package-archives 
 #+begin_src elisp
@@ -125,7 +132,7 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
   (setq initial-buffer-choice (lambda () (switch-to-buffer "*dashboard*")))
 #+end_src
 
-** transparency
+** COMMENT transparency
 #+BEGIN_SRC elisp
 
   ;;Fondo trasparente
@@ -388,8 +395,18 @@ Useful interactive commands.
     (after-init . spacious-padding-mode))
 #+end_src
 
-#+RESULTS:
-| spacious-padding-mode | org-persist-load-all | debian-ispell-set-default-dictionary | debian-ispell-set-startup-menu | x-wm-set-size-hint | tramp-register-archive-autoload-file-name-handler | magit-maybe-define-global-key-bindings | magit-auto-revert-mode--init-kludge | magit-startup-asserts | magit-version |
+** dashboard
+#+BEGIN_SRC elisp
+  (use-package dashboard
+    :config
+    (setq dashboard-center-content t
+          dashboard-items '((recents  . 10)
+                            ;; (bookmarks . 10)
+                            ))
+
+    (dashboard-setup-startup-hook)
+    )
+#+END_SRC
 
 ** COMMENT projectile
 #+BEGIN_SRC elisp
@@ -408,19 +425,6 @@ Useful interactive commands.
     :if (display-graphic-p))
 #+end_src
 
-** COMMENT dashboard
-#+BEGIN_SRC elisp
-  (use-package dashboard
-    :config
-    (setq dashboard-center-content t
-          dashboard-items '((recents  . 10)
-                            ;; (bookmarks . 10)
-                            ))
-
-    (dashboard-setup-startup-hook)
-    )
-#+END_SRC
-
 * PROGRAMMING MODE
 ** prog-mode
 #+begin_src elisp
@@ -429,6 +433,14 @@ Useful interactive commands.
     :hook 
     (prog-mode . display-line-numbers-mode)
     (prog-mode . display-fill-column-indicator-mode))
+#+end_src
+
+** latex
+#+begin_src elisp
+  (use-package latex-mode
+    :ensure nil
+    :hook
+    (latex-mode . auto-fill-mode))
 #+end_src
 
 ** markdown
@@ -545,7 +557,7 @@ Useful interactive commands.
     (setq org-babel-python-command "python3")
 
     (setq org-format-latex-options
-          (plist-put org-format-latex-options :scale 1.5))
+          (plist-put org-format-latex-options :scale 1))
 
     (setq org-plantuml-jar-path
           (expand-file-name "~/.emacs.d/plantuml.jar"))
@@ -632,7 +644,9 @@ Useful interactive commands.
   (use-package doom-themes
     :config
     ;; (load-theme 'doom-opera t)
-    (load-theme 'doom-one t))
+    ;; (load-theme 'doom-one t)
+    (load-theme 'doom-tomorrow-night)
+    )
 #+END_SRC
 
 *** toggle themes

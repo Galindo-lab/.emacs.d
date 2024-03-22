@@ -69,8 +69,6 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(tab-bar-mode 1)
-
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
 
@@ -168,8 +166,12 @@
 (use-package format-all)
 
 (use-package emmet-mode
+  :config
+  (setq emmet-expand-jsx-className? t)
+
   :hook
-  (sgml-mode . emmet-mode))
+  (sgml-mode . emmet-mode)
+  (css-mode . emmet-mode))
 
 (use-package gnuplot)
 
@@ -201,28 +203,10 @@
   (org-mode . centered-window-mode)
   (prog-mode . centered-window-mode))
 
-(use-package golden-ratio
-  :ensure t
-  :hook
-  (after-init . golden-ratio-mode)
-  :custom
-  (golden-ratio-auto-scale t)
-  (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
-
 (use-package spacious-padding
   :ensure t
   :hook
   (after-init . spacious-padding-mode))
-
-(use-package dashboard
-  :config
-  (setq dashboard-center-content t
-        dashboard-items '((recents  . 10)
-                          ;; (bookmarks . 10)
-                          ))
-
-  (dashboard-setup-startup-hook)
-  )
 
 (use-package prog-mode
   :ensure nil
@@ -278,9 +262,7 @@
 
 (use-package haskell-mode)
 
-(use-package prolog-mode
-  :ensure nil
-  :mode "\\.pl\\'")
+(use-package yaml-pro)
 
 (use-package org
   :hook

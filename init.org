@@ -4,6 +4,7 @@
 #+PROPERTY: header-args :tangle init.el
 -----
 
+
 * Opcional
 - Corrector ortográfico ::
   =sudo apt-get install aspell-es=
@@ -108,7 +109,13 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
   (load custom-file)
 #+END_SRC
 
-** tab-bar-mode
+** COMMENT frame border
+#+BEGIN_SRC elisp 
+  (set-frame-parameter
+   (selected-frame) 'undecorated t)
+#+END_SRC
+
+** COMMENT tab-bar-mode
 #+begin_src elisp
   (tab-bar-mode 1)
 #+end_src
@@ -120,12 +127,6 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
   (makunbound 'tab-prefix-map)
   (unload-feature 'tab-bar)
 #+end_src
-
-** COMMENT frame border
-#+BEGIN_SRC elisp 
-  (set-frame-parameter
-   (selected-frame) 'undecorated t) 
-#+END_SRC
 
 ** COMMENT server dashboard
 #+begin_src elisp
@@ -315,8 +316,12 @@ Useful interactive commands.
 ** emmet
 #+BEGIN_SRC elisp
   (use-package emmet-mode
+    :config
+    (setq emmet-expand-jsx-className? t)
+
     :hook
-    (sgml-mode . emmet-mode))
+    (sgml-mode . emmet-mode)
+    (css-mode . emmet-mode))
 #+END_SRC
 
 ** gnuplot
@@ -376,17 +381,6 @@ Useful interactive commands.
     (prog-mode . centered-window-mode))
 #+END_SRC
 
-** golden-ratio
-#+begin_src elisp
-  (use-package golden-ratio
-    :ensure t
-    :hook
-    (after-init . golden-ratio-mode)
-    :custom
-    (golden-ratio-auto-scale t)
-    (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
-#+end_src
-
 ** spacius-padding
 #+begin_src elisp
   (use-package spacious-padding
@@ -395,7 +389,7 @@ Useful interactive commands.
     (after-init . spacious-padding-mode))
 #+end_src
 
-** dashboard
+** COMMENT dashboard
 #+BEGIN_SRC elisp
   (use-package dashboard
     :config
@@ -407,6 +401,24 @@ Useful interactive commands.
     (dashboard-setup-startup-hook)
     )
 #+END_SRC
+
+** COMMENT solair
+#+begin_src elisp
+  (use-package solaire-mode
+    :config
+    (solaire-global-mode +1))
+#+end_src
+
+** COMMENT golden-ratio
+#+begin_src elisp
+  (use-package golden-ratio
+    :ensure t
+    :hook
+    (after-init . golden-ratio-mode)
+    :custom
+    (golden-ratio-auto-scale t)
+    (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
+#+end_src
 
 ** COMMENT projectile
 #+BEGIN_SRC elisp
@@ -510,11 +522,9 @@ Useful interactive commands.
   (use-package haskell-mode)
 #+end_src
 
-** prolog
+** yaml
 #+begin_src elisp
-  (use-package prolog-mode
-    :ensure nil
-    :mode "\\.pl\\'")
+  (use-package yaml-pro)
 #+end_src
 
 ** COMMENT c/c++

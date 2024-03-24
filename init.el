@@ -69,6 +69,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(tab-bar-mode 1)
+
 (add-to-list 'backup-directory-alist
              (cons "." "~/.emacs.d/backups/"))
 
@@ -220,6 +222,9 @@
   (latex-mode . auto-fill-mode))
 
 (use-package markdown-mode
+  :hook
+  (markdown-mode . auto-fill-mode)
+
   :init
   (setq markdown-command "multimarkdown")
 
@@ -261,8 +266,6 @@
 (use-package racket-mode)
 
 (use-package haskell-mode)
-
-(use-package yaml-pro)
 
 (use-package org
   :hook
@@ -330,8 +333,6 @@
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
 
-(use-package vterm)
-
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-opera t)
@@ -349,14 +350,6 @@
     (progn
       (disable-theme 'doom-opera)
       (load-theme 'doom-opera-light t))))
-
-(use-package telephone-line
-  :config
-  (setq telephone-line-primary-left-separator 'telephone-line-flat
-        telephone-line-secondary-left-separator 'telephone-line-flat
-        telephone-line-primary-right-separator 'telephone-line-flat
-        telephone-line-secondary-right-separator 'telephone-line-flat
-        telephone-line-mode 1))
 
 (use-package fireplace)
 

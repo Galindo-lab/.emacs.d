@@ -109,13 +109,7 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
   (load custom-file)
 #+END_SRC
 
-** COMMENT frame border
-#+BEGIN_SRC elisp 
-  (set-frame-parameter
-   (selected-frame) 'undecorated t)
-#+END_SRC
-
-** COMMENT tab-bar-mode
+** tab-bar-mode
 #+begin_src elisp
   (tab-bar-mode 1)
 #+end_src
@@ -127,6 +121,12 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
   (makunbound 'tab-prefix-map)
   (unload-feature 'tab-bar)
 #+end_src
+
+** COMMENT frame border
+#+BEGIN_SRC elisp 
+  (set-frame-parameter
+   (selected-frame) 'undecorated t)
+#+END_SRC
 
 ** COMMENT server dashboard
 #+begin_src elisp
@@ -458,6 +458,9 @@ Useful interactive commands.
 ** markdown
 #+BEGIN_SRC elisp
   (use-package markdown-mode
+    :hook
+    (markdown-mode . auto-fill-mode)
+    
     :init
     (setq markdown-command "multimarkdown")
 
@@ -522,9 +525,9 @@ Useful interactive commands.
   (use-package haskell-mode)
 #+end_src
 
-** yaml
+** COMMENT yaml
 #+begin_src elisp
-  (use-package yaml-pro)
+  (use-package yaml-mode)
 #+end_src
 
 ** COMMENT c/c++

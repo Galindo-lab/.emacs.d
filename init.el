@@ -16,6 +16,7 @@
   (setq use-package-always-ensure t)
 
 (setq create-lockfiles nil)
+(setq warning-minimum-level :error)
 
 (use-package emacs
   :config
@@ -99,13 +100,19 @@
   :bind   
   ("C-x <" . ido-switch-buffer))
 
+(when (display-graphic-p)
+  (require 'all-the-icons))
+;; or
+(use-package all-the-icons
+  :if (display-graphic-p))
+
 (use-package neotree
   :bind    
   ("C-x j" . neotree-toggle)
 
   :config  
   (setq neo-window-width 42
-        neo-theme 'ascii
+        neo-theme (if (display-graphic-p) 'icons 'arrow)
         neo-smart-open t
         neo-window-fixed-size -1
         neo-autorefresh t
@@ -209,6 +216,19 @@
   :ensure t
   :hook
   (after-init . spacious-padding-mode))
+
+(use-package yaml-mode)
+
+(use-package dashboard
+  :config
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-center-content t
+        dashboard-items '((recents  . 10)
+                          ;; (bookmarks . 10)
+                          ))
+
+  (dashboard-setup-startup-hook)
+  )
 
 (use-package prog-mode
   :ensure nil
@@ -333,6 +353,8 @@
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
 
+(use-package vterm)
+
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-opera t)
@@ -350,6 +372,14 @@
     (progn
       (disable-theme 'doom-opera)
       (load-theme 'doom-opera-light t))))
+
+(use-package telephone-line
+  :config
+  (setq telephone-line-primary-left-separator 'telephone-line-flat
+        telephone-line-secondary-left-separator 'telephone-line-flat
+        telephone-line-primary-right-separator 'telephone-line-flat
+        telephone-line-secondary-right-separator 'telephone-line-flat
+        telephone-line-mode 1))
 
 (use-package fireplace)
 

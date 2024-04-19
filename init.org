@@ -4,7 +4,6 @@
 #+PROPERTY: header-args :tangle init.el
 -----
 
-
 * Opcional
 - Corrector ortográfico ::
   =sudo apt-get install aspell-es=
@@ -46,6 +45,7 @@
 Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
 #+begin_src elisp
   (setq create-lockfiles nil)
+  (setq warning-minimum-level :error)
 #+end_src
 
 ** emacs
@@ -216,13 +216,19 @@ Simple tools for minibuffer completion.
 
 ** neotree
 #+BEGIN_SRC elisp
+  (when (display-graphic-p)
+    (require 'all-the-icons))
+  ;; or
+  (use-package all-the-icons
+    :if (display-graphic-p))
+
   (use-package neotree
     :bind    
     ("C-x j" . neotree-toggle)
 
     :config  
     (setq neo-window-width 42
-          neo-theme 'ascii
+          neo-theme (if (display-graphic-p) 'icons 'arrow)
           neo-smart-open t
           neo-window-fixed-size -1
           neo-autorefresh t
@@ -389,10 +395,16 @@ Useful interactive commands.
     (after-init . spacious-padding-mode))
 #+end_src
 
-** COMMENT dashboard
+** yaml
+#+begin_src elisp
+  (use-package yaml-mode)
+#+end_src
+
+** dashboard
 #+BEGIN_SRC elisp
   (use-package dashboard
     :config
+    (setq dashboard-startup-banner 'logo)
     (setq dashboard-center-content t
           dashboard-items '((recents  . 10)
                             ;; (bookmarks . 10)
@@ -629,6 +641,7 @@ Useful interactive commands.
 #+begin_src elisp
   (use-package vterm)
 #+end_src
+
 ** COMMENT eshell
 #+BEGIN_SRC elisp
   (use-package eshell
@@ -650,6 +663,7 @@ Useful interactive commands.
     (setq eshell-prompt-string " > ")   ; or " > "
     )
 #+END_SRC
+
 
 * THEMES
 ** doom-themes

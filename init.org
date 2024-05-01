@@ -4,6 +4,7 @@
 #+PROPERTY: header-args :tangle init.el
 -----
 
+
 * Opcional
 - Corrector ortográfico ::
   =sudo apt-get install aspell-es=
@@ -216,12 +217,6 @@ Simple tools for minibuffer completion.
 
 ** neotree
 #+BEGIN_SRC elisp
-  (when (display-graphic-p)
-    (require 'all-the-icons))
-  ;; or
-  (use-package all-the-icons
-    :if (display-graphic-p))
-
   (use-package neotree
     :bind    
     ("C-x j" . neotree-toggle)
@@ -448,7 +443,7 @@ Useful interactive commands.
 
 #+END_SRC
 
-** COMMENT all-the-icons
+** all-the-icons
 #+begin_src elisp
   (use-package all-the-icons
     :if (display-graphic-p))

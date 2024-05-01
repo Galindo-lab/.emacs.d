@@ -100,12 +100,6 @@
   :bind   
   ("C-x <" . ido-switch-buffer))
 
-(when (display-graphic-p)
-  (require 'all-the-icons))
-;; or
-(use-package all-the-icons
-  :if (display-graphic-p))
-
 (use-package neotree
   :bind    
   ("C-x j" . neotree-toggle)
@@ -242,6 +236,9 @@
   :custom
   (golden-ratio-auto-scale t)
   (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
+
+(use-package all-the-icons
+  :if (display-graphic-p))
 
 (use-package prog-mode
   :ensure nil

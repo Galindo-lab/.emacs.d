@@ -243,6 +243,25 @@ Displays the key bindings.
     (which-key-mode))
 #+END_SRC
 
+** dashboard
+#+BEGIN_SRC elisp
+  (use-package dashboard
+    :config
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-startup-banner 'logo)
+    (setq dashboard-icon-type 'all-the-icons)
+
+    (setq dashboard-heading-icons '((recents   . "history")))
+
+    (setq dashboard-center-content t
+          dashboard-items '((recents  . 10)
+                            ;; (bookmarks . 10)
+                            ))
+
+    (dashboard-setup-startup-hook)
+    )
+#+END_SRC
+
 ** crux
 Useful interactive commands.
 #+BEGIN_SRC elisp
@@ -400,20 +419,6 @@ Useful interactive commands.
   (use-package yaml-mode)
 #+end_src
 
-** dashboard
-#+BEGIN_SRC elisp
-  (use-package dashboard
-    :config
-    (setq dashboard-startup-banner 'logo)
-    (setq dashboard-center-content t
-          dashboard-items '((recents  . 10)
-                            ;; (bookmarks . 10)
-                            ))
-
-    (dashboard-setup-startup-hook)
-    )
-#+END_SRC
-
 ** COMMENT solair
 #+begin_src elisp
   (use-package solaire-mode
@@ -421,7 +426,7 @@ Useful interactive commands.
     (solaire-global-mode +1))
 #+end_src
 
-** COMMENT golden-ratio
+** golden-ratio
 #+begin_src elisp
   (use-package golden-ratio
     :ensure t
@@ -534,7 +539,15 @@ Useful interactive commands.
 
 ** haskell
 #+begin_src elisp
-  (use-package haskell-mode)
+  (use-package haskell-mode
+    :hook
+    (haskell-mode . company-mode)
+    (haskell-mode . rainbow-delimiters-mode)
+
+    :config
+    (setq haskell-process-path-ghci "ghci")
+    (setq haskell-process-args-ghci '("-ferror-spans" "-XFlexibleContexts"))
+    (setq haskell-interactive-popup-errors nil))
 #+end_src
 
 ** COMMENT yaml

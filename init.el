@@ -122,6 +122,22 @@
   :config
   (which-key-mode))
 
+(use-package dashboard
+  :config
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-icon-type 'all-the-icons)
+
+  (setq dashboard-heading-icons '((recents   . "history")))
+
+  (setq dashboard-center-content t
+        dashboard-items '((recents  . 10)
+                          ;; (bookmarks . 10)
+                          ))
+
+  (dashboard-setup-startup-hook)
+  )
+
 (use-package crux
   :bind
   ("C-c f"   . crux-recentf-find-file)
@@ -219,16 +235,13 @@
 
 (use-package yaml-mode)
 
-(use-package dashboard
-  :config
-  (setq dashboard-startup-banner 'logo)
-  (setq dashboard-center-content t
-        dashboard-items '((recents  . 10)
-                          ;; (bookmarks . 10)
-                          ))
-
-  (dashboard-setup-startup-hook)
-  )
+(use-package golden-ratio
+  :ensure t
+  :hook
+  (after-init . golden-ratio-mode)
+  :custom
+  (golden-ratio-auto-scale t)
+  (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
 
 (use-package prog-mode
   :ensure nil
@@ -285,7 +298,15 @@
 
 (use-package racket-mode)
 
-(use-package haskell-mode)
+(use-package haskell-mode
+  :hook
+  (haskell-mode . company-mode)
+  (haskell-mode . rainbow-delimiters-mode)
+
+  :config
+  (setq haskell-process-path-ghci "ghci")
+  (setq haskell-process-args-ghci '("-ferror-spans" "-XFlexibleContexts"))
+  (setq haskell-interactive-popup-errors nil))
 
 (use-package org
   :hook

@@ -1,11 +1,10 @@
 
-#+TITLE:    GNU/Emacs
+#+TITLE:    παλίμψηστον
 #+AUTHOR:   Galindo
 #+PROPERTY: header-args :tangle init.el
 -----
 
-
-* Opcional
+* OPCIONAL
 - Corrector ortográfico ::
   =sudo apt-get install aspell-es=
   
@@ -393,45 +392,6 @@ Useful interactive commands.
   (use-package zen-mode)
 #+end_src
 
-** centered-window
-#+BEGIN_SRC elisp
-  (use-package centered-window
-    :hook
-    (org-mode . centered-window-mode)
-    (prog-mode . centered-window-mode))
-#+END_SRC
-
-** spacius-padding
-#+begin_src elisp
-  (use-package spacious-padding
-    :ensure t
-    :hook
-    (after-init . spacious-padding-mode))
-#+end_src
-
-** yaml
-#+begin_src elisp
-  (use-package yaml-mode)
-#+end_src
-
-** COMMENT solair
-#+begin_src elisp
-  (use-package solaire-mode
-    :config
-    (solaire-global-mode +1))
-#+end_src
-
-** golden-ratio
-#+begin_src elisp
-  (use-package golden-ratio
-    :ensure t
-    :hook
-    (after-init . golden-ratio-mode)
-    :custom
-    (golden-ratio-auto-scale t)
-    (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
-#+end_src
-
 ** COMMENT projectile
 #+BEGIN_SRC elisp
   (use-package projectile
@@ -442,12 +402,6 @@ Useful interactive commands.
                   ))
 
 #+END_SRC
-
-** all-the-icons
-#+begin_src elisp
-  (use-package all-the-icons
-    :if (display-graphic-p))
-#+end_src
 
 * PROGRAMMING MODE
 ** prog-mode
@@ -534,10 +488,13 @@ Useful interactive commands.
 
 ** haskell
 #+begin_src elisp
-  (use-package haskell-mode
+  (use-package haskell-mode  
     :hook
     (haskell-mode . company-mode)
     (haskell-mode . rainbow-delimiters-mode)
+
+    :bind
+    ("C-c C-l" . haskell-process-load-file)
 
     :config
     (setq haskell-process-path-ghci "ghci")
@@ -545,27 +502,16 @@ Useful interactive commands.
     (setq haskell-interactive-popup-errors nil))
 #+end_src
 
-** COMMENT yaml
+** yaml
 #+begin_src elisp
   (use-package yaml-mode)
 #+end_src
 
-** COMMENT c/c++
+** c y cpp
 #+BEGIN_SRC elisp
-
   (use-package cc-mode
     :bind  
-    ("<f5>"   . recompile)
-    )
-
-  (use-package company-clang
-    :init
-    (require 'rx)
-
-    :after
-    (company)
-    )
-
+    ("<f5>" . recompile))
 #+END_SRC
 
 * ORG-MODE
@@ -672,7 +618,6 @@ Useful interactive commands.
     )
 #+END_SRC
 
-
 * THEMES
 ** doom-themes
 #+BEGIN_SRC elisp
@@ -681,8 +626,12 @@ Useful interactive commands.
     ;; (load-theme 'doom-opera t)
     ;; (load-theme 'doom-one t)
     (load-theme 'doom-tomorrow-night)
+    ;; (doom-themes-neotree-config)
     )
 #+END_SRC
+
+#+RESULTS:
+: t
 
 *** toggle themes
 #+begin_src elisp
@@ -697,6 +646,56 @@ Useful interactive commands.
         (disable-theme 'doom-opera)
         (load-theme 'doom-opera-light t))))
 #+end_src
+
+** COMMENT spacius-padding
+#+begin_src elisp
+  (use-package spacious-padding
+    :ensure t
+    :hook
+    (after-init . spacious-padding-mode))
+#+end_src
+
+** COMMENT solair
+#+begin_src elisp
+  (use-package solaire-mode
+    :config
+    (solaire-global-mode +1))
+#+end_src
+
+** yaml
+#+begin_src elisp
+  (use-package yaml-mode)
+#+end_src
+
+** evil-model
+#+begin_src elisp
+  (use-package evil)
+#+end_src
+
+** golden-ratio
+#+begin_src elisp
+  (use-package golden-ratio
+    :ensure t
+    :hook
+    (after-init . golden-ratio-mode)
+    :custom
+    (golden-ratio-auto-scale t)
+    (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
+#+end_src
+
+** all-the-icons
+#+begin_src elisp
+  (use-package all-the-icons
+    :if (display-graphic-p))
+#+end_src
+
+** centered-window
+#+BEGIN_SRC elisp
+  (use-package centered-window
+    :hook
+    (org-mode . centered-window-mode)
+    (prog-mode . centered-window-mode))
+#+END_SRC
 
 ** COMMENT tao-theme
 #+begin_src elisp
@@ -725,6 +724,7 @@ Useful interactive commands.
           telephone-line-secondary-right-separator 'telephone-line-flat
           telephone-line-mode 1))
 #+END_SRC
+
 ** COMMENT doom-modeline
 #+begin_src elisp
   (use-package doom-modeline

@@ -217,29 +217,6 @@
 
 (use-package zen-mode)
 
-(use-package centered-window
-  :hook
-  (org-mode . centered-window-mode)
-  (prog-mode . centered-window-mode))
-
-(use-package spacious-padding
-  :ensure t
-  :hook
-  (after-init . spacious-padding-mode))
-
-(use-package yaml-mode)
-
-(use-package golden-ratio
-  :ensure t
-  :hook
-  (after-init . golden-ratio-mode)
-  :custom
-  (golden-ratio-auto-scale t)
-  (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
-
-(use-package all-the-icons
-  :if (display-graphic-p))
-
 (use-package prog-mode
   :ensure nil
   :hook 
@@ -295,15 +272,24 @@
 
 (use-package racket-mode)
 
-(use-package haskell-mode
+(use-package haskell-mode  
   :hook
   (haskell-mode . company-mode)
   (haskell-mode . rainbow-delimiters-mode)
+
+  :bind
+  ("C-c C-l" . haskell-process-load-file)
 
   :config
   (setq haskell-process-path-ghci "ghci")
   (setq haskell-process-args-ghci '("-ferror-spans" "-XFlexibleContexts"))
   (setq haskell-interactive-popup-errors nil))
+
+(use-package yaml-mode)
+
+(use-package cc-mode
+  :bind  
+  ("<f5>" . recompile))
 
 (use-package org
   :hook
@@ -378,6 +364,7 @@
   ;; (load-theme 'doom-opera t)
   ;; (load-theme 'doom-one t)
   (load-theme 'doom-tomorrow-night)
+  ;; (doom-themes-neotree-config)
   )
 
 (defun doom-toggle-theme ()
@@ -391,6 +378,26 @@
       (disable-theme 'doom-opera)
       (load-theme 'doom-opera-light t))))
 
+(use-package yaml-mode)
+
+(use-package evil)
+
+(use-package golden-ratio
+  :ensure t
+  :hook
+  (after-init . golden-ratio-mode)
+  :custom
+  (golden-ratio-auto-scale t)
+  (golden-ratio-exclude-modes '(treemacs-mode occur-mode)))
+
+(use-package all-the-icons
+  :if (display-graphic-p))
+
+(use-package centered-window
+  :hook
+  (org-mode . centered-window-mode)
+  (prog-mode . centered-window-mode))
+
 (use-package telephone-line
   :config
   (setq telephone-line-primary-left-separator 'telephone-line-flat
@@ -400,6 +407,13 @@
         telephone-line-mode 1))
 
 (use-package fireplace)
+
+(defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer 
+          (delq (current-buffer) 
+                (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun kill-other-buffers ()
     "Kill all other buffers."

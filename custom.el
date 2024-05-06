@@ -7,7 +7,7 @@
  '(custom-safe-themes
    '("7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184" default))
  '(package-selected-packages
-   '(fireplace telephone-line doom-themes vterm org-roam org-modern haskell-mode racket-mode nasm-mode ess lua-mode company-web company-anaconda anaconda-mode golden-ratio yaml-mode spacious-padding centered-window zen-mode plantuml-mode rainbow-delimiters lorem-ipsum imenu-list yasnippet rainbow-mode gnuplot emmet-mode format-all hl-todo git-gutter company-quickhelp lsp-mode company crux dashboard which-key neotree all-the-icons cmake-mode magit ivy gcmh))
+   '(solaire-mode company-clang cmake-mode zen-mode yasnippet yaml-mode which-key vterm telephone-line spacious-padding rainbow-mode rainbow-delimiters racket-mode plantuml-mode org-roam org-modern neotree nasm-mode magit lua-mode lsp-mode lorem-ipsum ivy imenu-list hl-todo haskell-mode golden-ratio gnuplot git-gutter gcmh format-all fireplace evil ess emmet-mode doom-themes dashboard crux company-web company-quickhelp company-anaconda centered-window all-the-icons))
  '(tab-bar-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -15,8 +15,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Monoid" :foundry "PfEd" :slant normal :weight regular :height 90 :width semi-condensed))))
- '(fringe ((t (:background "#1d1f21"))))
+ '(default ((t (:family "Iosevka Fixed" :foundry "UKWN" :slant normal :weight semi-bold :height 98 :width normal))))
+ '(fringe ((t :background "#1d1f21")))
  '(header-line ((t :box (:line-width 4 :color "#0f1011" :style nil))))
  '(header-line-highlight ((t :box (:color "#c5c8c6"))))
  '(keycast-key ((t)))

@@ -119,9 +119,12 @@
 (use-package dashboard
   :config
   (setq dashboard-set-heading-icons t)
+  (setq dashboard-show-shortcuts t)
   (setq dashboard-startup-banner 'logo)
   (setq dashboard-icon-type 'all-the-icons)
-
+  (setq dashboard-startup-banner "./.emacs.d/res/emacs-1.txt")
+  (setq dashboard-banner-logo-title "π α λ ί μ ψ η σ τ ο ν")
+  (setq dashboard-footer-messages '("φιλοξενία" "ἀρετή" "εὐδαιμονία" "καιρός" "ἁμαρτία"))
   (setq dashboard-heading-icons '((recents   . "history")))
 
   (setq dashboard-center-content t

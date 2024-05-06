@@ -114,7 +114,7 @@ Desactivar mensajes de error (https://emacs.stackexchange.com/a/78802)
   (tab-bar-mode 1)
 #+end_src
 
-*** COMMENT extras
+** COMMENT extras
 #+begin_src elisp
   (keymap-set ctl-x-map "t" nil)
   (setq tab-prefix-map nil)
@@ -626,41 +626,25 @@ Useful interactive commands.
     ;; (load-theme 'doom-opera t)
     ;; (load-theme 'doom-one t)
     (load-theme 'doom-tomorrow-night)
+    
     ;; (doom-themes-neotree-config)
+
+    (defun doom-toggle-theme ()
+      "Alterna entre dos temas personalizados en Emacs."
+      (interactive)
+      (if (eq (car custom-enabled-themes) 'doom-tomorrow-day)
+          (progn
+            (disable-theme 'doom-tomorrow-day)
+            (load-theme 'doom-tomorrow-night t))
+        (progn
+          (disable-theme 'doom-tomorrow-night)
+          (load-theme 'doom-tomorrow-day t))))
+
     )
 #+END_SRC
 
 #+RESULTS:
 : t
-
-*** toggle themes
-#+begin_src elisp
-  (defun doom-toggle-theme ()
-    "Alterna entre dos temas personalizados en Emacs."
-    (interactive)
-    (if (eq (car custom-enabled-themes) 'doom-opera-light)
-        (progn
-          (disable-theme 'doom-opera-light)
-          (load-theme 'doom-opera t))
-      (progn
-        (disable-theme 'doom-opera)
-        (load-theme 'doom-opera-light t))))
-#+end_src
-
-** COMMENT spacius-padding
-#+begin_src elisp
-  (use-package spacious-padding
-    :ensure t
-    :hook
-    (after-init . spacious-padding-mode))
-#+end_src
-
-** COMMENT solair
-#+begin_src elisp
-  (use-package solaire-mode
-    :config
-    (solaire-global-mode +1))
-#+end_src
 
 ** yaml
 #+begin_src elisp
@@ -696,6 +680,21 @@ Useful interactive commands.
     (org-mode . centered-window-mode)
     (prog-mode . centered-window-mode))
 #+END_SRC
+
+** COMMENT spacius-padding
+#+begin_src elisp
+  (use-package spacious-padding
+    :ensure t
+    :hook
+    (after-init . spacious-padding-mode))
+#+end_src
+
+** COMMENT solair
+#+begin_src elisp
+  (use-package solaire-mode
+    :config
+    (solaire-global-mode +1))
+#+end_src
 
 ** COMMENT tao-theme
 #+begin_src elisp

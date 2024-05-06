@@ -364,19 +364,21 @@
   ;; (load-theme 'doom-opera t)
   ;; (load-theme 'doom-one t)
   (load-theme 'doom-tomorrow-night)
-  ;; (doom-themes-neotree-config)
-  )
 
-(defun doom-toggle-theme ()
-  "Alterna entre dos temas personalizados en Emacs."
-  (interactive)
-  (if (eq (car custom-enabled-themes) 'doom-opera-light)
+  ;; (doom-themes-neotree-config)
+
+  (defun doom-toggle-theme ()
+    "Alterna entre dos temas personalizados en Emacs."
+    (interactive)
+    (if (eq (car custom-enabled-themes) 'doom-tomorrow-day)
+        (progn
+          (disable-theme 'doom-tomorrow-day)
+          (load-theme 'doom-tomorrow-night t))
       (progn
-        (disable-theme 'doom-opera-light)
-        (load-theme 'doom-opera t))
-    (progn
-      (disable-theme 'doom-opera)
-      (load-theme 'doom-opera-light t))))
+        (disable-theme 'doom-tomorrow-night)
+        (load-theme 'doom-tomorrow-day t))))
+
+  )
 
 (use-package yaml-mode)
 

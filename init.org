@@ -1,8 +1,9 @@
 
 #+TITLE:    παλίμψηστον
 #+AUTHOR:   Galindo
-#+PROPERTY: header-args :tangle init.el
 -----
+
+#+PROPERTY: header-args :tangle init.el
 
 * OPCIONAL
 - Corrector ortográfico ::
@@ -230,7 +231,6 @@ Simple tools for minibuffer completion.
 #+END_SRC
 
 ** which-key
-Displays the key bindings.
 #+BEGIN_SRC elisp
   (use-package which-key
     :config
@@ -242,9 +242,12 @@ Displays the key bindings.
   (use-package dashboard
     :config
     (setq dashboard-set-heading-icons t)
+    (setq dashboard-show-shortcuts t)
     (setq dashboard-startup-banner 'logo)
     (setq dashboard-icon-type 'all-the-icons)
-
+    (setq dashboard-startup-banner "./.emacs.d/res/emacs-1.txt")
+    (setq dashboard-banner-logo-title "π α λ ί μ ψ η σ τ ο ν")
+    (setq dashboard-footer-messages '("φιλοξενία" "ἀρετή" "εὐδαιμονία" "καιρός" "ἁμαρτία"))
     (setq dashboard-heading-icons '((recents   . "history")))
 
     (setq dashboard-center-content t
@@ -257,7 +260,6 @@ Displays the key bindings.
 #+END_SRC
 
 ** crux
-Useful interactive commands.
 #+BEGIN_SRC elisp
   (use-package crux
     :bind
@@ -309,8 +311,6 @@ Useful interactive commands.
 #+BEGIN_SRC elisp
   (use-package git-gutter)
 #+END_SRC
-
-#+RESULTS:
 
 ** hl-todo
 #+BEGIN_SRC elisp
@@ -590,6 +590,11 @@ Useful interactive commands.
     (require 'org-roam-protocol))
 #+end_src
 
+** roam-ui
+#+begin_src elisp
+  (use-package org-roam-ui)
+#+end_src
+
 * SHELLS
 ** vterm
 #+begin_src elisp
@@ -643,17 +648,25 @@ Useful interactive commands.
     )
 #+END_SRC
 
-#+RESULTS:
-: t
-
 ** yaml
 #+begin_src elisp
   (use-package yaml-mode)
 #+end_src
 
-** evil-model
+** god-mode
 #+begin_src elisp
-  (use-package evil)
+  (use-package god-mode
+    :config
+    (global-set-key (kbd "<escape>") #'god-mode-all)
+    (defun my-god-mode-update-cursor-type ()
+      (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
+
+    (add-hook 'post-command-hook #'my-god-mode-update-cursor-type)
+
+    (setq god-exempt-major-modes nil)
+    (setq god-exempt-predicates nil)
+
+    )
 #+end_src
 
 ** golden-ratio

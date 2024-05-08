@@ -360,6 +360,8 @@
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
 
+(use-package org-roam-ui)
+
 (use-package vterm)
 
 (use-package doom-themes
@@ -385,7 +387,18 @@
 
 (use-package yaml-mode)
 
-(use-package evil)
+(use-package god-mode
+  :config
+  (global-set-key (kbd "<escape>") #'god-mode-all)
+  (defun my-god-mode-update-cursor-type ()
+    (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
+
+  (add-hook 'post-command-hook #'my-god-mode-update-cursor-type)
+
+  (setq god-exempt-major-modes nil)
+  (setq god-exempt-predicates nil)
+
+  )
 
 (use-package golden-ratio
   :ensure t
@@ -412,13 +425,6 @@
         telephone-line-mode 1))
 
 (use-package fireplace)
-
-(defun kill-other-buffers ()
-    "Kill all other buffers."
-    (interactive)
-    (mapc 'kill-buffer 
-          (delq (current-buffer) 
-                (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun kill-other-buffers ()
     "Kill all other buffers."

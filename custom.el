@@ -15,5 +15,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Iosevka Fixed" :foundry "UKWN" :slant normal :weight regular :height 98 :width normal))))
+ '(default ((t (:family "Iosevka" :foundry "UKWN" :slant normal :weight semi-bold :height 98 :width normal))))
  '(fringe ((t (:background "#1d1f21")))))

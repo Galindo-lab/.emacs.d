@@ -290,6 +290,10 @@
 
 (use-package yaml-mode)
 
+(use-package prolog
+  :ensure t
+  :mode ("\\.pro\\'" . prolog-mode))
+
 (use-package cc-mode
   :bind  
   ("<f5>" . recompile))
@@ -387,19 +391,6 @@
 
 (use-package yaml-mode)
 
-(use-package god-mode
-  :config
-  (global-set-key (kbd "<escape>") #'god-mode-all)
-  (defun my-god-mode-update-cursor-type ()
-    (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
-
-  (add-hook 'post-command-hook #'my-god-mode-update-cursor-type)
-
-  (setq god-exempt-major-modes nil)
-  (setq god-exempt-predicates nil)
-
-  )
-
 (use-package golden-ratio
   :ensure t
   :hook
@@ -425,13 +416,6 @@
         telephone-line-mode 1))
 
 (use-package fireplace)
-
-(defun kill-other-buffers ()
-    "Kill all other buffers."
-    (interactive)
-    (mapc 'kill-buffer 
-          (delq (current-buffer) 
-                (remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun kill-other-buffers ()
     "Kill all other buffers."
